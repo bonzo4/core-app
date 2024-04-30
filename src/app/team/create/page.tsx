@@ -1,14 +1,14 @@
 "use client";
 import Wallet from "@/components/Wallet";
-import LoginPage from "./components/LoginPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CreateTeamPage from "./components/CreateTeamPage";
 
 export default function Home() {
   return (
     <Wallet>
       <main className="flex flex-col grow w-full items-center justify-center">
-        <LoginPage />
+        <CreateTeamPage />
       </main>
       <ToastContainer />
     </Wallet>
