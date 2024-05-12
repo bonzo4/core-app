@@ -53,9 +53,9 @@ export default function UsersTable({ supabase, user }: UsersTableProps) {
               <span>{team.name}</span>
             </TableCell>
             <TableCell className="text-right">
-              <Link href={`/dashboard/team/${team.id}`}>
-                <Button>Manage</Button>
-              </Link>
+              <Button disabled={!team.is_confirmed}>
+                <Link href={`/dashboard/team/${team.id}`}>Manage</Link>
+              </Button>
             </TableCell>
           </TableRow>
         ))}

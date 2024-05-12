@@ -47,15 +47,37 @@ export default function CreateTeamForm({
   });
 
   const onSubmit = form.handleSubmit(async (data) => {
+    setLoading(true);
+    if (!wallet.publicKey) {
+      toast.error("No signer key found, please connect a wallet");
+      setLoading(false); // Ensure loading is reset if the operation cannot proceed
+      return;
+    }
+
     try {
-      const { error } = await supabase.from("teams").insert({
-        name: data.teamName,
-        owner_id: user.id,
-      });
+      const { data, error } = await supabase
+        .from("teams")
+        .insert({
+          name: data.teamName,
+          owner_id: user.id,
+        })
+        .select("id")
+        .single();
       if (error) throw error;
     } catch (error) {
       toast.error("Failed to create team");
+      setLoading(false); // Ensure loading is reset if the operation cannot proceed
+      return;
     }
+
+    const instruction = await init({
+      wallet,
+      connection,
+      userId,
+      payerUserId,
+      amount: parseFloat(amount),
+      paymentId: data.id,
+    });
   });
 
   const buttonEnabled = !loading && form.formState.isValid;
