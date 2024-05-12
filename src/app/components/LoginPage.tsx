@@ -1,38 +1,39 @@
 import DeleteWalletButton from "@/components/auth/DeleteWalletButton";
 import LoginButton from "@/components/auth/LoginButton";
-import SignTransactionButton from "@/components/auth/SignTransactionButton";
+import InitUserTransactionButton from "@/components/auth/InitUserTransactionButton";
 import UserCard from "@/components/auth/UserCard";
-import { useAuthUser } from "@/lib/hooks/useAuthUser";
-import useSignInstructions from "@/lib/hooks/useSignInstructions";
 import { createSupabaseClient } from "@/lib/supabase/client";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { motion } from "framer-motion";
 import { LoaderCircleIcon } from "lucide-react";
 import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useLoginData } from "@/lib/hooks/login/useLoginData";
 
 export default function LoginPage() {
   const supabase = createSupabaseClient();
 
-  const [refetch, setRefetch] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const [user, walletPDA, teamData, userRoles] = useAuthUser({
-    supabase,
-    refetch,
-    setLoading,
-  });
-  const wallet = useWallet();
-  const { connection } = useConnection();
-  const [signupTransaction, latestBlockhash] = useSignInstructions({
-    userId: user?.id,
+  const {
+    setRefetch,
+    loading,
+    user,
+    userRoles,
+    userWallet,
+    teamData,
     wallet,
     connection,
-  });
+  } = useLoginData({ supabase });
 
   if (loading) {
-    return <LoaderCircleIcon className="animate-spin" />;
+    return (
+      <motion.div
+        className="flex flex-col space-y-4 items-center justify-center"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 100, y: 0 }}
+      >
+        <LoaderCircleIcon size={48} className="animate-spin" />
+        <span>Loading...</span>
+      </motion.div>
+    );
   }
 
   if (!user) {
@@ -63,18 +64,7 @@ export default function LoginPage() {
     );
   }
 
-  if (!wallet.sendTransaction || !signupTransaction) {
-    return (
-      <motion.span
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 100, y: 0 }}
-      >
-        Something seems to be wrong. 🤔
-      </motion.span>
-    );
-  }
-
-  if (!walletPDA) {
+  if (!userWallet) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 100 }}
@@ -82,21 +72,20 @@ export default function LoginPage() {
         className="flex flex-col space-y-4 items-center justify-center"
       >
         <UserCard userData={userProfile} supabase={supabase} />
-        <SignTransactionButton
+        <InitUserTransactionButton
           setRefetch={setRefetch}
           userId={user.id}
           supabase={supabase}
           sendTransaction={wallet.sendTransaction}
-          transactions={[signupTransaction]}
-          latestBlockhash={latestBlockhash}
-          signerKey={wallet.publicKey}
+          wallet={wallet}
           connection={connection}
+          userProfile={userProfile}
         />
         <WalletMultiButton />
       </motion.div>
     );
   }
-  if (walletPDA.is_confirmed) {
+  if (userWallet.is_confirmed) {
     if ((teamData && teamData?.length > 0) || userRoles.length > 0) {
       redirect("/dashboard");
     }
@@ -109,9 +98,9 @@ export default function LoginPage() {
         <span>Welcome to Core</span>
         <UserCard userData={userProfile} supabase={supabase} />
         <span>
-          Wallet confirmed. Public Key: {walletPDA?.public_key.slice(0, 5)}
+          Wallet confirmed. Public Key: {userWallet?.authority.slice(0, 5)}
           ...
-          {walletPDA?.public_key.slice(-5)}
+          {userWallet?.authority.slice(-5)}
         </span>
 
         {/* <DeleteWalletButton
@@ -135,20 +124,19 @@ export default function LoginPage() {
           Something went wrong. Please check again later or try a different
           wallet.
         </span>
-        <SignTransactionButton
+        <InitUserTransactionButton
           setRefetch={setRefetch}
           userId={user.id}
           supabase={supabase}
           sendTransaction={wallet.sendTransaction}
-          transactions={[signupTransaction]}
-          latestBlockhash={latestBlockhash}
-          signerKey={wallet.publicKey}
+          wallet={wallet}
           connection={connection}
+          userProfile={userProfile}
         />
         <div className="flex flex-row space-x-2 items-center justify-center">
           <span>
-            {walletPDA?.public_key.slice(0, 5)}...
-            {walletPDA?.public_key.slice(-5)}
+            {userWallet?.authority.slice(0, 5)}...
+            {userWallet?.authority.slice(-5)}
           </span>
           <DeleteWalletButton
             userId={user.id}

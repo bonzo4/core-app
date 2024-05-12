@@ -1,5 +1,3 @@
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
 import UserCard from "@/components/auth/UserCard";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -7,23 +5,15 @@ import { motion } from "framer-motion";
 import { LoaderCircleIcon } from "lucide-react";
 import { useDashboardData } from "@/lib/hooks/dashboard/useDashboardData";
 import { redirect } from "next/navigation";
-import UserBalance from "./UserBalance";
-import PayUser from "./PayUser";
 import DashboardLayout from "@/components/DashboardLayout";
+import UsersTable from "./UsersTable";
+import PaymentTable from "./PaymentTable";
 
 export default function DashboardPage() {
   const supabase = createSupabaseClient();
 
-  const {
-    loading,
-    user,
-    userRoles,
-    userWallet,
-    teamData,
-    wallet,
-    balance,
-    connection,
-  } = useDashboardData({ supabase });
+  const { loading, user, userRoles, userWallet, teamData, wallet, connection } =
+    useDashboardData({ supabase });
 
   if (loading) {
     return (
@@ -100,23 +90,31 @@ export default function DashboardPage() {
     );
   }
 
-  return (
-    <DashboardLayout
-      supabase={supabase}
-      userWallet={userWallet}
-      teamData={teamData}
-      userRoles={userRoles}
-      currentPage="dashboard"
-    >
-      <div className="flex flex-col space-y-4 items-center justify-center grow h-full">
-        <UserBalance
-          balance={balance}
-          supabase={supabase}
-          user={user}
-          wallet={wallet}
-          connection={connection}
-        />
-      </div>
-    </DashboardLayout>
-  );
+  if (userRoles.filter((role) => role === "ADMIN").length > 0) {
+    return (
+      <DashboardLayout
+        supabase={supabase}
+        userWallet={userWallet}
+        teamData={teamData}
+        userRoles={userRoles}
+        currentPage="admin"
+      >
+        <div className="flex flex-col space-y-4 items-center grow h-full">
+          <div className="h-1/2 overflow-auto w-full">
+            <UsersTable
+              supabase={supabase}
+              wallet={wallet}
+              connection={connection}
+              user={user}
+            />
+          </div>
+          <div className="h-1/2 overflow-auto w-full">
+            <PaymentTable supabase={supabase} user={user} />
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  } else {
+    redirect("/dashboard");
+  }
 }

@@ -1,5 +1,3 @@
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
 import UserCard from "@/components/auth/UserCard";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -7,23 +5,15 @@ import { motion } from "framer-motion";
 import { LoaderCircleIcon } from "lucide-react";
 import { useDashboardData } from "@/lib/hooks/dashboard/useDashboardData";
 import { redirect } from "next/navigation";
-import UserBalance from "./UserBalance";
-import PayUser from "./PayUser";
 import DashboardLayout from "@/components/DashboardLayout";
+import CreateTeamForm from "./CreateTeamForm";
+import TeamTable from "./TeamTable";
 
 export default function DashboardPage() {
   const supabase = createSupabaseClient();
 
-  const {
-    loading,
-    user,
-    userRoles,
-    userWallet,
-    teamData,
-    wallet,
-    balance,
-    connection,
-  } = useDashboardData({ supabase });
+  const { loading, user, userRoles, userWallet, teamData, wallet, connection } =
+    useDashboardData({ supabase });
 
   if (loading) {
     return (
@@ -100,23 +90,27 @@ export default function DashboardPage() {
     );
   }
 
-  return (
-    <DashboardLayout
-      supabase={supabase}
-      userWallet={userWallet}
-      teamData={teamData}
-      userRoles={userRoles}
-      currentPage="dashboard"
-    >
-      <div className="flex flex-col space-y-4 items-center justify-center grow h-full">
-        <UserBalance
-          balance={balance}
-          supabase={supabase}
-          user={user}
-          wallet={wallet}
-          connection={connection}
-        />
-      </div>
-    </DashboardLayout>
-  );
+  if (userRoles.length > 0) {
+    return (
+      <DashboardLayout
+        supabase={supabase}
+        userWallet={userWallet}
+        teamData={teamData}
+        userRoles={userRoles}
+        currentPage="create-a-team"
+      >
+        <div className="flex flex-col space-y-4 justify-start items-center grow h-full py-10">
+          <CreateTeamForm
+            supabase={supabase}
+            user={user}
+            wallet={wallet}
+            connection={connection}
+          />
+          <TeamTable supabase={supabase} user={user} />
+        </div>
+      </DashboardLayout>
+    );
+  } else {
+    redirect("/dashboard");
+  }
 }

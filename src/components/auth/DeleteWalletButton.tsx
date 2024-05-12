@@ -16,7 +16,7 @@ export default function DeleteWalletButton({
 }: DeleteWalletButtonProps) {
   const handleDelete = async () => {
     const { error } = await supabase
-      .from("wallet_pdas")
+      .from("user_wallets")
       .delete()
       .eq("user_id", userId);
     if (error) {

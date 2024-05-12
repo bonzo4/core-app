@@ -1,6 +1,12 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
+}
+
+export function encodeUUID(uuid: string) {
+  const hex = uuid.replace(/-/g, ""); // Remove hyphens
+  const buffer = Buffer.from(hex, "hex"); // Convert hex to binary buffer
+  return buffer.toString("base64"); // Convert binary buffer to base64
 }

@@ -5,26 +5,28 @@ import LogoutButton from "./LogoutButton";
 
 type UserCardProps = {
   supabase: SupabaseClient<Database>;
-  userData: any;
+  username: string;
+  iconUrl: string;
   walletKey?: string;
 };
 
 export default function UserCard({
   supabase,
-  userData,
+  username,
+  iconUrl,
   walletKey,
 }: UserCardProps) {
   return (
     <div className="flex flex-row space-x-3 items-center justify-center">
       <Image
         className="rounded-full"
-        src={userData.avatar_url}
+        src={iconUrl}
         alt="User Avatar"
         width={40}
         height={40}
       />
       <div className="flex flex-col items-center justify-center">
-        <span>{userData.full_name}</span>
+        <span>{username}</span>
         {walletKey && (
           <span>
             {walletKey.slice(0, 4)}...

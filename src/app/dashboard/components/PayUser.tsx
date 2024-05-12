@@ -17,36 +17,35 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 
 const formSchema = z.object({
-  teamName: z.string().min(2, {
-    message: "Team name must be at least 2 characters long",
+  amount: z.number().min(0, {
+    message: "Amount to pay must be greater than 0",
   }),
 });
 
-type CreateTeamFormProps = {
+type PayUserFormProps = {
   supabase: SupabaseClient<Database>;
-  user: User;
+  recipientId?: string;
 };
 
-export default function CreateTeamForm({
-  supabase,
-  user,
-}: CreateTeamFormProps) {
+export default function PayUser({ supabase, recipientId }: PayUserFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      teamName: "",
+      amount: 0,
     },
   });
 
   const onSubmit = form.handleSubmit(async (data) => {
     try {
-      const { error } = await supabase.from("teams").insert({
-        name: data.teamName,
-        owner_id: user.id,
+      if (!recipientId) throw new Error("Recipient ID is required");
+      if (data.amount <= 0) throw new Error("Amount must be greater than 0");
+      const { error } = await supabase.from("payments").insert({
+        user_id: recipientId,
+        amount: data.amount,
       });
       if (error) throw error;
     } catch (error) {
-      toast.error("Failed to create team");
+      toast.error("Failed to pay user");
     }
   });
 
@@ -55,25 +54,26 @@ export default function CreateTeamForm({
       <form onSubmit={onSubmit} className="space-y-8">
         <FormField
           control={form.control}
-          name="teamName"
+          name="amount"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Team Name</FormLabel>
+              <FormLabel>Amount</FormLabel>
               <FormControl>
                 <Input
-                  placeholder={`"Team C.O.R.E."`}
+                  type="number"
+                  placeholder={`$0.00`}
                   {...field}
                   className="text-black"
                 />
               </FormControl>
               <FormDescription className="text-white opacity-50">
-                The name of your team. This can be changed later.
+                Amount to Pay
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Create</Button>
+        <Button type="submit">Pay</Button>
       </form>
     </Form>
   );
