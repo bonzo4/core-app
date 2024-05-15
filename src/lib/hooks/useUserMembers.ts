@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 
 export type TeamMember = Database["public"]["Tables"]["_team_members"]["Row"];
 
-type UseTeamDataOptions = {
+type UseUserMemberOptions = {
   supabase: SupabaseClient<Database>;
-  refetch: boolean;
+  refetch?: boolean;
   user: User | undefined;
   isUserLoading: boolean;
 };
 
-export function useTeamData({
+export function useUserMembers({
   supabase,
   refetch,
   user,
   isUserLoading,
-}: UseTeamDataOptions) {
+}: UseUserMemberOptions) {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
 

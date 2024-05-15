@@ -6,7 +6,7 @@ import { Database } from "@/lib/supabase/types";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection, Transaction } from "@solana/web3.js";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 
 type PayButtonProps = {
@@ -15,25 +15,35 @@ type PayButtonProps = {
   connection: Connection;
   userId: string;
   payerUserId: string;
+  setRefetch: (args_0: SetStateAction<boolean>) => void;
 };
 
-export default function PayButton({
+export default function PayUserButton({
   supabase,
   wallet,
   connection,
   userId,
   payerUserId,
+  setRefetch,
 }: PayButtonProps) {
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSign = async () => {
     setLoading(true);
+
     if (!wallet.publicKey) {
       toast.error("No signer key found, please connect a wallet");
       setLoading(false); // Ensure loading is reset if the operation cannot proceed
       return;
     }
+
+    const toastId = toast.loading(
+      "Waiting for transaction to be confirmed...",
+      {
+        autoClose: false,
+      }
+    );
 
     try {
       const { data, error } = await supabase
@@ -46,7 +56,7 @@ export default function PayButton({
         .select("id")
         .single();
       if (error) {
-        toast.error("Error saving wallet PDA");
+        toast.error("Error saving wallet Data");
         setLoading(false); // Ensure loading is reset if the operation cannot proceed
         return;
       }
@@ -69,13 +79,18 @@ export default function PayButton({
       transaction.recentBlockhash = instruction.blockhash;
       transaction.feePayer = wallet.publicKey;
 
-      await wallet
-        .sendTransaction(transaction, connection, {
-          preflightCommitment: "finalized",
-        })
-        .then(() => toast.success("Transaction sent"));
+      const tx = await wallet.sendTransaction(transaction, connection, {
+        preflightCommitment: "finalized",
+      });
+
+      await connection.confirmTransaction(tx, "finalized");
+      toast.dismiss(toastId);
+      toast.success("User Paid!");
+      setRefetch((prev) => !prev);
+      setLoading(false); // Ensure loading is reset after the operation is complete
     } catch (error: any) {
-      toast.error("Error sending transaction: " + error.message);
+      toast.dismiss(toastId);
+      toast.error("Error paying user: " + error.message);
       setLoading(false); // Ensure loading is reset if the operation fails
     }
   };

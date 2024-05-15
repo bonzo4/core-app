@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 type UseUserOptions = {
   supabase: SupabaseClient<Database>;
-  refetch: boolean;
+  refetch?: boolean;
 };
 
 export function useUser({ supabase, refetch }: UseUserOptions) {

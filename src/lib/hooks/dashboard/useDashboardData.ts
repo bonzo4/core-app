@@ -2,36 +2,38 @@ import { useEffect, useState } from "react";
 import { useUser } from "../useUser";
 import { useUserRoles } from "../useUserRoles";
 import { useUserWallet } from "../useUserWallet";
-import { useTeamData } from "../useTeamData";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/lib/supabase/types";
 import { useUserBalance } from "./useUserBalance";
+import { useUserMembers } from "../useUserMembers";
+import { useUserTeams } from "../useUserTeams";
 
 type UseDashboardDataOptions = {
   supabase: SupabaseClient<Database>;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+  refetch?: boolean;
 };
 
-export function useDashboardData({ supabase }: UseDashboardDataOptions) {
-  const [refetch, setRefetch] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const [user, isUserLoading] = useUser({ supabase, refetch });
+export function useDashboardData({
+  supabase,
+  loading,
+  setLoading,
+}: UseDashboardDataOptions) {
+  const [user, isUserLoading] = useUser({ supabase });
   const [userRoles, isUserRolesLoading] = useUserRoles({
     supabase,
-    refetch,
     user,
     isUserLoading,
   });
   const [userWallet, isUserWalletLoading] = useUserWallet({
     supabase,
-    refetch,
     user,
     isUserLoading,
   });
-  const [teamData, isTeamDataLoading] = useTeamData({
+  const [teamData, isTeamDataLoading] = useUserMembers({
     supabase,
-    refetch,
     user,
     isUserLoading,
   });
@@ -39,10 +41,11 @@ export function useDashboardData({ supabase }: UseDashboardDataOptions) {
   const wallet = useWallet();
   const { connection } = useConnection();
 
-  const [balance, isLoadingBalance] = useUserBalance({
+  const [ownedTeams, isOwnedTeamsLoading] = useUserTeams({
+    supabase,
+    user,
     wallet,
     connection,
-    userId: user?.id,
     isUserLoading,
   });
 
@@ -52,7 +55,7 @@ export function useDashboardData({ supabase }: UseDashboardDataOptions) {
       isUserRolesLoading ||
       isUserWalletLoading ||
       isTeamDataLoading ||
-      isLoadingBalance ||
+      isOwnedTeamsLoading ||
       wallet.publicKey === null;
     setLoading(totalLoading);
   }, [
@@ -61,12 +64,11 @@ export function useDashboardData({ supabase }: UseDashboardDataOptions) {
     isUserWalletLoading,
     isTeamDataLoading,
     setLoading,
-    isLoadingBalance,
     wallet.publicKey,
+    isOwnedTeamsLoading,
   ]);
 
   return {
-    setRefetch,
     loading,
     user,
     userRoles,
@@ -74,6 +76,6 @@ export function useDashboardData({ supabase }: UseDashboardDataOptions) {
     teamData,
     wallet,
     connection,
-    balance,
+    ownedTeams,
   } as const;
 }

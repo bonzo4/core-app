@@ -6,7 +6,7 @@ export type UserWallet = Database["public"]["Tables"]["user_wallets"]["Row"];
 
 type UseUserWalletOptions = {
   supabase: SupabaseClient<Database>;
-  refetch: boolean;
+  refetch?: boolean;
   user: User | undefined;
   isUserLoading: boolean;
 };

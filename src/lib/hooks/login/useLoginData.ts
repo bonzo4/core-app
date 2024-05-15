@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useUser } from "../useUser";
 import { useUserRoles } from "../useUserRoles";
 import { useUserWallet } from "../useUserWallet";
-import { useTeamData } from "../useTeamData";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/lib/supabase/types";
+import { useUserMembers } from "../useUserMembers";
 
 type UseLoginDataOptions = {
   supabase: SupabaseClient<Database>;
@@ -16,28 +16,24 @@ export function useLoginData({ supabase }: UseLoginDataOptions) {
   const [loading, setLoading] = useState(true);
 
   const [user, isUserLoading] = useUser({ supabase, refetch });
-  console.log("user", isUserLoading);
   const [userRoles, isUserRolesLoading] = useUserRoles({
     supabase,
     refetch,
     user,
     isUserLoading,
   });
-  console.log("userRoles", isUserRolesLoading);
   const [userWallet, isUserWalletLoading] = useUserWallet({
     supabase,
     refetch,
     user,
     isUserLoading,
   });
-  console.log("userWallet", isUserWalletLoading);
-  const [teamData, isTeamDataLoading] = useTeamData({
+  const [teamData, isTeamDataLoading] = useUserMembers({
     supabase,
     refetch,
     user,
     isUserLoading,
   });
-  console.log("teamData", isTeamDataLoading);
 
   const wallet = useWallet();
   const { connection } = useConnection();

@@ -6,7 +6,7 @@ import {
   VersionedTransaction,
   sendAndConfirmTransaction,
 } from "@solana/web3.js";
-import { Button } from "../ui/button";
+import { Button } from "../../components/ui/button";
 import { WalletAdapterProps } from "@solana/wallet-adapter-base";
 import { SupabaseClient, UserMetadata } from "@supabase/supabase-js";
 import { Database } from "@/lib/supabase/types";
@@ -45,6 +45,13 @@ export default function InitUserTransactionButton({
       return;
     }
 
+    const toastId = toast.loading(
+      "Waiting for transaction to be confirmed...",
+      {
+        autoClose: false,
+      }
+    );
+
     const instruction = await initUserInstruction({
       wallet,
       connection,
@@ -61,6 +68,8 @@ export default function InitUserTransactionButton({
     transaction.feePayer = wallet.publicKey;
 
     try {
+      const encodedMessage = new TextEncoder().encode("Init User");
+
       const { error } = await supabase.from("user_wallets").upsert({
         user_id: userId,
         authority: wallet.publicKey.toBase58(),
@@ -73,15 +82,15 @@ export default function InitUserTransactionButton({
         return;
       }
 
-      await sendTransaction(transaction, connection, {
+      const tx = await wallet.sendTransaction(transaction, connection, {
         preflightCommitment: "finalized",
       });
 
-      // Wait for 3 seconds after the transaction is sent before refetching and setting loading to false
-      setTimeout(() => {
-        setRefetch((prev) => !prev);
-        setLoading(false);
-      }, 3000);
+      await connection.confirmTransaction(tx, "finalized");
+      toast.dismiss(toastId);
+      toast.success("Transaction confirmed!");
+      setRefetch((prev) => !prev); // Trigger a refetch of the user data (if necessary)
+      setLoading(false); // Ensure loading is reset after the operation is complete
     } catch (error: any) {
       toast.error("Error sending transaction: " + error.message);
       setLoading(false); // Ensure loading is reset if the operation fails

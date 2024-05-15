@@ -5,6 +5,10 @@ import PaymentHistory from "./PaymentHistory";
 import { Database } from "@/lib/supabase/types";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
+import { SetStateAction, useState } from "react";
+import { Claim } from "@/lib/hooks/useUserClaims";
+import { PaymentsWithUser } from "@/lib/hooks/admin/useAdminUserPayment";
+import { PaymentsWithPayer } from "@/lib/hooks/useUserPayments";
 
 type UserBalanceProps = {
   supabase: SupabaseClient<Database>;
@@ -12,6 +16,8 @@ type UserBalanceProps = {
   balance?: number;
   wallet: WalletContextState;
   connection: Connection;
+  setBalance: (balance: number) => void;
+  loading: boolean;
 };
 
 export default function UserBalance({
@@ -20,7 +26,11 @@ export default function UserBalance({
   balance,
   wallet,
   connection,
+  loading,
+  setBalance,
 }: UserBalanceProps) {
+  const [refetch, setRefetch] = useState<boolean>(false);
+
   return (
     <div className="flex flex-col space-y-2 justify-center items-center">
       <span className="text-lg">Claimable Balance</span>
@@ -32,11 +42,22 @@ export default function UserBalance({
           connection={connection}
           wallet={wallet}
           userId={user.id}
+          setRefetch={setRefetch}
+          setBalance={setBalance}
         />
       </div>
       <div className="flex flex-row space-x-2 justify-center items-center">
-        <PaymentHistory supabase={supabase} user={user} />
-        <ClaimHistory supabase={supabase} user={user} />
+        <PaymentHistory
+          supabase={supabase}
+          user={user}
+          isUserLoading={loading}
+        />
+        <ClaimHistory
+          supabase={supabase}
+          user={user}
+          isUserLoading={loading}
+          refetch={refetch}
+        />
       </div>
     </div>
   );

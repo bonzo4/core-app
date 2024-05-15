@@ -30,10 +30,36 @@ export function getTeamMemberPDA(teamId: number, userId: string) {
     [
       utils.bytes.utf8.encode("team_member"),
       utils.bytes.utf8.encode(teamId.toString()),
-      utils.bytes.utf8.encode(userId),
+      utils.bytes.utf8.encode(encodedUserId),
     ],
     new PublicKey(process.env.NEXT_PUBLIC_PROGRAM_ID!)
   );
 
   return teamMemberPDA;
+}
+
+export function getTeamInvoicePDA(teamId: number, invoiceId: number) {
+  const [teamInvoicePDA] = PublicKey.findProgramAddressSync(
+    [
+      utils.bytes.utf8.encode("team_invoice"),
+      utils.bytes.utf8.encode(teamId.toString()),
+      utils.bytes.utf8.encode(invoiceId.toString()),
+    ],
+    new PublicKey(process.env.NEXT_PUBLIC_PROGRAM_ID!)
+  );
+
+  return teamInvoicePDA;
+}
+
+export function getUserInvoicePDA(userId: string, invoiceId: number) {
+  const [userInvoicePDA] = PublicKey.findProgramAddressSync(
+    [
+      utils.bytes.utf8.encode("user_invoice"),
+      utils.bytes.utf8.encode(encodeUUID(userId)),
+      utils.bytes.utf8.encode(invoiceId.toString()),
+    ],
+    new PublicKey(process.env.NEXT_PUBLIC_PROGRAM_ID!)
+  );
+
+  return userInvoicePDA;
 }

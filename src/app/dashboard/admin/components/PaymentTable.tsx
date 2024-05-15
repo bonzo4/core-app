@@ -1,3 +1,4 @@
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -7,27 +8,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useAdminUserPayments } from "@/lib/hooks/useAdminUserPayment";
-import { Database } from "@/lib/supabase/types";
-import { SupabaseClient, User } from "@supabase/supabase-js";
+import { PaymentsWithUser } from "@/lib/hooks/admin/useAdminUserPayment";
 import Image from "next/image";
 
 type PaymentTableProps = {
-  supabase: SupabaseClient<Database>;
-  user: User;
+  payments: PaymentsWithUser[];
 };
 
-export default function PaymentTable({ supabase, user }: PaymentTableProps) {
-  const [payments, loading] = useAdminUserPayments({ supabase, user });
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
+export default function PaymentTable({ payments }: PaymentTableProps) {
   return (
     <Table className="">
       <TableCaption>All Past Payments</TableCaption>
-      <TableHeader>
+      <TableHeader className="sticky top-0 bg-black">
         <TableRow>
           <TableHead className="w-[50px] ">Confirmed</TableHead>
           <TableHead className="w-[150px] ">Date</TableHead>
@@ -35,7 +27,7 @@ export default function PaymentTable({ supabase, user }: PaymentTableProps) {
           <TableHead className="text-right">Amount</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
+      <TableBody className="">
         {payments.map((payment) => (
           <TableRow key={payment.id}>
             <TableCell className="">

@@ -8,14 +8,36 @@ import { redirect } from "next/navigation";
 import DashboardLayout from "@/components/DashboardLayout";
 import UsersTable from "./UsersTable";
 import PaymentTable from "./PaymentTable";
+import { useState } from "react";
+import { useAllUserWallets } from "@/lib/hooks/admin/useAllUserWallets";
+import { useAdminUserPayments } from "@/lib/hooks/admin/useAdminUserPayment";
 
 export default function DashboardPage() {
+  const [loading, setLoading] = useState(true);
+  const [refetch, setRefetch] = useState(false);
   const supabase = createSupabaseClient();
 
-  const { loading, user, userRoles, userWallet, teamData, wallet, connection } =
-    useDashboardData({ supabase });
+  const {
+    user,
+    userRoles,
+    userWallet,
+    teamData,
+    wallet,
+    connection,
+    ownedTeams,
+  } = useDashboardData({ supabase, loading, setLoading });
 
-  if (loading) {
+  const [userWallets, isUserWalletsLoading] = useAllUserWallets({
+    supabase,
+  });
+  const [payments, isUserPaymentsLoading] = useAdminUserPayments({
+    supabase,
+    user,
+    isUserLoading: loading,
+    refetch,
+  });
+
+  if (loading || isUserWalletsLoading || isUserPaymentsLoading) {
     return (
       <motion.div
         className="flex flex-col space-y-4 items-center justify-center"
@@ -93,23 +115,26 @@ export default function DashboardPage() {
   if (userRoles.filter((role) => role === "ADMIN").length > 0) {
     return (
       <DashboardLayout
+        ownedTeams={ownedTeams}
         supabase={supabase}
         userWallet={userWallet}
         teamData={teamData}
         userRoles={userRoles}
         currentPage="admin"
       >
-        <div className="flex flex-col space-y-4 items-center grow h-full">
-          <div className="h-1/2 overflow-auto w-full">
+        <div className="flex flex-col items-center grow h-full">
+          <div className="w-full h-1/2 max-h-[480px] overflow-auto">
             <UsersTable
+              setRefetch={setRefetch}
               supabase={supabase}
               wallet={wallet}
               connection={connection}
               user={user}
+              userWallets={userWallets}
             />
           </div>
-          <div className="h-1/2 overflow-auto w-full">
-            <PaymentTable supabase={supabase} user={user} />
+          <div className="w-full h-1/2 max-h-[480px] overflow-auto">
+            <PaymentTable payments={payments} />
           </div>
         </div>
       </DashboardLayout>

@@ -146,6 +146,154 @@ export type CoreContract = {
       ];
     },
     {
+      name: "createTeamInvoice";
+      discriminator: [77, 83, 133, 237, 62, 203, 142, 75];
+      accounts: [
+        {
+          name: "signer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "team";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [116, 101, 97, 109];
+              },
+              {
+                kind: "arg";
+                path: "options.team_id";
+              }
+            ];
+          };
+        },
+        {
+          name: "invoice";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  116,
+                  101,
+                  97,
+                  109,
+                  95,
+                  105,
+                  110,
+                  118,
+                  111,
+                  105,
+                  99,
+                  101
+                ];
+              },
+              {
+                kind: "arg";
+                path: "options.team_id";
+              },
+              {
+                kind: "arg";
+                path: "options.invoice_id";
+              }
+            ];
+          };
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [
+        {
+          name: "options";
+          type: {
+            defined: {
+              name: "createTeamInvoiceOptions";
+            };
+          };
+        }
+      ];
+    },
+    {
+      name: "createUserInvoice";
+      discriminator: [11, 54, 186, 86, 178, 207, 91, 226];
+      accounts: [
+        {
+          name: "signer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "user";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [117, 115, 101, 114];
+              },
+              {
+                kind: "arg";
+                path: "options.user_id";
+              }
+            ];
+          };
+        },
+        {
+          name: "invoice";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  105,
+                  110,
+                  118,
+                  111,
+                  105,
+                  99,
+                  101
+                ];
+              },
+              {
+                kind: "arg";
+                path: "options.user_id";
+              },
+              {
+                kind: "arg";
+                path: "options.invoice_id";
+              }
+            ];
+          };
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [
+        {
+          name: "options";
+          type: {
+            defined: {
+              name: "createUserInvoiceOptions";
+            };
+          };
+        }
+      ];
+    },
+    {
       name: "editMember";
       discriminator: [83, 15, 230, 159, 240, 72, 114, 124];
       accounts: [
@@ -617,6 +765,108 @@ export type CoreContract = {
       ];
     },
     {
+      name: "payTeamInvoice";
+      discriminator: [2, 69, 101, 14, 160, 247, 139, 183];
+      accounts: [
+        {
+          name: "signer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "usdcPayerAccount";
+          writable: true;
+        },
+        {
+          name: "team";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [116, 101, 97, 109];
+              },
+              {
+                kind: "arg";
+                path: "options.team_id";
+              }
+            ];
+          };
+        },
+        {
+          name: "teamVault";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [116, 101, 97, 109, 95, 118, 97, 117, 108, 116];
+              },
+              {
+                kind: "account";
+                path: "team";
+              }
+            ];
+          };
+        },
+        {
+          name: "invoice";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  116,
+                  101,
+                  97,
+                  109,
+                  95,
+                  105,
+                  110,
+                  118,
+                  111,
+                  105,
+                  99,
+                  101
+                ];
+              },
+              {
+                kind: "arg";
+                path: "options.team_id";
+              },
+              {
+                kind: "arg";
+                path: "options.invoice_id";
+              }
+            ];
+          };
+        },
+        {
+          name: "usdcMint";
+          writable: true;
+        },
+        {
+          name: "tokenProgram";
+          address: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [
+        {
+          name: "options";
+          type: {
+            defined: {
+              name: "payTeamInvoiceOptions";
+            };
+          };
+        }
+      ];
+    },
+    {
       name: "payUser";
       discriminator: [28, 121, 78, 180, 208, 134, 75, 222];
       accounts: [
@@ -702,6 +952,108 @@ export type CoreContract = {
       ];
     },
     {
+      name: "payUserInvoice";
+      discriminator: [208, 39, 24, 65, 192, 178, 130, 252];
+      accounts: [
+        {
+          name: "signer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "usdcPayerAccount";
+          writable: true;
+        },
+        {
+          name: "user";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [117, 115, 101, 114];
+              },
+              {
+                kind: "arg";
+                path: "options.user_id";
+              }
+            ];
+          };
+        },
+        {
+          name: "userVault";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [117, 115, 101, 114, 95, 118, 97, 117, 108, 116];
+              },
+              {
+                kind: "account";
+                path: "user";
+              }
+            ];
+          };
+        },
+        {
+          name: "invoice";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  105,
+                  110,
+                  118,
+                  111,
+                  105,
+                  99,
+                  101
+                ];
+              },
+              {
+                kind: "arg";
+                path: "options.user_id";
+              },
+              {
+                kind: "arg";
+                path: "options.invoice_id";
+              }
+            ];
+          };
+        },
+        {
+          name: "usdcMint";
+          writable: true;
+        },
+        {
+          name: "tokenProgram";
+          address: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [
+        {
+          name: "options";
+          type: {
+            defined: {
+              name: "payUserInvoiceOptions";
+            };
+          };
+        }
+      ];
+    },
+    {
       name: "removeMember";
       discriminator: [171, 57, 231, 150, 167, 128, 18, 55];
       accounts: [
@@ -769,12 +1121,20 @@ export type CoreContract = {
       discriminator: [140, 218, 177, 140, 193, 241, 199, 106];
     },
     {
+      name: "teamInvoice";
+      discriminator: [61, 121, 200, 131, 222, 119, 142, 67];
+    },
+    {
       name: "teamMember";
       discriminator: [45, 32, 135, 109, 75, 252, 204, 244];
     },
     {
       name: "user";
       discriminator: [159, 117, 95, 227, 239, 151, 58, 236];
+    },
+    {
+      name: "userInvoice";
+      discriminator: [233, 224, 227, 169, 73, 205, 52, 125];
     }
   ];
   events: [
@@ -819,8 +1179,24 @@ export type CoreContract = {
       discriminator: [172, 52, 201, 62, 192, 159, 66, 49];
     },
     {
+      name: "teamInvoiceCreated";
+      discriminator: [119, 71, 204, 111, 33, 247, 220, 177];
+    },
+    {
+      name: "teamInvoicePaid";
+      discriminator: [254, 8, 132, 198, 168, 209, 3, 157];
+    },
+    {
       name: "userCreated";
       discriminator: [145, 177, 42, 214, 0, 65, 40, 69];
+    },
+    {
+      name: "userInvoiceCreated";
+      discriminator: [208, 156, 185, 225, 196, 184, 235, 28];
+    },
+    {
+      name: "userInvoicePaid";
+      discriminator: [59, 208, 242, 195, 207, 253, 181, 202];
     }
   ];
   errors: [
@@ -838,6 +1214,11 @@ export type CoreContract = {
       code: 6002;
       name: "balanceTooLow";
       msg: "Balance too low.";
+    },
+    {
+      code: 6003;
+      name: "invoicePaid";
+      msg: "Invoice already paid.";
     }
   ];
   types: [
@@ -901,6 +1282,46 @@ export type CoreContract = {
           {
             name: "claimId";
             type: "u64";
+          }
+        ];
+      };
+    },
+    {
+      name: "createTeamInvoiceOptions";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "teamId";
+            type: "u64";
+          },
+          {
+            name: "invoiceId";
+            type: "u64";
+          },
+          {
+            name: "requestedAmount";
+            type: "u128";
+          }
+        ];
+      };
+    },
+    {
+      name: "createUserInvoiceOptions";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "userId";
+            type: "string";
+          },
+          {
+            name: "invoiceId";
+            type: "u64";
+          },
+          {
+            name: "requestedAmount";
+            type: "u128";
           }
         ];
       };
@@ -1068,6 +1489,22 @@ export type CoreContract = {
       };
     },
     {
+      name: "payTeamInvoiceOptions";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "teamId";
+            type: "u64";
+          },
+          {
+            name: "invoiceId";
+            type: "u64";
+          }
+        ];
+      };
+    },
+    {
       name: "payTeamOptions";
       type: {
         kind: "struct";
@@ -1094,6 +1531,22 @@ export type CoreContract = {
         fields: [
           {
             name: "paymentId";
+            type: "u64";
+          }
+        ];
+      };
+    },
+    {
+      name: "payUserInvoiceOptions";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "userId";
+            type: "string";
+          },
+          {
+            name: "invoiceId";
             type: "u64";
           }
         ];
@@ -1176,6 +1629,54 @@ export type CoreContract = {
       };
     },
     {
+      name: "teamInvoice";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "bump";
+            type: "u8";
+          },
+          {
+            name: "requestedAmount";
+            type: "u128";
+          },
+          {
+            name: "isPaid";
+            type: "bool";
+          },
+          {
+            name: "teamId";
+            type: "u64";
+          }
+        ];
+      };
+    },
+    {
+      name: "teamInvoiceCreated";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "invoiceId";
+            type: "u64";
+          }
+        ];
+      };
+    },
+    {
+      name: "teamInvoicePaid";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "invoiceId";
+            type: "u64";
+          }
+        ];
+      };
+    },
+    {
       name: "teamMember";
       type: {
         kind: "struct";
@@ -1219,6 +1720,54 @@ export type CoreContract = {
           {
             name: "userId";
             type: "string";
+          }
+        ];
+      };
+    },
+    {
+      name: "userInvoice";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "bump";
+            type: "u8";
+          },
+          {
+            name: "requestedAmount";
+            type: "u128";
+          },
+          {
+            name: "isPaid";
+            type: "bool";
+          },
+          {
+            name: "userId";
+            type: "string";
+          }
+        ];
+      };
+    },
+    {
+      name: "userInvoiceCreated";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "invoiceId";
+            type: "u64";
+          }
+        ];
+      };
+    },
+    {
+      name: "userInvoicePaid";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "invoiceId";
+            type: "u64";
           }
         ];
       };
@@ -1360,6 +1909,132 @@ export const IDL: Idl = {
           type: {
             defined: {
               name: "ClaimOptions",
+            },
+          },
+        },
+      ],
+    },
+    {
+      name: "create_team_invoice",
+      discriminator: [77, 83, 133, 237, 62, 203, 142, 75],
+      accounts: [
+        {
+          name: "signer",
+          writable: true,
+          signer: true,
+        },
+        {
+          name: "team",
+          writable: true,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [116, 101, 97, 109],
+              },
+              {
+                kind: "arg",
+                path: "options.team_id",
+              },
+            ],
+          },
+        },
+        {
+          name: "invoice",
+          writable: true,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  116, 101, 97, 109, 95, 105, 110, 118, 111, 105, 99, 101,
+                ],
+              },
+              {
+                kind: "arg",
+                path: "options.team_id",
+              },
+              {
+                kind: "arg",
+                path: "options.invoice_id",
+              },
+            ],
+          },
+        },
+        {
+          name: "system_program",
+          address: "11111111111111111111111111111111",
+        },
+      ],
+      args: [
+        {
+          name: "options",
+          type: {
+            defined: {
+              name: "CreateTeamInvoiceOptions",
+            },
+          },
+        },
+      ],
+    },
+    {
+      name: "create_user_invoice",
+      discriminator: [11, 54, 186, 86, 178, 207, 91, 226],
+      accounts: [
+        {
+          name: "signer",
+          writable: true,
+          signer: true,
+        },
+        {
+          name: "user",
+          writable: true,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [117, 115, 101, 114],
+              },
+              {
+                kind: "arg",
+                path: "options.user_id",
+              },
+            ],
+          },
+        },
+        {
+          name: "invoice",
+          writable: true,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  117, 115, 101, 114, 95, 105, 110, 118, 111, 105, 99, 101,
+                ],
+              },
+              {
+                kind: "arg",
+                path: "options.user_id",
+              },
+              {
+                kind: "arg",
+                path: "options.invoice_id",
+              },
+            ],
+          },
+        },
+        {
+          name: "system_program",
+          address: "11111111111111111111111111111111",
+        },
+      ],
+      args: [
+        {
+          name: "options",
+          type: {
+            defined: {
+              name: "CreateUserInvoiceOptions",
             },
           },
         },
@@ -1837,6 +2512,97 @@ export const IDL: Idl = {
       ],
     },
     {
+      name: "pay_team_invoice",
+      discriminator: [2, 69, 101, 14, 160, 247, 139, 183],
+      accounts: [
+        {
+          name: "signer",
+          writable: true,
+          signer: true,
+        },
+        {
+          name: "usdc_payer_account",
+          writable: true,
+        },
+        {
+          name: "team",
+          writable: true,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [116, 101, 97, 109],
+              },
+              {
+                kind: "arg",
+                path: "options.team_id",
+              },
+            ],
+          },
+        },
+        {
+          name: "team_vault",
+          writable: true,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [116, 101, 97, 109, 95, 118, 97, 117, 108, 116],
+              },
+              {
+                kind: "account",
+                path: "team",
+              },
+            ],
+          },
+        },
+        {
+          name: "invoice",
+          writable: true,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  116, 101, 97, 109, 95, 105, 110, 118, 111, 105, 99, 101,
+                ],
+              },
+              {
+                kind: "arg",
+                path: "options.team_id",
+              },
+              {
+                kind: "arg",
+                path: "options.invoice_id",
+              },
+            ],
+          },
+        },
+        {
+          name: "usdc_mint",
+          writable: true,
+        },
+        {
+          name: "token_program",
+          address: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        },
+        {
+          name: "system_program",
+          address: "11111111111111111111111111111111",
+        },
+      ],
+      args: [
+        {
+          name: "options",
+          type: {
+            defined: {
+              name: "PayTeamInvoiceOptions",
+            },
+          },
+        },
+      ],
+    },
+    {
       name: "pay_user",
       discriminator: [28, 121, 78, 180, 208, 134, 75, 222],
       accounts: [
@@ -1922,6 +2688,97 @@ export const IDL: Idl = {
       ],
     },
     {
+      name: "pay_user_invoice",
+      discriminator: [208, 39, 24, 65, 192, 178, 130, 252],
+      accounts: [
+        {
+          name: "signer",
+          writable: true,
+          signer: true,
+        },
+        {
+          name: "usdc_payer_account",
+          writable: true,
+        },
+        {
+          name: "user",
+          writable: true,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [117, 115, 101, 114],
+              },
+              {
+                kind: "arg",
+                path: "options.user_id",
+              },
+            ],
+          },
+        },
+        {
+          name: "user_vault",
+          writable: true,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [117, 115, 101, 114, 95, 118, 97, 117, 108, 116],
+              },
+              {
+                kind: "account",
+                path: "user",
+              },
+            ],
+          },
+        },
+        {
+          name: "invoice",
+          writable: true,
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  117, 115, 101, 114, 95, 105, 110, 118, 111, 105, 99, 101,
+                ],
+              },
+              {
+                kind: "arg",
+                path: "options.user_id",
+              },
+              {
+                kind: "arg",
+                path: "options.invoice_id",
+              },
+            ],
+          },
+        },
+        {
+          name: "usdc_mint",
+          writable: true,
+        },
+        {
+          name: "token_program",
+          address: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        },
+        {
+          name: "system_program",
+          address: "11111111111111111111111111111111",
+        },
+      ],
+      args: [
+        {
+          name: "options",
+          type: {
+            defined: {
+              name: "PayUserInvoiceOptions",
+            },
+          },
+        },
+      ],
+    },
+    {
       name: "remove_member",
       discriminator: [171, 57, 231, 150, 167, 128, 18, 55],
       accounts: [
@@ -1989,12 +2846,20 @@ export const IDL: Idl = {
       discriminator: [140, 218, 177, 140, 193, 241, 199, 106],
     },
     {
+      name: "TeamInvoice",
+      discriminator: [61, 121, 200, 131, 222, 119, 142, 67],
+    },
+    {
       name: "TeamMember",
       discriminator: [45, 32, 135, 109, 75, 252, 204, 244],
     },
     {
       name: "User",
       discriminator: [159, 117, 95, 227, 239, 151, 58, 236],
+    },
+    {
+      name: "UserInvoice",
+      discriminator: [233, 224, 227, 169, 73, 205, 52, 125],
     },
   ],
   events: [
@@ -2039,8 +2904,24 @@ export const IDL: Idl = {
       discriminator: [172, 52, 201, 62, 192, 159, 66, 49],
     },
     {
+      name: "TeamInvoiceCreated",
+      discriminator: [119, 71, 204, 111, 33, 247, 220, 177],
+    },
+    {
+      name: "TeamInvoicePaid",
+      discriminator: [254, 8, 132, 198, 168, 209, 3, 157],
+    },
+    {
       name: "UserCreated",
       discriminator: [145, 177, 42, 214, 0, 65, 40, 69],
+    },
+    {
+      name: "UserInvoiceCreated",
+      discriminator: [208, 156, 185, 225, 196, 184, 235, 28],
+    },
+    {
+      name: "UserInvoicePaid",
+      discriminator: [59, 208, 242, 195, 207, 253, 181, 202],
     },
   ],
   errors: [
@@ -2058,6 +2939,11 @@ export const IDL: Idl = {
       code: 6002,
       name: "BalanceTooLow",
       msg: "Balance too low.",
+    },
+    {
+      code: 6003,
+      name: "InvoicePaid",
+      msg: "Invoice already paid.",
     },
   ],
   types: [
@@ -2121,6 +3007,46 @@ export const IDL: Idl = {
           {
             name: "claim_id",
             type: "u64",
+          },
+        ],
+      },
+    },
+    {
+      name: "CreateTeamInvoiceOptions",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "team_id",
+            type: "u64",
+          },
+          {
+            name: "invoice_id",
+            type: "u64",
+          },
+          {
+            name: "requested_amount",
+            type: "u128",
+          },
+        ],
+      },
+    },
+    {
+      name: "CreateUserInvoiceOptions",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "user_id",
+            type: "string",
+          },
+          {
+            name: "invoice_id",
+            type: "u64",
+          },
+          {
+            name: "requested_amount",
+            type: "u128",
           },
         ],
       },
@@ -2288,6 +3214,22 @@ export const IDL: Idl = {
       },
     },
     {
+      name: "PayTeamInvoiceOptions",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "team_id",
+            type: "u64",
+          },
+          {
+            name: "invoice_id",
+            type: "u64",
+          },
+        ],
+      },
+    },
+    {
       name: "PayTeamOptions",
       type: {
         kind: "struct",
@@ -2314,6 +3256,22 @@ export const IDL: Idl = {
         fields: [
           {
             name: "payment_id",
+            type: "u64",
+          },
+        ],
+      },
+    },
+    {
+      name: "PayUserInvoiceOptions",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "user_id",
+            type: "string",
+          },
+          {
+            name: "invoice_id",
             type: "u64",
           },
         ],
@@ -2396,6 +3354,54 @@ export const IDL: Idl = {
       },
     },
     {
+      name: "TeamInvoice",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "bump",
+            type: "u8",
+          },
+          {
+            name: "requested_amount",
+            type: "u128",
+          },
+          {
+            name: "is_paid",
+            type: "bool",
+          },
+          {
+            name: "team_id",
+            type: "u64",
+          },
+        ],
+      },
+    },
+    {
+      name: "TeamInvoiceCreated",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "invoice_id",
+            type: "u64",
+          },
+        ],
+      },
+    },
+    {
+      name: "TeamInvoicePaid",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "invoice_id",
+            type: "u64",
+          },
+        ],
+      },
+    },
+    {
       name: "TeamMember",
       type: {
         kind: "struct",
@@ -2439,6 +3445,54 @@ export const IDL: Idl = {
           {
             name: "user_id",
             type: "string",
+          },
+        ],
+      },
+    },
+    {
+      name: "UserInvoice",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "bump",
+            type: "u8",
+          },
+          {
+            name: "requested_amount",
+            type: "u128",
+          },
+          {
+            name: "is_paid",
+            type: "bool",
+          },
+          {
+            name: "user_id",
+            type: "string",
+          },
+        ],
+      },
+    },
+    {
+      name: "UserInvoiceCreated",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "invoice_id",
+            type: "u64",
+          },
+        ],
+      },
+    },
+    {
+      name: "UserInvoicePaid",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "invoice_id",
+            type: "u64",
           },
         ],
       },

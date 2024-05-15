@@ -1,31 +1,41 @@
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
 import UserCard from "@/components/auth/UserCard";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { motion } from "framer-motion";
 import { LoaderCircleIcon } from "lucide-react";
 import { useDashboardData } from "@/lib/hooks/dashboard/useDashboardData";
-import { redirect } from "next/navigation";
 import UserBalance from "./UserBalance";
-import PayUser from "./PayUser";
 import DashboardLayout from "@/components/DashboardLayout";
+import { useUserBalance } from "@/lib/hooks/dashboard/useUserBalance";
+import { useState } from "react";
+import { useUserClaims } from "@/lib/hooks/useUserClaims";
+import { useUserPayments } from "@/lib/hooks/useUserPayments";
+import Invoices from "./Invoices";
+import CreateInvoice from "./CreateInvoice";
 
 export default function DashboardPage() {
+  const [refetch, setRefetch] = useState(false);
+  const [loading, setLoading] = useState(true);
   const supabase = createSupabaseClient();
 
   const {
-    loading,
     user,
     userRoles,
     userWallet,
     teamData,
     wallet,
-    balance,
     connection,
-  } = useDashboardData({ supabase });
+    ownedTeams,
+  } = useDashboardData({ supabase, loading, setLoading });
 
-  if (loading) {
+  const [balance, setBalance, isBalanceLoading] = useUserBalance({
+    userId: user?.id,
+    wallet,
+    connection,
+    isUserLoading: loading,
+  });
+
+  if (loading || isBalanceLoading) {
     return (
       <motion.div
         className="flex flex-col space-y-4 items-center justify-center"
@@ -102,6 +112,7 @@ export default function DashboardPage() {
 
   return (
     <DashboardLayout
+      ownedTeams={ownedTeams}
       supabase={supabase}
       userWallet={userWallet}
       teamData={teamData}
@@ -110,12 +121,29 @@ export default function DashboardPage() {
     >
       <div className="flex flex-col space-y-4 items-center justify-center grow h-full">
         <UserBalance
+          loading={loading}
+          setBalance={setBalance}
           balance={balance}
           supabase={supabase}
           user={user}
           wallet={wallet}
           connection={connection}
         />
+        <div className="flex flex-row space-x-2 items-center justify-center">
+          <Invoices
+            supabase={supabase}
+            user={user}
+            isUserLoading={loading}
+            refetch={refetch}
+          />
+          <CreateInvoice
+            setRefetch={setRefetch}
+            supabase={supabase}
+            user={user}
+            wallet={wallet}
+            connection={connection}
+          />
+        </div>
       </div>
     </DashboardLayout>
   );

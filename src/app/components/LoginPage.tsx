@@ -1,6 +1,4 @@
-import DeleteWalletButton from "@/components/auth/DeleteWalletButton";
-import LoginButton from "@/components/auth/LoginButton";
-import InitUserTransactionButton from "@/components/auth/InitUserTransactionButton";
+import InitUserTransactionButton from "@/app/components/InitUserTransactionButton";
 import UserCard from "@/components/auth/UserCard";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -8,6 +6,8 @@ import { motion } from "framer-motion";
 import { LoaderCircleIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useLoginData } from "@/lib/hooks/login/useLoginData";
+import DeleteWalletButton from "./DeleteWalletButton";
+import LoginButton from "./LoginButton";
 
 export default function LoginPage() {
   const supabase = createSupabaseClient();
@@ -58,7 +58,11 @@ export default function LoginPage() {
         animate={{ opacity: 100, y: 0 }}
         className="flex flex-col space-y-4 items-center justify-center"
       >
-        <UserCard userData={userProfile} supabase={supabase} />
+        <UserCard
+          username={userProfile.full_name}
+          iconUrl={userProfile.avatar_url}
+          supabase={supabase}
+        />
         <WalletMultiButton />
       </motion.div>
     );
@@ -71,7 +75,11 @@ export default function LoginPage() {
         animate={{ opacity: 100, y: 0 }}
         className="flex flex-col space-y-4 items-center justify-center"
       >
-        <UserCard userData={userProfile} supabase={supabase} />
+        <UserCard
+          username={userProfile.full_name}
+          iconUrl={userProfile.avatar_url}
+          supabase={supabase}
+        />
         <InitUserTransactionButton
           setRefetch={setRefetch}
           userId={user.id}
@@ -96,7 +104,11 @@ export default function LoginPage() {
         className="flex flex-col space-y-4 items-center justify-center"
       >
         <span>Welcome to Core</span>
-        <UserCard userData={userProfile} supabase={supabase} />
+        <UserCard
+          username={userProfile.full_name}
+          iconUrl={userProfile.avatar_url}
+          supabase={supabase}
+        />
         <span>
           Wallet confirmed. Public Key: {userWallet?.authority.slice(0, 5)}
           ...
@@ -119,7 +131,11 @@ export default function LoginPage() {
         animate={{ opacity: 100, y: 0 }}
         className="flex flex-col space-y-4 items-center justify-center"
       >
-        <UserCard userData={userProfile} supabase={supabase} />
+        <UserCard
+          username={userProfile.full_name}
+          iconUrl={userProfile.avatar_url}
+          supabase={supabase}
+        />
         <span>
           Something went wrong. Please check again later or try a different
           wallet.

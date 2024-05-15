@@ -1,15 +1,17 @@
-import { TeamMember } from "@/lib/hooks/useTeamData";
+import { TeamMember } from "@/lib/hooks/useUserMembers";
+import { Team } from "@/lib/hooks/useUserTeams";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 type SideBarProps = {
-  teamData: TeamMember[];
+  ownedTeams: Team[];
   userRoles: string[];
   currentPage: string;
   currentTeamId?: string;
 };
 
 export default function Sidebar({
-  teamData,
+  ownedTeams,
   userRoles,
   currentPage,
 }: SideBarProps) {
@@ -48,6 +50,29 @@ export default function Sidebar({
           Create a Team
         </a>
       )}
+      <span>Teams:</span>
+      {ownedTeams.map((team) => (
+        <a
+          key={team.id}
+          href={`/dashboard/team/${team.id}`}
+          className="text-white flex flex-row items-center space-x-2"
+          style={{
+            textDecoration:
+              currentPage === team.id.toString() ? "underline" : undefined,
+          }}
+        >
+          {team.image_url && (
+            <Image
+              src={team.image_url}
+              width={24}
+              height={24}
+              alt="Icon"
+              className="rounded-full"
+            />
+          )}
+          <span>{team.name}</span>
+        </a>
+      ))}
     </motion.nav>
   );
 }

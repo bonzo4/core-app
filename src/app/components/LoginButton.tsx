@@ -1,7 +1,8 @@
 import { Database } from "@/lib/supabase/types";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Button } from "../ui/button";
+import { Button } from "../../components/ui/button";
 import { BsDiscord } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 type LoginButtonProps = {
   supabase: SupabaseClient<Database>;
@@ -16,7 +17,7 @@ export default function LoginButton({ supabase }: LoginButtonProps) {
       },
     });
     if (error) {
-      console.error("Error signing in with GitHub", error);
+      toast.error("Error logging in with Discord");
     }
   };
 

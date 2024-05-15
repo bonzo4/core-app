@@ -8,7 +8,7 @@ type Role = "ADMIN" | "FOUNDER";
 
 type UseUserRolesOptions = {
   supabase: SupabaseClient<Database>;
-  refetch: boolean;
+  refetch?: boolean;
   user: User | undefined;
   isUserLoading: boolean;
 };
@@ -23,13 +23,13 @@ export function useUserRoles({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      if (!isUserLoading) {
-        setLoading(false);
-      }
-      return;
-    }
     const getUserRoles = async () => {
+      if (!user) {
+        if (!isUserLoading) {
+          setLoading(false);
+        }
+        return;
+      }
       refetch;
       const { data: userRolesData } = await supabase
         .from("user_roles")

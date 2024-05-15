@@ -2,9 +2,13 @@ import { Button } from "@/components/ui/button";
 import { claimInstruction } from "@/lib/solana/instructions/claim";
 import { Database } from "@/lib/supabase/types";
 import { WalletContextState } from "@solana/wallet-adapter-react";
-import { Connection, Transaction } from "@solana/web3.js";
+import {
+  Connection,
+  Transaction,
+  sendAndConfirmTransaction,
+} from "@solana/web3.js";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 
 type ClaimButtonProps = {
@@ -13,6 +17,8 @@ type ClaimButtonProps = {
   connection: Connection;
   userId: string;
   balance?: number;
+  setRefetch: (args_0: SetStateAction<boolean>) => void;
+  setBalance: (balance: number) => void;
 };
 
 export default function ClaimButton({
@@ -21,12 +27,20 @@ export default function ClaimButton({
   connection,
   userId,
   balance,
+  setRefetch,
+  setBalance,
 }: ClaimButtonProps) {
   const [loading, setLoading] = useState(false);
 
   const handleSign = async () => {
     if (!balance) return;
     setLoading(true);
+    const toastId = toast.loading(
+      "Waiting for transaction to be confirmed...",
+      {
+        autoClose: false,
+      }
+    );
     if (!wallet.publicKey) {
       toast.error("No signer key found, please connect a wallet");
       setLoading(false); // Ensure loading is reset if the operation cannot proceed
@@ -64,12 +78,18 @@ export default function ClaimButton({
       transaction.recentBlockhash = instruction.blockhash;
       transaction.feePayer = wallet.publicKey;
 
-      await wallet
-        .sendTransaction(transaction, connection, {
-          preflightCommitment: "finalized",
-        })
-        .then(() => toast.success("Transaction sent"));
+      const tx = await wallet.sendTransaction(transaction, connection, {
+        preflightCommitment: "finalized",
+      });
+
+      await connection.confirmTransaction(tx, "finalized");
+      setBalance(0);
+      toast.dismiss(toastId);
+      toast.success("Transaction confirmed!");
+      setRefetch((prev) => !prev);
+      setLoading(false); // Ensure loading is reset after the operation is complete
     } catch (error: any) {
+      toast.dismiss(toastId);
       toast.error("Error sending transaction: " + error.message);
       setLoading(false); // Ensure loading is reset if the operation fails
     }

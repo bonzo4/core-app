@@ -7,22 +7,35 @@ export type Claim = Database["public"]["Tables"]["claims"]["Row"];
 
 type UseUserClaimsOptions = {
   supabase: SupabaseClient<Database>;
-  user: User;
+  user?: User;
+  refetch?: boolean;
+  isUserLoading: boolean;
 };
 
-export function useUserClaims({ supabase, user }: UseUserClaimsOptions) {
+export function useUserClaims({
+  supabase,
+  user,
+  refetch,
+  isUserLoading,
+}: UseUserClaimsOptions) {
   const [claims, setClaims] = useState<Claim[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getClaims = async () => {
+      if (!user) {
+        if (!isUserLoading) {
+          setLoading(false);
+        }
+        return;
+      }
+      refetch;
       const { data: claims, error } = await supabase
         .from("claims")
         .select("*")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
       if (error) {
-        console.log(error.hint);
         toast.error(error.message);
       }
       if (claims) {
@@ -31,7 +44,7 @@ export function useUserClaims({ supabase, user }: UseUserClaimsOptions) {
       setLoading(false);
     };
     getClaims();
-  }, [supabase, setLoading, user]);
+  }, [supabase, setLoading, user, refetch, isUserLoading]);
 
   return [claims, loading] as const;
 }

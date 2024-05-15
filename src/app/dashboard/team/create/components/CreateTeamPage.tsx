@@ -8,12 +8,22 @@ import { redirect } from "next/navigation";
 import DashboardLayout from "@/components/DashboardLayout";
 import CreateTeamForm from "./CreateTeamForm";
 import TeamTable from "./TeamTable";
+import { useState } from "react";
 
 export default function DashboardPage() {
+  const [loading, setLoading] = useState(true);
+  const [refetch, setRefetch] = useState(false);
   const supabase = createSupabaseClient();
 
-  const { loading, user, userRoles, userWallet, teamData, wallet, connection } =
-    useDashboardData({ supabase });
+  const {
+    user,
+    userRoles,
+    userWallet,
+    teamData,
+    wallet,
+    connection,
+    ownedTeams,
+  } = useDashboardData({ supabase, loading, setLoading });
 
   if (loading) {
     return (
@@ -93,6 +103,7 @@ export default function DashboardPage() {
   if (userRoles.length > 0) {
     return (
       <DashboardLayout
+        ownedTeams={ownedTeams}
         supabase={supabase}
         userWallet={userWallet}
         teamData={teamData}
@@ -101,12 +112,19 @@ export default function DashboardPage() {
       >
         <div className="flex flex-col space-y-4 justify-start items-center grow h-full py-10">
           <CreateTeamForm
+            setRefetch={setRefetch}
             supabase={supabase}
             user={user}
             wallet={wallet}
             connection={connection}
           />
-          <TeamTable supabase={supabase} user={user} />
+          <TeamTable
+            supabase={supabase}
+            user={user}
+            wallet={wallet}
+            connection={connection}
+            refetch={refetch}
+          />
         </div>
       </DashboardLayout>
     );

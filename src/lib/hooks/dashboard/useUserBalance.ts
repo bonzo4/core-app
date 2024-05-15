@@ -10,6 +10,7 @@ type UseUserBalanceOptions = {
   connection: Connection;
   userId?: string;
   isUserLoading: boolean;
+  refetch?: boolean;
 };
 
 export function useUserBalance({
@@ -17,6 +18,7 @@ export function useUserBalance({
   connection,
   userId,
   isUserLoading,
+  refetch,
 }: UseUserBalanceOptions) {
   const [balance, setBalance] = useState<number | undefined>();
   const [loading, setLoading] = useState(true);
@@ -29,6 +31,7 @@ export function useUserBalance({
         }
         return;
       }
+      refetch;
       const program = getCoreContract(wallet, connection);
       if (!program) return;
       const user = await program.account.user.fetch(getUserPDA(userId));
@@ -36,7 +39,7 @@ export function useUserBalance({
       setBalance(user.balance.div(new BN(10 ** 6)).toNumber());
     };
     getBalance().then(() => setLoading(false));
-  }, [wallet, connection, userId, isUserLoading]);
+  }, [wallet, connection, userId, isUserLoading, refetch]);
 
-  return [balance, loading] as const;
+  return [balance, setBalance, loading] as const;
 }

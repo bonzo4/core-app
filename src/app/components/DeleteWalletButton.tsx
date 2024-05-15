@@ -1,7 +1,8 @@
 import { Database } from "@/lib/supabase/types";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Button } from "../ui/button";
+import { Button } from "../../components/ui/button";
 import { SetStateAction } from "react";
+import { toast } from "react-toastify";
 
 type DeleteWalletButtonProps = {
   userId: string;
@@ -20,7 +21,7 @@ export default function DeleteWalletButton({
       .delete()
       .eq("user_id", userId);
     if (error) {
-      console.error("Error deleting wallet PDA", error);
+      toast.error("Error deleting wallet");
       return;
     }
     setRefetch((prev) => !prev);

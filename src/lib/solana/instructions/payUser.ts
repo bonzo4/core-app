@@ -41,7 +41,6 @@ export async function payUserInstruction({
     })
     .accountsPartial({
       signer: wallet.publicKey,
-
       user: userPDA,
       usdcMint: new PublicKey(process.env.NEXT_PUBLIC_USDC_MINT!),
       usdcPayerAccount,
