@@ -8,6 +8,7 @@ type UserCardProps = {
   username: string;
   iconUrl: string;
   walletKey?: string;
+  onboardDate?: string;
 };
 
 export default function UserCard({
@@ -15,9 +16,16 @@ export default function UserCard({
   username,
   iconUrl,
   walletKey,
+  onboardDate,
 }: UserCardProps) {
   return (
     <div className="flex flex-row space-x-3 items-center justify-center">
+      {onboardDate && (
+        <div className="flex flex-col items-center justify-center ">
+          <span>Onboarded:</span>
+          <span>{new Date(onboardDate).toDateString()}</span>
+        </div>
+      )}
       <Image
         className="rounded-full"
         src={iconUrl}

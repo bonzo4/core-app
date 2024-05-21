@@ -37,6 +37,15 @@ export default function Sidebar({
       >
         Dashboard
       </a>
+      <a
+        href="/dashboard/bounty"
+        className="text-white"
+        style={{
+          textDecoration: currentPage === "bounty" ? "underline" : undefined,
+        }}
+      >
+        Bounties
+      </a>
       {userRoles.filter((role) => role === "ADMIN" || role === "FOUNDER")
         .length > 0 && (
         <a

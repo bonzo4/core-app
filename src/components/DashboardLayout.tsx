@@ -10,7 +10,6 @@ import { Team } from "@/lib/hooks/useUserTeams";
 type DashboardLayoutProps = {
   supabase: SupabaseClient<Database>;
   userWallet: UserWallet;
-  teamData: TeamMember[];
   ownedTeams: Team[];
   userRoles: string[];
   currentPage: string;
@@ -19,7 +18,6 @@ type DashboardLayoutProps = {
 export default function DashboardLayout({
   supabase,
   userWallet,
-  teamData,
   ownedTeams,
   userRoles,
   currentPage,
@@ -32,10 +30,13 @@ export default function DashboardLayout({
       transition={{ duration: 1 }}
       className="flex flex-col items-start justify-start w-full grow"
     >
-      <Header supabase={supabase} userWallet={userWallet} />
+      <Header
+        supabase={supabase}
+        userWallet={userWallet}
+        isDashboard={currentPage === "dashboard"}
+      />
       <div className="flex flex-row items-start justify-start w-full grow">
         <Sidebar
-          teamData={teamData}
           ownedTeams={ownedTeams}
           userRoles={userRoles}
           currentPage={currentPage}

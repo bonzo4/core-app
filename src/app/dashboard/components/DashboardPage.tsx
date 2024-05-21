@@ -115,7 +115,6 @@ export default function DashboardPage() {
       ownedTeams={ownedTeams}
       supabase={supabase}
       userWallet={userWallet}
-      teamData={teamData}
       userRoles={userRoles}
       currentPage="dashboard"
     >

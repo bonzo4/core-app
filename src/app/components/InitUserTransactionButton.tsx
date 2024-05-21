@@ -39,7 +39,7 @@ export default function InitUserTransactionButton({
 
   const handleSign = async () => {
     setLoading(true);
-    if (!wallet.publicKey) {
+    if (!wallet.publicKey || !wallet.signMessage) {
       toast.error("No signer key found, please connect a wallet");
       setLoading(false); // Ensure loading is reset if the operation cannot proceed
       return;
@@ -52,23 +52,11 @@ export default function InitUserTransactionButton({
       }
     );
 
-    const instruction = await initUserInstruction({
-      wallet,
-      connection,
-      userId,
-    });
-
-    if (!instruction) {
-      toast.error("Error creating transaction");
-      setLoading(false); // Ensure loading is reset if the operation cannot proceed
-      return;
-    }
-    const transaction = new Transaction().add(instruction.initUserTx);
-    transaction.recentBlockhash = instruction.blockhash;
-    transaction.feePayer = wallet.publicKey;
-
     try {
-      const encodedMessage = new TextEncoder().encode("Init User");
+      const encodedMessage = new TextEncoder().encode(
+        "Welcome to Core!\n\nPlease sign this message to confirm your identity.\n\nThis message is only used to confirm your identity and will not be stored."
+      );
+      await wallet.signMessage(encodedMessage);
 
       const { error } = await supabase.from("user_wallets").upsert({
         user_id: userId,
@@ -81,6 +69,22 @@ export default function InitUserTransactionButton({
         setLoading(false); // Ensure loading is reset if the operation cannot proceed
         return;
       }
+
+      const instruction = await initUserInstruction({
+        wallet,
+        connection,
+        userId,
+      });
+
+      if (!instruction) {
+        toast.error("Error creating transaction");
+        setLoading(false); // Ensure loading is reset if the operation cannot proceed
+        return;
+      }
+
+      const transaction = new Transaction().add(instruction.initUserTx);
+      transaction.recentBlockhash = instruction.blockhash;
+      transaction.feePayer = wallet.publicKey;
 
       const tx = await wallet.sendTransaction(transaction, connection, {
         preflightCommitment: "finalized",

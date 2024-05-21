@@ -41,7 +41,8 @@ export function useUserPayments({
         .from("payments")
         .select("*")
         .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .is("is_confirmed", true);
       if (error) {
         toast.error(error.message);
       }

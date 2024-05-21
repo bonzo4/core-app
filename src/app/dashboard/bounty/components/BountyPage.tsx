@@ -4,18 +4,15 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { motion } from "framer-motion";
 import { LoaderCircleIcon } from "lucide-react";
 import { useDashboardData } from "@/lib/hooks/dashboard/useDashboardData";
-import { redirect } from "next/navigation";
 import DashboardLayout from "@/components/DashboardLayout";
-import UsersTable from "./UsersTable";
-import PaymentTable from "./PaymentTable";
+import { useUserBalance } from "@/lib/hooks/dashboard/useUserBalance";
 import { useState } from "react";
-import { useAllUserWallets } from "@/lib/hooks/admin/useAllUserWallets";
-import { useAdminUserPayments } from "@/lib/hooks/admin/useAdminUserPayment";
-import AdminMenu from "./AdminMenu";
+import { useUserClaims } from "@/lib/hooks/useUserClaims";
+import { useUserPayments } from "@/lib/hooks/useUserPayments";
+import Bounties from "./Bounties";
 
-export default function DashboardPage() {
+export default function BountyPage() {
   const [loading, setLoading] = useState(true);
-  const [refetch, setRefetch] = useState(false);
   const supabase = createSupabaseClient();
 
   const {
@@ -28,17 +25,7 @@ export default function DashboardPage() {
     ownedTeams,
   } = useDashboardData({ supabase, loading, setLoading });
 
-  const [userWallets, isUserWalletsLoading] = useAllUserWallets({
-    supabase,
-  });
-  const [payments, isUserPaymentsLoading] = useAdminUserPayments({
-    supabase,
-    user,
-    isUserLoading: loading,
-    refetch,
-  });
-
-  if (loading || isUserWalletsLoading || isUserPaymentsLoading) {
+  if (loading) {
     return (
       <motion.div
         className="flex flex-col space-y-4 items-center justify-center"
@@ -113,42 +100,18 @@ export default function DashboardPage() {
     );
   }
 
-  if (userRoles.filter((role) => role === "ADMIN").length > 0) {
-    return (
-      <DashboardLayout
-        ownedTeams={ownedTeams}
-        supabase={supabase}
-        userWallet={userWallet}
-        teamData={teamData}
-        userRoles={userRoles}
-        currentPage="admin"
-      >
-        <div className="flex flex-col items-center grow h-full">
-          <AdminMenu
-            supabase={supabase}
-            wallet={wallet}
-            connection={connection}
-            setRefetch={setRefetch}
-            loading={loading}
-            refetch={refetch}
-          />
-          <div className="w-full h-1/2 max-h-[480px] overflow-auto">
-            <UsersTable
-              setRefetch={setRefetch}
-              supabase={supabase}
-              wallet={wallet}
-              connection={connection}
-              user={user}
-              userWallets={userWallets}
-            />
-          </div>
-          <div className="w-full h-1/2 max-h-[480px] overflow-auto">
-            <PaymentTable payments={payments} />
-          </div>
-        </div>
-      </DashboardLayout>
-    );
-  } else {
-    redirect("/dashboard");
-  }
+  return (
+    <DashboardLayout
+      ownedTeams={ownedTeams}
+      supabase={supabase}
+      userWallet={userWallet}
+      teamData={teamData}
+      userRoles={userRoles}
+      currentPage="bounty"
+    >
+      <div className="flex flex-col space-y-4 items-center justify-center grow h-full">
+        <Bounties supabase={supabase} userId={user.id} />
+      </div>
+    </DashboardLayout>
+  );
 }

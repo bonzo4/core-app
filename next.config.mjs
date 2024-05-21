@@ -13,7 +13,13 @@ const nextConfig = {
             hostname: 'tlukhzbklwemmeibiqbq.supabase.co',
             port: '',
             pathname: '/storage/v1/object/public/team_images/**',
-        },
+            },
+            {
+                protocol: 'https',
+                hostname: "pbs.twimg.com",
+                port: "",
+                pathname: "/profile_images/**",
+            }
         ],
     },
 };
