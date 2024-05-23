@@ -6,53 +6,42 @@ import { toast } from "react-toastify";
 
 type StatusEnum = Database["public"]["Enums"]["bounty_status"];
 
-type ClaimBountyButtonProps = {
+type CompleteBountyButtonProps = {
   supabase: SupabaseClient<Database>;
   bountyId: number;
-  userId: string;
   setRefetch: (args_0: SetStateAction<boolean>) => void;
   status: StatusEnum;
-  bountyAmount: number;
 };
 
-export default function ClaimBountyButton({
+export default function CompleteBountyButton({
   supabase,
   bountyId,
-  userId,
   setRefetch,
   status,
-  bountyAmount,
-}: ClaimBountyButtonProps) {
+}: CompleteBountyButtonProps) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleClaimBounty = async () => {
-    if (bountyAmount >= 5) {
-      toast.error("You can only claim 5 bounties at a time");
-      return;
-    }
-
     const { error } = await supabase
       .from("ambassador_bounties")
       .update({
-        status: "CLAIMED",
-        claimer_id: userId,
-        claim_date: new Date().toISOString(),
+        status: "COMPLETED",
       })
       .eq("id", bountyId);
 
     if (error) {
-      toast.error("Error claiming bounty");
+      toast.error("Error completing bounty");
     }
 
-    toast.success("Bounty claimed!");
+    toast.success("Bounty completed!");
     setRefetch((prev) => !prev);
   };
 
-  const buttonDisabled = status !== "UNCLAIMED" || loading || bountyAmount >= 5;
+  const buttonDisabled = status !== "CLAIMED" || loading;
 
   return (
     <Button onClick={handleClaimBounty} className="" disabled={buttonDisabled}>
-      Claim
+      Complete
     </Button>
   );
 }

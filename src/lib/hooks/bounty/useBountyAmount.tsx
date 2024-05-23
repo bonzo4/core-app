@@ -13,9 +13,7 @@ export function useBountyAmount({
   refetch,
   userId,
 }: UseBountyAmountOptions) {
-  const [ambassadorBounties, setAmbassadorBounties] = useState<
-    number | undefined
-  >();
+  const [ambassadorBounties, setAmbassadorBounties] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

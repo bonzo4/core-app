@@ -16,7 +16,7 @@ export default function Sidebar({
   currentPage,
 }: SideBarProps) {
   return (
-    <motion.nav className="lg:flex flex-col space-y-5 p-4 border-r-4 border-white border-opacity-10 h-full hidden">
+    <motion.nav className="lg:flex flex-col space-y-5 p-4 border-r-4 border-white border-opacity-10 h-full hidden min-w-36">
       {userRoles.filter((role) => role === "ADMIN").length > 0 && (
         <a
           href="/dashboard/admin"

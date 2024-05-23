@@ -47,7 +47,7 @@ export default function PaymentHistory({
       <DialogTrigger>
         <Button>Payment History</Button>
       </DialogTrigger>
-      <DialogContent className="bg-black h-3/4 flex flex-col items-start justify-start">
+      <DialogContent className="bg-black h-3/4 flex flex-col items-start justify-start max-w-3xl">
         <DialogHeader>
           <DialogTitle>Payment History</DialogTitle>
         </DialogHeader>
@@ -59,6 +59,7 @@ export default function PaymentHistory({
                 <TableHead className="w-[50px] ">Confirmed</TableHead>
                 <TableHead className="w-[150px] ">Date</TableHead>
                 <TableHead className="w-[150px] ">Source</TableHead>
+                <TableHead className="w-[200px] ">Memo</TableHead>
                 <TableHead className="text-right">Amount</TableHead>
               </TableRow>
             </TableHeader>
@@ -74,6 +75,7 @@ export default function PaymentHistory({
                   <TableCell className="">
                     {payment.team?.name || payment.user?.username}
                   </TableCell>
+                  <TableCell className="">{payment.memo}</TableCell>
                   <TableCell className="text-right">
                     ${payment.amount}
                   </TableCell>

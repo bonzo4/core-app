@@ -24,6 +24,7 @@ export default function PaymentTable({ payments }: PaymentTableProps) {
           <TableHead className="w-[50px] ">Confirmed</TableHead>
           <TableHead className="w-[150px] ">Date</TableHead>
           <TableHead className="w-[200px]">User</TableHead>
+          <TableHead className="w-[200px]">Memo</TableHead>
           <TableHead className="text-right">Amount</TableHead>
         </TableRow>
       </TableHeader>
@@ -46,6 +47,7 @@ export default function PaymentTable({ payments }: PaymentTableProps) {
               />
               <span>{payment.user_wallets.username}</span>
             </TableCell>
+            <TableCell>{payment.memo}</TableCell>
             <TableCell className="text-right">${payment.amount}</TableCell>
           </TableRow>
         ))}

@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import { Checkbox } from "@/components/ui/checkbox";
+import { AmbassadorBounty } from "@/lib/hooks/bounty/useAmbassadorBounties";
 
 type TagEnum = Database["public"]["Enums"]["guild_tag"];
 
@@ -35,29 +36,31 @@ const formSchema = z.object({
   twitterUrl: z.string().nullable(),
 });
 
-type CreateBountyProps = {
+type ApproveBountyProps = {
   supabase: SupabaseClient<Database>;
   setRefetch: (args_0: SetStateAction<boolean>) => void;
+  bounty: AmbassadorBounty;
 };
 
-export default function CreateBounty({
+export default function ApproveBounty({
   supabase,
   setRefetch,
-}: CreateBountyProps) {
+  bounty,
+}: ApproveBountyProps) {
   const [showTags, setShowTags] = useState(false);
-  const [isBroken, setIsBroken] = useState(false);
-  const [isNew, setIsNew] = useState(false);
-  const [isDaily, setIsDaily] = useState(false);
-  const [tags, setTags] = useState<TagEnum[]>([]);
+  const [isBroken, setIsBroken] = useState(bounty.is_broken);
+  const [isNew, setIsNew] = useState(bounty.is_new);
+  const [isDaily, setIsDaily] = useState(bounty.is_daily);
+  const [tags, setTags] = useState<TagEnum[]>(bounty.tags || []);
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      guildName: "",
-      rewardAmount: null,
-      discordInvite: "",
-      twitterIcon: null,
-      twitterUrl: null,
+      guildName: bounty.guild_name,
+      rewardAmount: bounty.reward_amount,
+      discordInvite: bounty.discord_invite,
+      twitterIcon: bounty.twitter_icon,
+      twitterUrl: bounty.twitter_url,
     },
   });
 
@@ -75,7 +78,7 @@ export default function CreateBounty({
     try {
       const { error: invoiceError } = await supabase
         .from("ambassador_bounties")
-        .insert({
+        .update({
           guild_name: isBroken
             ? `Broken: ${formData.guildName}`
             : formData.guildName,
@@ -89,17 +92,17 @@ export default function CreateBounty({
           is_daily: isDaily,
           is_broken: isBroken,
         })
-        .single();
+        .eq("id", bounty.id);
 
       if (invoiceError) {
         throw invoiceError;
       }
 
-      toast.success("Bounty created successfully!");
+      toast.success("Bounty approved successfully!");
       setRefetch((prev) => !prev);
       setLoading(false); // Ensure loading is reset after the operation is complete
     } catch (error) {
-      toast.error("Failed to create Bounty");
+      toast.error("Failed to approve Bounty");
       setLoading(false); // Ensure loading is reset if the operation cannot proceed
       return;
     }
@@ -110,7 +113,7 @@ export default function CreateBounty({
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>Create Bounty</Button>
+        <Button>Approve</Button>
       </DialogTrigger>
       <DialogContent className="bg-black flex flex-col items-start justify-start">
         <DialogHeader>
@@ -468,7 +471,7 @@ export default function CreateBounty({
               <FormMessage />
             </FormItem>
             <Button type="submit" disabled={!buttonEnabled}>
-              Create
+              Approve
             </Button>
           </form>
         </Form>

@@ -119,7 +119,6 @@ export default function DashboardPage() {
         ownedTeams={ownedTeams}
         supabase={supabase}
         userWallet={userWallet}
-        teamData={teamData}
         userRoles={userRoles}
         currentPage="admin"
       >
@@ -131,6 +130,7 @@ export default function DashboardPage() {
             setRefetch={setRefetch}
             loading={loading}
             refetch={refetch}
+            userId={user.id}
           />
           <div className="w-full h-1/2 max-h-[480px] overflow-auto">
             <UsersTable

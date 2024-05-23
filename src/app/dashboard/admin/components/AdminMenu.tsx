@@ -18,6 +18,7 @@ type ManageTeamButtonProps = {
   setRefetch: (args_0: SetStateAction<boolean>) => void;
   loading: boolean;
   refetch: boolean;
+  userId: string;
 };
 
 export default function AdminMenu({
@@ -27,12 +28,20 @@ export default function AdminMenu({
   setRefetch,
   loading,
   refetch,
+  userId,
 }: ManageTeamButtonProps) {
   return (
     <div className="flex flex-row items-center justify-between w-full p-2">
       <div className="flex flex-row space-x-2 items-center justify-start"></div>
       <div className="flex flex-row items-center justify-end w-full p-2 space-x-2">
-        <ManageBounties supabase={supabase} />
+        <ManageBounties
+          supabase={supabase}
+          refetch={refetch}
+          setRefetch={setRefetch}
+          wallet={wallet}
+          connection={connection}
+          userId={userId}
+        />
         <CreateBounty setRefetch={setRefetch} supabase={supabase} />
       </div>
     </div>

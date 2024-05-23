@@ -105,12 +105,11 @@ export default function BountyPage() {
       ownedTeams={ownedTeams}
       supabase={supabase}
       userWallet={userWallet}
-      teamData={teamData}
       userRoles={userRoles}
       currentPage="bounty"
     >
       <div className="flex flex-col space-y-4 items-center justify-center grow h-full">
-        <Bounties supabase={supabase} userId={user.id} />
+        <Bounties supabase={supabase} userId={user.id} userRoles={userRoles} />
       </div>
     </DashboardLayout>
   );

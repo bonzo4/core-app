@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export type UserRole = Database["public"]["Tables"]["user_roles"]["Row"];
 
-type Role = "ADMIN" | "FOUNDER";
+export type Role = Database["public"]["Enums"]["user_role_types"];
 
 type UseUserRolesOptions = {
   supabase: SupabaseClient<Database>;
