@@ -145,7 +145,6 @@ export default function ManageTeamPage({ id }: { id: number }) {
         ownedTeams={ownedTeams}
         supabase={supabase}
         userWallet={userWallet}
-        teamData={teamData}
         userRoles={userRoles}
         currentPage={id.toString()}
       >
