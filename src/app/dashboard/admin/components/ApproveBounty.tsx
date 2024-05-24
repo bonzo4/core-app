@@ -47,6 +47,7 @@ export default function ApproveBounty({
   setRefetch,
   bounty,
 }: ApproveBountyProps) {
+  const [bonus, setBonus] = useState<number | undefined>();
   const [showTags, setShowTags] = useState(false);
   const [isBroken, setIsBroken] = useState(bounty.is_broken);
   const [isNew, setIsNew] = useState(bounty.is_new);
@@ -70,6 +71,10 @@ export default function ApproveBounty({
     } else {
       setTags([...tags, tag]);
     }
+  };
+
+  const handleBonus = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBonus(Number(event.target.value));
   };
 
   const onSubmit = form.handleSubmit(async (formData) => {
@@ -96,6 +101,18 @@ export default function ApproveBounty({
 
       if (invoiceError) {
         throw invoiceError;
+      }
+
+      if (bonus && bonus > 0 && bounty.requester_id) {
+        const { error: bonusError } = await supabase.from("user_bonus").insert({
+          user_id: bounty.requester_id,
+          pay_amount: bonus,
+          memo: `Request Bonus for ${bounty.guild_name}`,
+        });
+
+        if (bonusError) {
+          throw bonusError;
+        }
       }
 
       toast.success("Bounty approved successfully!");
@@ -433,43 +450,59 @@ export default function ApproveBounty({
                 </FormItem>
               )}
             />
-            <FormItem className="flex flex-col">
-              <FormLabel>Set Status</FormLabel>
+            <div className="flex flex-row space-x-2 items-center justify-between w-full">
+              <FormItem className="flex flex-col">
+                <FormLabel>Set Status</FormLabel>
 
-              <div className="flex flex-row space-x-2 items-center">
-                <Checkbox
-                  checked={isNew}
-                  onClick={() => {
-                    setIsNew(!isNew);
-                    setIsDaily(false);
-                  }}
-                  className="border-white"
-                />
-                <FormLabel>New</FormLabel>
-                <Checkbox
-                  checked={isDaily}
-                  onClick={() => {
-                    setIsDaily(!isDaily);
-                    setIsNew(false);
-                  }}
-                  className="border-white"
-                />
-                <FormLabel>Daily</FormLabel>
-                <Checkbox
-                  checked={isBroken}
-                  onClick={() => {
-                    setIsBroken(!isBroken);
-                  }}
-                  className="border-white"
-                />
-                <FormLabel>Broken</FormLabel>
-              </div>
+                <div className="flex flex-row space-x-2 items-center">
+                  <Checkbox
+                    checked={isNew}
+                    onClick={() => {
+                      setIsNew(!isNew);
+                      setIsDaily(false);
+                    }}
+                    className="border-white"
+                  />
+                  <FormLabel>New</FormLabel>
+                  <Checkbox
+                    checked={isDaily}
+                    onClick={() => {
+                      setIsDaily(!isDaily);
+                      setIsNew(false);
+                    }}
+                    className="border-white"
+                  />
+                  <FormLabel>Daily</FormLabel>
+                  <Checkbox
+                    checked={isBroken}
+                    onClick={() => {
+                      setIsBroken(!isBroken);
+                    }}
+                    className="border-white"
+                  />
+                  <FormLabel>Broken</FormLabel>
+                </div>
 
-              <FormDescription className="text-white opacity-50">
-                Status of the Bounty
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
+                <FormDescription className="text-white opacity-50">
+                  Bounty addons
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+              <FormItem className="flex flex-col">
+                <FormLabel>Add Bonus</FormLabel>
+                <Input
+                  type="number"
+                  placeholder={`$0.25`}
+                  value={bonus || ""}
+                  onChange={handleBonus}
+                  className="text-black"
+                />
+                <FormDescription className="text-white opacity-50">
+                  Bonus for Request
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            </div>
             <Button type="submit" disabled={!buttonEnabled}>
               Approve
             </Button>

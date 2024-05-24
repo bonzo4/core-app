@@ -57,9 +57,7 @@ export default function ClaimButton({
         .select("id")
         .single();
       if (error) {
-        toast.error("Error saving wallet PDA");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating claim");
       }
 
       const instruction = await claimInstruction({
@@ -70,9 +68,7 @@ export default function ClaimButton({
       });
 
       if (!instruction) {
-        toast.error("Error creating transaction");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating transaction");
       }
       const transaction = new Transaction().add(instruction.claimTx);
       transaction.recentBlockhash = instruction.blockhash;

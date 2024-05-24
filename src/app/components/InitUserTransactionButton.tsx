@@ -65,9 +65,7 @@ export default function InitUserTransactionButton({
         icon_url: userProfile.avatar_url,
       });
       if (error) {
-        toast.error("Error saving wallet PDA");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error changing user wallet");
       }
 
       const instruction = await initUserInstruction({
@@ -77,9 +75,7 @@ export default function InitUserTransactionButton({
       });
 
       if (!instruction) {
-        toast.error("Error creating transaction");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating transaction");
       }
 
       const transaction = new Transaction().add(instruction.initUserTx);
@@ -96,6 +92,7 @@ export default function InitUserTransactionButton({
       setRefetch((prev) => !prev); // Trigger a refetch of the user data (if necessary)
       setLoading(false); // Ensure loading is reset after the operation is complete
     } catch (error: any) {
+      toast.dismiss(toastId);
       toast.error("Error sending transaction: " + error.message);
       setLoading(false); // Ensure loading is reset if the operation fails
     }

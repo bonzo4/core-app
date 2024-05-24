@@ -19,7 +19,6 @@ export function useBountyAmount({
   useEffect(() => {
     refetch;
     const getAmbassadorBounties = async () => {
-      console.log("useAmbassadorBounties");
       const { count } = await supabase
         .from("ambassador_bounties")
         .select("", { count: "exact" })

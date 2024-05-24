@@ -56,9 +56,7 @@ export default function PayUserButton({
         .select("id")
         .single();
       if (error) {
-        toast.error("Error saving wallet Data");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating payment");
       }
 
       const instruction = await payUserInstruction({
@@ -71,9 +69,7 @@ export default function PayUserButton({
       });
 
       if (!instruction) {
-        toast.error("Error creating transaction");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating transaction");
       }
       const transaction = new Transaction().add(instruction.payUserTx);
       transaction.recentBlockhash = instruction.blockhash;

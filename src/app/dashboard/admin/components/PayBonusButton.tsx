@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ProfileWithBonuses } from "@/lib/hooks/admin/useBonuses";
 import { AmbassadorBounty } from "@/lib/hooks/bounty/useAmbassadorBounties";
 import { initUserInstruction } from "@/lib/solana/instructions/initUser";
 import { payUserInstruction } from "@/lib/solana/instructions/payUser";
@@ -10,23 +11,23 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 
-type PayBountyButtonProps = {
+type PayBonusButtonProps = {
   supabase: SupabaseClient<Database>;
   wallet: WalletContextState;
   connection: Connection;
   payerUserId: string;
   setRefetch: (args_0: SetStateAction<boolean>) => void;
-  bounty: AmbassadorBounty;
+  bonus: ProfileWithBonuses;
 };
 
-export default function PayBountyButton({
+export default function PayBonusButton({
   supabase,
   wallet,
   connection,
   payerUserId,
   setRefetch,
-  bounty,
-}: PayBountyButtonProps) {
+  bonus,
+}: PayBonusButtonProps) {
   const [loading, setLoading] = useState(false);
 
   const handleSign = async () => {
@@ -38,13 +39,13 @@ export default function PayBountyButton({
       return;
     }
 
-    if (!bounty.claimer_id) {
+    if (!bonus.profile.user_id) {
       toast.error("No claimer found for bounty");
       setLoading(false); // Ensure loading is reset if the operation cannot proceed
       return;
     }
 
-    if (!bounty.reward_amount) {
+    if (bonus.totalPaymentAmount <= 0) {
       toast.error("No reward amount found for bounty");
       setLoading(false); // Ensure loading is reset if the operation cannot proceed
       return;
@@ -57,16 +58,16 @@ export default function PayBountyButton({
       }
     );
 
+    const memo = bonus.bonuses.map((b) => b.memo).join(", ");
+
     try {
       const { data, error } = await supabase
         .from("payments")
         .insert({
-          user_id: bounty.claimer_id,
-          amount: bounty.reward_amount,
+          user_id: bonus.profile.user_id,
+          amount: bonus.totalPaymentAmount,
           payer_id: payerUserId,
-          memo: bounty.is_broken
-            ? `Fixed: ${bounty.guild_name}`
-            : bounty.guild_name,
+          memo,
         })
         .select("id")
         .single();
@@ -74,26 +75,12 @@ export default function PayBountyButton({
         throw new Error("Error creating payment");
       }
 
-      const { error: bountyError } = await supabase
-        .from("ambassador_bounties")
-        .update({
-          status: "AUDITED",
-          completed_date: new Date().toISOString(),
-          completer_id: bounty.claimer_id,
-          claimer_id: null,
-        })
-        .eq("id", bounty.id);
-
-      if (bountyError) {
-        throw new Error("Error updating bounty");
-      }
-
       const instruction = await payUserInstruction({
         wallet,
         connection,
-        userId: bounty.claimer_id,
+        userId: bonus.profile.user_id,
         payerUserId,
-        amount: bounty.reward_amount,
+        amount: bonus.totalPaymentAmount,
         paymentId: data.id,
       });
 
@@ -109,6 +96,17 @@ export default function PayBountyButton({
       });
 
       await connection.confirmTransaction(tx, "finalized");
+
+      await Promise.all(
+        bonus.bonuses.map(
+          async (bonus) =>
+            await supabase
+              .from("user_bonus")
+              .update({ is_paid: true })
+              .eq("id", bonus.id)
+        )
+      );
+
       toast.dismiss(toastId);
       toast.success("User Paid!");
       setRefetch((prev) => !prev);

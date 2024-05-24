@@ -59,7 +59,7 @@ export default function Sidebar({
           Create a Team
         </a>
       )}
-      <span>Teams:</span>
+      {ownedTeams.length > 0 && <span>Teams:</span>}
       {ownedTeams.map((team) => (
         <a
           key={team.id}

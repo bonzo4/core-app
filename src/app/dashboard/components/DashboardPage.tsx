@@ -12,6 +12,7 @@ import { useUserClaims } from "@/lib/hooks/useUserClaims";
 import { useUserPayments } from "@/lib/hooks/useUserPayments";
 import Invoices from "./Invoices";
 import CreateInvoice from "./CreateInvoice";
+import UserStatsCard from "./UserStatsCard";
 
 export default function DashboardPage() {
   const [refetch, setRefetch] = useState(false);
@@ -118,7 +119,20 @@ export default function DashboardPage() {
       userRoles={userRoles}
       currentPage="dashboard"
     >
-      <div className="flex flex-col space-y-4 items-center justify-center grow h-full">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 100 }}
+        transition={{ delay: 1, duration: 1.5 }}
+        className="flex flex-col space-y-4 items-center justify-center grow h-full pb-[200px]"
+      >
+        <UserStatsCard
+          userWallet={userWallet}
+          userRoles={userRoles}
+          teamsOwned={ownedTeams.length}
+          supabase={supabase}
+          userId={user.id}
+          refetch={refetch}
+        />
         <UserBalance
           loading={loading}
           setBalance={setBalance}
@@ -143,7 +157,7 @@ export default function DashboardPage() {
             connection={connection}
           />
         </div>
-      </div>
+      </motion.div>
     </DashboardLayout>
   );
 }

@@ -2,31 +2,29 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "../supabase/types";
 import { useEffect, useState } from "react";
 
-type UseTotalPaymentAmountOptions = {
+type UseCompletedBountyAmountOptions = {
   supabase: SupabaseClient<Database>;
   refetch?: boolean;
   userId: string;
 };
 
-export function useTotalPaymentAmount({
+export function useCompletedBountyAmount({
   supabase,
   refetch,
   userId,
-}: UseTotalPaymentAmountOptions) {
+}: UseCompletedBountyAmountOptions) {
   const [totalPaymentAmount, setTotalPaymentAmount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     refetch;
     const getTotalPaymentAmount = async () => {
-      const { data, error } = await supabase.rpc(
-        "get_total_confirmed_payments",
-        {
-          payment_user_id: userId,
-        }
-      );
+      const { count, error } = await supabase
+        .from("ambassador_bounties")
+        .select("", { count: "exact" })
+        .eq("completer_id", userId);
 
-      if (data) setTotalPaymentAmount(data);
+      if (count) setTotalPaymentAmount(count);
       setLoading(false);
     };
     getTotalPaymentAmount();

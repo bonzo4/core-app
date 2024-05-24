@@ -67,10 +67,7 @@ export default function PaySelectedButton({
         )
         .select("*");
       if (error) {
-        console.log(error);
-        toast.error("Error saving wallet Data");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating payment");
       }
 
       await Promise.all(
@@ -109,9 +106,7 @@ export default function PaySelectedButton({
       );
 
       if (instructions.includes(undefined)) {
-        toast.error("Error creating transaction");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating transaction");
       }
 
       const transaction = new Transaction();
