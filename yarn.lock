@@ -2538,6 +2538,10 @@
     varuint-bitcoin "^1.1.2"
     wif "^4.0.0"
 
+"@types/@coral-xyz/anchor":
+  version "0.0.0"
+  resolved "https://codeload.github.com/coral-xyz/anchor/tar.gz/334a44ab7b2ea951af8001343e05244520d4e71c"
+
 "@types/connect@^3.4.33":
   version "3.4.38"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.38.tgz#5ba7f3bc4fbbdeaff8dded952e5ff2cc53f8d858"

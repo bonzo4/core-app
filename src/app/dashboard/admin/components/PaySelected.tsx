@@ -83,14 +83,11 @@ export default function PaySelectedButton({
             .eq("id", bounty.id);
 
           if (bountyError) {
-            toast.error("Error updating bounty status");
-            setLoading(false); // Ensure loading is reset if the operation cannot proceed
-            return;
+            throw new Error("Error updating bounty");
           }
         })
       );
 
-      console.log(data);
       const instructions = await Promise.all(
         data.map(
           async (payment) =>

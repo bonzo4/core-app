@@ -82,20 +82,15 @@ export default function CreateTeamForm({
         .select("id")
         .single();
       if (error) {
-        toast.error("Error saving team");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating team");
       }
       if (image) {
         const { data: imageData, error: imageError } = await supabase.storage
           .from("team_images")
           .upload(`${data.id}/${image.name}`, image);
 
-        console.log(imageData);
-
         if (imageError) {
-          console.log(imageError);
-          toast.error("Error uploading image");
+          throw new Error("Error uploading team image");
         }
 
         if (imageData) {
@@ -111,7 +106,7 @@ export default function CreateTeamForm({
             .match({ id: data.id });
 
           if (error) {
-            console.log(error);
+            throw new Error("Error updating team image");
           }
         }
       }
@@ -123,9 +118,7 @@ export default function CreateTeamForm({
       });
 
       if (!instruction) {
-        toast.error("Error creating transaction");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating team");
       }
       const transaction = new Transaction().add(instruction.initTeamTx);
       transaction.recentBlockhash = instruction.blockhash;

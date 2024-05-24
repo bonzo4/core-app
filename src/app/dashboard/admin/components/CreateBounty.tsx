@@ -98,8 +98,10 @@ export default function CreateBounty({
       toast.success("Bounty created successfully!");
       setRefetch((prev) => !prev);
       setLoading(false); // Ensure loading is reset after the operation is complete
-    } catch (error) {
-      toast.error("Failed to create Bounty");
+    } catch (error: any) {
+      toast.error(
+        "Failed to create Bounty:" + error.message || "Unknown error"
+      );
       setLoading(false); // Ensure loading is reset if the operation cannot proceed
       return;
     }

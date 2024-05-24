@@ -35,7 +35,7 @@ export default function UserBalance({
     <div className="flex flex-col space-y-2 justify-center items-center">
       <span className="text-lg">Claimable Balance</span>
       <div className="flex flex-row space-x-2 justify-center items-center">
-        <p className="text-lg">${balance}</p>
+        <p className="text-lg">${balance?.toFixed(2)}</p>
         <ClaimButton
           balance={balance}
           supabase={supabase}

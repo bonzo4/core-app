@@ -98,11 +98,11 @@ export default function EditBounty({
         throw invoiceError;
       }
 
-      toast.success("Bounty created successfully!");
+      toast.success("Bounty edited successfully!");
       setRefetch((prev) => !prev);
       setLoading(false); // Ensure loading is reset after the operation is complete
-    } catch (error) {
-      toast.error("Failed to create Bounty");
+    } catch (error: any) {
+      toast.error("Failed to edit Bounty: " + error.message);
       setLoading(false); // Ensure loading is reset if the operation cannot proceed
       return;
     }

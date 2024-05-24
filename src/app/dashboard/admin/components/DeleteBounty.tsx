@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Database } from "@/lib/supabase/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { SetStateAction } from "react";
+import { toast } from "react-toastify";
 
 type DeleteBountyProps = {
   bountyId: number;
@@ -21,8 +22,9 @@ export default function DeleteBounty({
       .eq("id", bountyId);
 
     if (error) {
-      console.error(error);
+      toast.error("Error deleting bounty");
     } else {
+      toast.success("Bounty deleted");
       setRefetch((prev) => !prev);
     }
   };

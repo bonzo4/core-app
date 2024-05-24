@@ -51,9 +51,7 @@ export default function PayTeamButton({
         .select("id")
         .single();
       if (error) {
-        toast.error("Error saving wallet Data");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating payment");
       }
 
       const instruction = await payTeamInstruction({
@@ -65,9 +63,7 @@ export default function PayTeamButton({
       });
 
       if (!instruction) {
-        toast.error("Error creating transaction");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating payment instruction");
       }
       const transaction = new Transaction().add(instruction.payTeamTx);
       transaction.recentBlockhash = instruction.blockhash;

@@ -36,7 +36,7 @@ export function useUserBalance({
       if (!program) return;
       const user = await program.account.user.fetch(getUserPDA(userId));
       if (!user) return;
-      setBalance(user.balance.div(new BN(10 ** 6)).toNumber());
+      setBalance(user.balance.toNumber() / 10 ** 6);
     };
     getBalance().then(() => setLoading(false));
   }, [wallet, connection, userId, isUserLoading, refetch]);

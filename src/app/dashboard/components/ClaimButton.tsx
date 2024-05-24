@@ -35,17 +35,19 @@ export default function ClaimButton({
   const handleSign = async () => {
     if (!balance) return;
     setLoading(true);
+
+    if (!wallet.publicKey) {
+      toast.error("No signer key found, please connect a wallet");
+      setLoading(false); // Ensure loading is reset if the operation cannot proceed
+      return;
+    }
+
     const toastId = toast.loading(
       "Waiting for transaction to be confirmed...",
       {
         autoClose: false,
       }
     );
-    if (!wallet.publicKey) {
-      toast.error("No signer key found, please connect a wallet");
-      setLoading(false); // Ensure loading is reset if the operation cannot proceed
-      return;
-    }
 
     try {
       const { data, error } = await supabase

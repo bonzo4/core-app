@@ -6,6 +6,8 @@ import CreateBountyRequest from "./CreateBountyRequest";
 import { Input } from "@/components/ui/input";
 import AmbassadorUserBounties from "./AmbassadorUserBounties";
 import { Role } from "@/lib/hooks/useUserRoles";
+import { useUserWeeklyStat } from "@/lib/hooks/bounty/useUserWeeklyStat";
+import { useTeamWeeklyStat } from "@/lib/hooks/bounty/useTeamWeeklyStat";
 
 type TagEnum = Database["public"]["Enums"]["guild_tag"];
 type StatusEnum = Database["public"]["Enums"]["bounty_status"];
@@ -52,6 +54,18 @@ export default function AmbassadorBountyMenu({
   userRoles,
 }: AmbassadorBountyButtonProps) {
   const [showTags, setShowTags] = useState(false);
+
+  const [userStat, userStatLoading] = useUserWeeklyStat({
+    supabase,
+    userId,
+    refetch,
+  });
+
+  const [teamStat, teamStatLoading] = useTeamWeeklyStat({
+    supabase,
+    refetch,
+  });
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {
       setSearch(undefined);
@@ -77,7 +91,7 @@ export default function AmbassadorBountyMenu({
   };
 
   return (
-    <div className="flex flex-row items-end justify-between w-full space-x-5">
+    <div className="flex flex-row items-end justify-between w-full space-x-5 h-full">
       <div className="flex flex-col space-y-3 items-start justify-start w-full">
         <div className="flex flex-wrap gap-2 w-full">
           <Button
@@ -338,6 +352,28 @@ export default function AmbassadorBountyMenu({
         />
       </div>
       <div className="flex flex-col items-end justify-center space-y-2 w-full">
+        <div className="flex flex-row grow h-full items-center justify-center w-full space-x-10 ">
+          <div
+            className="flex flex-col items-center justify-center border-[3px] p-2 rounded-md"
+            style={{
+              borderColor: userStat >= 5 ? "#833db6" : "white",
+            }}
+          >
+            <span className="text-2xl">{userStat}/5</span>
+            <span className="text-lg">Personal</span>
+            <span className="text-lg">Weekly Goal</span>
+          </div>
+          <div
+            className="flex flex-col items-center justify-center border-[3px] p-2 rounded-md"
+            style={{
+              borderColor: teamStat >= 100 ? "#833db6" : "white",
+            }}
+          >
+            <span className="text-2xl">{teamStat}/100</span>
+            <span className="text-lg">Team</span>
+            <span className="text-lg">Weekly Goal</span>
+          </div>
+        </div>
         <CreateBountyRequest
           setRefetch={setRefetch}
           supabase={supabase}

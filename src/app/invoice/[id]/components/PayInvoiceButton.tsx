@@ -47,9 +47,7 @@ export default function PayInvoiceButton({
       });
 
       if (!instruction) {
-        toast.error("Error creating transaction");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating payment instruction");
       }
 
       const transaction = new Transaction().add(instruction.invoiceInstruction);

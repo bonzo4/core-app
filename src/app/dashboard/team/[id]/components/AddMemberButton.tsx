@@ -54,9 +54,7 @@ export default function AddMemberButton({
         team_id: teamId,
       });
       if (error) {
-        toast.error("Error saving wallet Data");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error adding user to team");
       }
 
       const instruction = await addMemberInstructions({
@@ -68,9 +66,7 @@ export default function AddMemberButton({
       });
 
       if (!instruction) {
-        toast.error("Error creating transaction");
-        setLoading(false); // Ensure loading is reset if the operation cannot proceed
-        return;
+        throw new Error("Error creating instruction");
       }
       const transaction = new Transaction().add(instruction.addMemberTx);
       transaction.recentBlockhash = instruction.blockhash;
