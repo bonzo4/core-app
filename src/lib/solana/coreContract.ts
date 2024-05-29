@@ -7,7 +7,7 @@ import { Idl } from "@coral-xyz/anchor";
  * IDL can be found at `target/idl/core_contract.json`.
  */
 export type CoreContract = {
-  address: "AhzB75bfztVnP2mnfTxdxtNrYmUy194XUxzYcJtzpWv5";
+  address: "EDsnYhy4sMajXq692iqPT6XCxr5HyHUrbAANst8MMFjA";
   metadata: {
     name: "coreContract";
     version: "0.1.0";
@@ -1776,7 +1776,7 @@ export type CoreContract = {
 };
 
 export const IDL: Idl = {
-  address: "AhzB75bfztVnP2mnfTxdxtNrYmUy194XUxzYcJtzpWv5",
+  address: "EDsnYhy4sMajXq692iqPT6XCxr5HyHUrbAANst8MMFjA",
   metadata: {
     name: "core_contract",
     version: "0.1.0",

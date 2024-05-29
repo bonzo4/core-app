@@ -1,11 +1,8 @@
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 
-type CreateNewSolanaConnectionOptions = {
-  type: "mainnet-beta" | "devnet";
-};
-
-export function createNewSolanaConnection({
-  type,
-}: CreateNewSolanaConnectionOptions) {
-  return new Connection(clusterApiUrl(type), "confirmed");
+export function createNewSolanaConnection() {
+  return new Connection(
+    process.env.NEXT_PUBLIC_RPC_URL || clusterApiUrl("devnet"),
+    "confirmed"
+  );
 }
