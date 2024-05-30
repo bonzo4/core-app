@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import {
   UserWallet,
+  UserWalletAndRole,
   useAllUserWallets,
 } from "@/lib/hooks/admin/useAllUserWallets";
 import { Database } from "@/lib/supabase/types";
@@ -20,13 +21,14 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { LoaderCircleIcon } from "lucide-react";
 import { SetStateAction } from "react";
+import RoleDropdown from "./RoleDropdown";
 
 type UsersTableProps = {
   supabase: SupabaseClient<Database>;
   wallet: WalletContextState;
   connection: Connection;
   user: User;
-  userWallets: UserWallet[];
+  userWallets: UserWalletAndRole[];
   setRefetch: (args_0: SetStateAction<boolean>) => void;
 };
 
@@ -46,6 +48,7 @@ export default function UsersTable({
           <TableHead className="w-[200px]">User</TableHead>
           <TableHead>Wallet</TableHead>
           <TableHead className="text-right">Pay</TableHead>
+          <TableHead className="text-right">Role</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody className="">
@@ -70,6 +73,13 @@ export default function UsersTable({
                 userId={userWallet.user_id}
                 payerUserId={user.id}
                 connection={connection}
+              />
+            </TableCell>
+            <TableCell className="text-right">
+              <RoleDropdown
+                userWallet={userWallet}
+                supabase={supabase}
+                setRefetch={setRefetch}
               />
             </TableCell>
           </TableRow>

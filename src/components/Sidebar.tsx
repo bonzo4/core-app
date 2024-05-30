@@ -1,23 +1,24 @@
 import { TeamMember } from "@/lib/hooks/useUserMembers";
+import { Role } from "@/lib/hooks/useUserRoles";
 import { Team } from "@/lib/hooks/useUserTeams";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
 type SideBarProps = {
   ownedTeams: Team[];
-  userRoles: string[];
+  userRole: Role | undefined;
   currentPage: string;
   currentTeamId?: string;
 };
 
 export default function Sidebar({
   ownedTeams,
-  userRoles,
+  userRole,
   currentPage,
 }: SideBarProps) {
   return (
     <motion.nav className="lg:flex flex-col space-y-5 p-4 border-r-4 border-white border-opacity-10 h-full hidden min-w-36">
-      {userRoles.filter((role) => role === "ADMIN").length > 0 && (
+      {userRole === "ADMIN" && (
         <a
           href="/dashboard/admin"
           className="text-white"
@@ -46,8 +47,7 @@ export default function Sidebar({
       >
         Bounties
       </a>
-      {userRoles.filter((role) => role === "ADMIN" || role === "FOUNDER")
-        .length > 0 && (
+      {/* {(userRole === "ADMIN" || userRole === "FOUNDER") && (
         <a
           href="/dashboard/team/create"
           className="text-white"
@@ -58,7 +58,7 @@ export default function Sidebar({
         >
           Create a Team
         </a>
-      )}
+      )} */}
       {ownedTeams.length > 0 && <span>Teams:</span>}
       {ownedTeams.map((team) => (
         <a

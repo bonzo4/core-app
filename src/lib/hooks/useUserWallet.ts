@@ -34,6 +34,7 @@ export function useUserWallet({
         .select("*")
         .eq("user_id", user.id)
         .single();
+      if (error) console.log("Error getting user wallet", error);
       if (walletData) {
         setWalletPDA(walletData);
       }

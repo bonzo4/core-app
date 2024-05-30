@@ -21,7 +21,7 @@ export default function DashboardPage() {
 
   const {
     user,
-    userRoles,
+    userRole,
     userWallet,
     teamData,
     wallet,
@@ -53,7 +53,7 @@ export default function DashboardPage() {
     !user ||
     !userWallet ||
     !userWallet.is_confirmed ||
-    (teamData.length === 0 && userRoles.length === 0)
+    (teamData.length === 0 && !userRole)
   ) {
     return (
       <motion.div
@@ -116,18 +116,18 @@ export default function DashboardPage() {
       ownedTeams={ownedTeams}
       supabase={supabase}
       userWallet={userWallet}
-      userRoles={userRoles}
+      userRole={userRole}
       currentPage="dashboard"
     >
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 100 }}
         transition={{ delay: 1, duration: 1.5 }}
-        className="flex flex-col space-y-4 items-center justify-center grow h-full pb-[200px]"
+        className="flex flex-col space-y-4 items-center justify-center grow h-full pb-[100px]"
       >
         <UserStatsCard
           userWallet={userWallet}
-          userRoles={userRoles}
+          userRole={userRole}
           teamsOwned={ownedTeams.length}
           supabase={supabase}
           userId={user.id}
@@ -142,7 +142,7 @@ export default function DashboardPage() {
           wallet={wallet}
           connection={connection}
         />
-        <div className="flex flex-row space-x-2 items-center justify-center">
+        {/* <div className="flex flex-row space-x-2 items-center justify-center">
           <Invoices
             supabase={supabase}
             user={user}
@@ -156,7 +156,7 @@ export default function DashboardPage() {
             wallet={wallet}
             connection={connection}
           />
-        </div>
+        </div> */}
       </motion.div>
     </DashboardLayout>
   );

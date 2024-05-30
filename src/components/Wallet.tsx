@@ -19,7 +19,6 @@ export default function Wallet({ children }: WalletProps) {
   const network = WalletAdapterNetwork.Mainnet;
 
   // You can also provide a custom RPC endpoint.
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
   const wallets = useMemo(
     () => [
@@ -42,7 +41,7 @@ export default function Wallet({ children }: WalletProps) {
   );
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
+    <ConnectionProvider endpoint={process.env.NEXT_PUBLIC_RPC_URL!}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>

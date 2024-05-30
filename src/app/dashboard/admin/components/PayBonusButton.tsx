@@ -97,6 +97,11 @@ export default function PayBonusButton({
 
       await connection.confirmTransaction(tx, "finalized");
 
+      await supabase
+        .from("payments")
+        .update({ is_confirmed: true })
+        .eq("id", data.id);
+
       await Promise.all(
         bonus.bonuses.map(
           async (bonus) =>

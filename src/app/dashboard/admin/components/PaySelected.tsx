@@ -118,6 +118,14 @@ export default function PaySelectedButton({
       });
 
       await connection.confirmTransaction(tx, "finalized");
+
+      data.map(async (payment) => {
+        await supabase
+          .from("payments")
+          .update({ is_confirmed: true })
+          .eq("id", payment.id);
+      });
+
       toast.dismiss(toastId);
       toast.success("User Paid!");
       setRefetch((prev) => !prev);

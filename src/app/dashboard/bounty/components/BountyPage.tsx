@@ -17,7 +17,7 @@ export default function BountyPage() {
 
   const {
     user,
-    userRoles,
+    userRole,
     userWallet,
     teamData,
     wallet,
@@ -42,7 +42,7 @@ export default function BountyPage() {
     !user ||
     !userWallet ||
     !userWallet.is_confirmed ||
-    (teamData.length === 0 && userRoles.length === 0)
+    (teamData.length === 0 && !userRole)
   ) {
     return (
       <motion.div
@@ -105,11 +105,11 @@ export default function BountyPage() {
       ownedTeams={ownedTeams}
       supabase={supabase}
       userWallet={userWallet}
-      userRoles={userRoles}
+      userRole={userRole}
       currentPage="bounty"
     >
       <div className="flex flex-col space-y-4 items-center justify-center grow h-full">
-        <Bounties supabase={supabase} userId={user.id} userRoles={userRoles} />
+        <Bounties supabase={supabase} userId={user.id} userRole={userRole} />
       </div>
     </DashboardLayout>
   );

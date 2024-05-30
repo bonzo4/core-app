@@ -1,4 +1,4 @@
-import { Program, AnchorProvider, Provider } from "@coral-xyz/anchor";
+import { Program, AnchorProvider, Provider, web3 } from "@coral-xyz/anchor";
 import { Connection, clusterApiUrl, PublicKey, Keypair } from "@solana/web3.js";
 
 import { CoreContract, IDL } from "./coreContract";
@@ -10,6 +10,7 @@ export function getCoreContract(
 ) {
   const { publicKey, signTransaction, signAllTransactions } = wallet;
   if (!publicKey || !signTransaction || !signAllTransactions) return;
+
   const provider = new AnchorProvider(connection, {
     publicKey,
     signTransaction,

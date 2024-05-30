@@ -16,7 +16,7 @@ export function useLoginData({ supabase }: UseLoginDataOptions) {
   const [loading, setLoading] = useState(true);
 
   const [user, isUserLoading] = useUser({ supabase, refetch });
-  const [userRoles, isUserRolesLoading] = useUserRoles({
+  const [userRole, isUserRolesLoading] = useUserRoles({
     supabase,
     refetch,
     user,
@@ -57,7 +57,7 @@ export function useLoginData({ supabase }: UseLoginDataOptions) {
     setRefetch,
     loading,
     user,
-    userRoles,
+    userRole,
     userWallet,
     teamData,
     wallet,

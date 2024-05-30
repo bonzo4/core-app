@@ -58,6 +58,7 @@ export default function ClaimButton({
         })
         .select("id")
         .single();
+
       if (error) {
         throw new Error("Error creating claim");
       }
@@ -81,6 +82,12 @@ export default function ClaimButton({
       });
 
       await connection.confirmTransaction(tx, "finalized");
+
+      await supabase
+        .from("claims")
+        .update({ is_confirmed: true })
+        .eq("id", data.id);
+
       setBalance(0);
       toast.dismiss(toastId);
       toast.success("Transaction confirmed!");

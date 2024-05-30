@@ -8,13 +8,13 @@ import { Role, UserRole } from "@/lib/hooks/useUserRoles";
 type BountiesProps = {
   supabase: SupabaseClient<Database>;
   userId: string;
-  userRoles: Role[];
+  userRole: Role | undefined;
 };
 
 export default function Bounties({
   supabase,
   userId,
-  userRoles,
+  userRole,
 }: BountiesProps) {
   return (
     <Tabs defaultValue="ambassador" className="w-full h-full pt-10 px-10">
@@ -25,7 +25,7 @@ export default function Bounties({
         <AmbassadorBounties
           supabase={supabase}
           userId={userId}
-          userRoles={userRoles}
+          userRole={userRole}
         />
       </TabsContent>
     </Tabs>

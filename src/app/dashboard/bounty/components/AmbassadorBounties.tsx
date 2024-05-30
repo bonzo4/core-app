@@ -5,7 +5,7 @@ import AmbassadorBountyMenu from "./AmbassadorBountyMenu";
 import { useAmbassadorBounties } from "@/lib/hooks/bounty/useAmbassadorBounties";
 import AmbassadorBountyTable from "./AmbassadorBountyTable";
 import { useBountyAmount } from "@/lib/hooks/bounty/useBountyAmount";
-import { Role, UserRole } from "@/lib/hooks/useUserRoles";
+import { Role } from "@/lib/hooks/useUserRoles";
 
 type TagEnum = Database["public"]["Enums"]["guild_tag"];
 type StatusEnum = Database["public"]["Enums"]["bounty_status"];
@@ -13,13 +13,13 @@ type StatusEnum = Database["public"]["Enums"]["bounty_status"];
 type AmbassadorBountiesProps = {
   supabase: SupabaseClient<Database>;
   userId: string;
-  userRoles: Role[];
+  userRole: Role | undefined;
 };
 
 export default function AmbassadorBounties({
   supabase,
   userId,
-  userRoles,
+  userRole,
 }: AmbassadorBountiesProps) {
   const [isDaily, setIsDaily] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(false);
@@ -35,7 +35,7 @@ export default function AmbassadorBounties({
     search,
     tags: tags.map((tag) => tag.toString()),
     status,
-    isFixer: userRoles.includes("ADMIN") || userRoles.includes("NETWORK_LEAD"),
+    isFixer: userRole === "ADMIN" || userRole === "NETWORK_LEAD",
     isNew,
     isDaily,
     isBroken,
@@ -50,7 +50,7 @@ export default function AmbassadorBounties({
   return (
     <div className="flex flex-col space-y-5">
       <AmbassadorBountyMenu
-        userRoles={userRoles}
+        userRole={userRole}
         refetch={refetch}
         supabase={supabase}
         setRefetch={setRefetch}

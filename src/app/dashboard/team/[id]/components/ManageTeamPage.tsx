@@ -30,7 +30,7 @@ export default function ManageTeamPage({ id }: { id: number }) {
 
   const {
     user,
-    userRoles,
+    userRole,
     userWallet,
     teamData,
     wallet,
@@ -81,7 +81,7 @@ export default function ManageTeamPage({ id }: { id: number }) {
     !user ||
     !userWallet ||
     !userWallet.is_confirmed ||
-    (teamData.length === 0 && userRoles.length === 0)
+    (teamData.length === 0 && !userRole)
   ) {
     return (
       <motion.div
@@ -139,13 +139,13 @@ export default function ManageTeamPage({ id }: { id: number }) {
     );
   }
 
-  if (team?.owner_id === user.id || userRoles.includes("ADMIN")) {
+  if (team?.owner_id === user.id || !userRole) {
     return (
       <DashboardLayout
         ownedTeams={ownedTeams}
         supabase={supabase}
         userWallet={userWallet}
-        userRoles={userRoles}
+        userRole={userRole}
         currentPage={id.toString()}
       >
         <div className="flex flex-col items-center grow h-full">

@@ -16,7 +16,7 @@ type AmbassadorUserBountiesProps = {
   supabase: SupabaseClient<Database>;
   userId: string;
   refetch: boolean;
-  userRoles: Role[];
+  userRole: Role | undefined;
   setRefetch: (args_0: SetStateAction<boolean>) => void;
 };
 
@@ -24,7 +24,7 @@ export default function AmbassadorUserBounties({
   supabase,
   userId,
   refetch,
-  userRoles,
+  userRole,
   setRefetch,
 }: AmbassadorUserBountiesProps) {
   const [status, setStatus] = useState<StatusEnum | undefined>();
@@ -34,7 +34,7 @@ export default function AmbassadorUserBounties({
     tags: [],
     isPublic: false,
     refetch,
-    isFixer: userRoles.includes("ADMIN") || userRoles.includes("NETWORK_LEAD"),
+    isFixer: userRole === "ADMIN" || userRole === "NETWORK_LEAD",
     status,
   });
 

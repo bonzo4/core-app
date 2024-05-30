@@ -19,7 +19,7 @@ export function useUserRoles({
   user,
   isUserLoading,
 }: UseUserRolesOptions) {
-  const [userRoles, setUserRoles] = useState<Role[]>([]);
+  const [userRoles, setUserRoles] = useState<Role | undefined>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,9 +34,10 @@ export function useUserRoles({
       const { data: userRolesData } = await supabase
         .from("user_roles")
         .select("*")
-        .eq("user_id", user.id);
+        .eq("user_id", user.id)
+        .single();
       if (userRolesData) {
-        setUserRoles(userRolesData.map((role) => role.user_role));
+        setUserRoles(userRolesData.user_role);
       }
       setLoading(false);
     };

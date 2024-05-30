@@ -19,7 +19,7 @@ import { useState } from "react";
 
 type UserStatsCardProps = {
   userWallet: UserWallet;
-  userRoles: Role[];
+  userRole: Role | undefined;
   teamsOwned: number;
   supabase: SupabaseClient<Database>;
   refetch: boolean;
@@ -28,7 +28,7 @@ type UserStatsCardProps = {
 
 export default function UserStatsCard({
   userWallet,
-  userRoles,
+  userRole,
   teamsOwned,
   supabase,
   refetch,
@@ -54,15 +54,16 @@ export default function UserStatsCard({
     <Card
       className="bg-black text-white border-[3px] min-w-[350px]"
       style={{
-        borderColor: userRoles.includes("ADMIN")
-          ? "#efc254"
-          : userRoles.includes("FOUNDER")
-          ? "#ed7f2f"
-          : userRoles.includes("NETWORK_LEAD")
-          ? "#35d1c2"
-          : userRoles.includes("AMBASSADOR")
-          ? "#833db6"
-          : "white",
+        borderColor:
+          userRole === "ADMIN"
+            ? "#efc254"
+            : userRole === "FOUNDER"
+            ? "#ed7f2f"
+            : userRole === "NETWORK_LEAD"
+            ? "#35d1c2"
+            : userRole === "AMBASSADOR"
+            ? "#833db6"
+            : "white",
       }}
     >
       <CardHeader className="flex flex-row items-start justify-between space-y-2 space-x-2">
@@ -83,21 +84,20 @@ export default function UserStatsCard({
             Joined: {new Date(userWallet.created_at).toDateString()}
           </span>
         </CardTitle>
-        {userRoles.length > 0 && (
-          <CardDescription className="flex flex-col items-end justify-start ">
-            <span className="text-center">
-              {userRoles.includes("ADMIN")
-                ? "Admin ⚪"
-                : userRoles.includes("FOUNDER")
-                ? "Founder 💼"
-                : userRoles.includes("NETWORK_LEAD")
-                ? "Network Lead 🌐"
-                : userRoles.includes("AMBASSADOR")
-                ? "Ambassador 🦾"
-                : "User 👤"}
-            </span>
-          </CardDescription>
-        )}
+
+        <CardDescription className="flex flex-col items-end justify-start ">
+          <span className="text-center">
+            {userRole === "ADMIN"
+              ? "Admin ⚪"
+              : userRole === "FOUNDER"
+              ? "Founder 💼"
+              : userRole === "NETWORK_LEAD"
+              ? "Network Lead 🌐"
+              : userRole === "AMBASSADOR"
+              ? "Ambassador 🦾"
+              : "User 👤"}
+          </span>
+        </CardDescription>
       </CardHeader>
       {(completedBounties > 0 || totalPayments > 0 || teamsOwned > 0) && (
         <CardContent className="flex flex-col space-y-4 items-start justify-start">

@@ -22,7 +22,7 @@ export function useDashboardData({
   setLoading,
 }: UseDashboardDataOptions) {
   const [user, isUserLoading] = useUser({ supabase });
-  const [userRoles, isUserRolesLoading] = useUserRoles({
+  const [userRole, isUserRolesLoading] = useUserRoles({
     supabase,
     user,
     isUserLoading,
@@ -71,7 +71,7 @@ export function useDashboardData({
   return {
     loading,
     user,
-    userRoles,
+    userRole,
     userWallet,
     teamData,
     wallet,

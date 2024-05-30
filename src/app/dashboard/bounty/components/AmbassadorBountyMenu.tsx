@@ -30,7 +30,7 @@ type AmbassadorBountyButtonProps = {
   setIsNew: (args_0: SetStateAction<boolean>) => void;
   isBroken: boolean;
   setIsBroken: (args_0: SetStateAction<boolean>) => void;
-  userRoles: Role[];
+  userRole: Role | undefined;
 };
 
 export default function AmbassadorBountyMenu({
@@ -51,7 +51,7 @@ export default function AmbassadorBountyMenu({
   setIsNew,
   isBroken,
   setIsBroken,
-  userRoles,
+  userRole,
 }: AmbassadorBountyButtonProps) {
   const [showTags, setShowTags] = useState(false);
 
@@ -149,8 +149,7 @@ export default function AmbassadorBountyMenu({
             <span className="mt-[2px]">AUDITED</span>
           </Button>
 
-          {(userRoles.includes("ADMIN") ||
-            userRoles.includes("NETWORK_LEAD")) && (
+          {(userRole === "ADMIN" || userRole === "NETWORK_LEAD") && (
             <Button
               className="border-[3px]"
               onClick={() => setIsBroken(!isBroken)}
@@ -385,7 +384,7 @@ export default function AmbassadorBountyMenu({
             supabase={supabase}
             userId={userId}
             refetch={refetch}
-            userRoles={userRoles}
+            userRole={userRole}
             setRefetch={setRefetch}
           />
         </div>

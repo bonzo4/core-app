@@ -58,16 +58,6 @@ export default function InitUserTransactionButton({
       );
       await wallet.signMessage(encodedMessage);
 
-      const { error } = await supabase.from("user_wallets").upsert({
-        user_id: userId,
-        authority: wallet.publicKey.toBase58(),
-        username: userProfile.full_name,
-        icon_url: userProfile.avatar_url,
-      });
-      if (error) {
-        throw new Error("Error changing user wallet");
-      }
-
       const instruction = await initUserInstruction({
         wallet,
         connection,
@@ -87,6 +77,18 @@ export default function InitUserTransactionButton({
       });
 
       await connection.confirmTransaction(tx, "finalized");
+
+      const { error } = await supabase.from("user_wallets").insert({
+        user_id: userId,
+        authority: wallet.publicKey.toBase58(),
+        username: userProfile.full_name,
+        icon_url: userProfile.avatar_url,
+        is_confirmed: true,
+      });
+      if (error) {
+        throw new Error("Error changing user wallet");
+      }
+
       toast.dismiss(toastId);
       toast.success("Transaction confirmed!");
       setRefetch((prev) => !prev); // Trigger a refetch of the user data (if necessary)

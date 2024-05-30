@@ -20,7 +20,7 @@ export default function DashboardPage() {
 
   const {
     user,
-    userRoles,
+    userRole,
     userWallet,
     teamData,
     wallet,
@@ -55,7 +55,7 @@ export default function DashboardPage() {
     !user ||
     !userWallet ||
     !userWallet.is_confirmed ||
-    (teamData.length === 0 && userRoles.length === 0)
+    (teamData.length === 0 && !userRole)
   ) {
     return (
       <motion.div
@@ -113,13 +113,13 @@ export default function DashboardPage() {
     );
   }
 
-  if (userRoles.filter((role) => role === "ADMIN").length > 0) {
+  if (userRole === "ADMIN") {
     return (
       <DashboardLayout
         ownedTeams={ownedTeams}
         supabase={supabase}
         userWallet={userWallet}
-        userRoles={userRoles}
+        userRole={userRole}
         currentPage="admin"
       >
         <div className="flex flex-col items-center grow h-full">

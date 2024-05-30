@@ -16,7 +16,7 @@ export default function LoginPage() {
     setRefetch,
     loading,
     user,
-    userRoles,
+    userRole,
     userWallet,
     teamData,
     wallet,
@@ -94,7 +94,7 @@ export default function LoginPage() {
     );
   }
   if (userWallet.is_confirmed) {
-    if ((teamData && teamData?.length > 0) || userRoles.length > 0) {
+    if ((teamData && teamData?.length > 0) || userRole) {
       redirect("/dashboard");
     }
     return (

@@ -7,7 +7,7 @@ import { Idl } from "@coral-xyz/anchor";
  * IDL can be found at `target/idl/core_contract.json`.
  */
 export type CoreContract = {
-  address: "EDsnYhy4sMajXq692iqPT6XCxr5HyHUrbAANst8MMFjA";
+  address: "DbbKyKa9tBysi3tC4oWA4vKJpeHVB6jtzKmUUzyb8jH9";
   metadata: {
     name: "coreContract";
     version: "0.1.0";
@@ -63,6 +63,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -132,6 +164,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -206,6 +270,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -280,6 +376,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -341,6 +469,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -382,6 +542,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -447,6 +639,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -508,6 +732,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -565,6 +821,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -682,6 +970,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -751,6 +1071,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -853,6 +1205,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -938,6 +1322,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -1040,6 +1456,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -1101,6 +1549,38 @@ export type CoreContract = {
         {
           name: "systemProgram";
           address: "11111111111111111111111111111111";
+        },
+        {
+          name: "eventAuthority";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "program";
         }
       ];
       args: [
@@ -1776,7 +2256,7 @@ export type CoreContract = {
 };
 
 export const IDL: Idl = {
-  address: "EDsnYhy4sMajXq692iqPT6XCxr5HyHUrbAANst8MMFjA",
+  address: "DbbKyKa9tBysi3tC4oWA4vKJpeHVB6jtzKmUUzyb8jH9",
   metadata: {
     name: "core_contract",
     version: "0.1.0",
@@ -1832,6 +2312,23 @@ export const IDL: Idl = {
         {
           name: "system_program",
           address: "11111111111111111111111111111111",
+        },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
         },
       ],
       args: [
@@ -1902,6 +2399,23 @@ export const IDL: Idl = {
           name: "system_program",
           address: "11111111111111111111111111111111",
         },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
+        },
       ],
       args: [
         {
@@ -1964,6 +2478,23 @@ export const IDL: Idl = {
         {
           name: "system_program",
           address: "11111111111111111111111111111111",
+        },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
         },
       ],
       args: [
@@ -2028,6 +2559,23 @@ export const IDL: Idl = {
           name: "system_program",
           address: "11111111111111111111111111111111",
         },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
+        },
       ],
       args: [
         {
@@ -2089,6 +2637,23 @@ export const IDL: Idl = {
           name: "system_program",
           address: "11111111111111111111111111111111",
         },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
+        },
       ],
       args: [
         {
@@ -2129,6 +2694,23 @@ export const IDL: Idl = {
         {
           name: "system_program",
           address: "11111111111111111111111111111111",
+        },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
         },
       ],
       args: [
@@ -2195,6 +2777,23 @@ export const IDL: Idl = {
           name: "system_program",
           address: "11111111111111111111111111111111",
         },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
+        },
       ],
       args: [
         {
@@ -2256,6 +2855,23 @@ export const IDL: Idl = {
           name: "system_program",
           address: "11111111111111111111111111111111",
         },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
+        },
       ],
       args: [
         {
@@ -2312,6 +2928,23 @@ export const IDL: Idl = {
         {
           name: "system_program",
           address: "11111111111111111111111111111111",
+        },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
         },
       ],
       args: [
@@ -2430,6 +3063,23 @@ export const IDL: Idl = {
           name: "system_program",
           address: "11111111111111111111111111111111",
         },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
+        },
       ],
       args: [
         {
@@ -2498,6 +3148,23 @@ export const IDL: Idl = {
         {
           name: "system_program",
           address: "11111111111111111111111111111111",
+        },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
         },
       ],
       args: [
@@ -2590,6 +3257,23 @@ export const IDL: Idl = {
           name: "system_program",
           address: "11111111111111111111111111111111",
         },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
+        },
       ],
       args: [
         {
@@ -2674,6 +3358,23 @@ export const IDL: Idl = {
         {
           name: "system_program",
           address: "11111111111111111111111111111111",
+        },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
         },
       ],
       args: [
@@ -2766,6 +3467,23 @@ export const IDL: Idl = {
           name: "system_program",
           address: "11111111111111111111111111111111",
         },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
+        },
       ],
       args: [
         {
@@ -2826,6 +3544,23 @@ export const IDL: Idl = {
         {
           name: "system_program",
           address: "11111111111111111111111111111111",
+        },
+        {
+          name: "event_authority",
+          pda: {
+            seeds: [
+              {
+                kind: "const",
+                value: [
+                  95, 95, 101, 118, 101, 110, 116, 95, 97, 117, 116, 104, 111,
+                  114, 105, 116, 121,
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: "program",
         },
       ],
       args: [

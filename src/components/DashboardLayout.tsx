@@ -6,12 +6,13 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { TeamMember } from "@/lib/hooks/useUserMembers";
 import { Team } from "@/lib/hooks/useUserTeams";
+import { Role } from "@/lib/hooks/useUserRoles";
 
 type DashboardLayoutProps = {
   supabase: SupabaseClient<Database>;
   userWallet: UserWallet;
   ownedTeams: Team[];
-  userRoles: string[];
+  userRole: Role | undefined;
   currentPage: string;
 } & React.HTMLAttributes<HTMLDivElement>;
 
@@ -19,7 +20,7 @@ export default function DashboardLayout({
   supabase,
   userWallet,
   ownedTeams,
-  userRoles,
+  userRole,
   currentPage,
   ...props
 }: DashboardLayoutProps) {
@@ -38,7 +39,7 @@ export default function DashboardLayout({
       <div className="flex flex-row items-start justify-start w-full grow">
         <Sidebar
           ownedTeams={ownedTeams}
-          userRoles={userRoles}
+          userRole={userRole}
           currentPage={currentPage}
         />
         {props.children}
