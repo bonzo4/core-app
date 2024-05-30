@@ -11,7 +11,7 @@ const josefinSans = Josefin_Sans({
 
 export const metadata: Metadata = {
   title: "C.O.R.E.",
-  description: "Syndicate's in-house reward system",
+  description: "C.O.R.E.",
 };
 
 export default async function RootLayout({
