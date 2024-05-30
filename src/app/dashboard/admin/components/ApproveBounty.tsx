@@ -34,6 +34,7 @@ const formSchema = z.object({
   discordInvite: z.string().startsWith("https://discord.gg/"),
   twitterIcon: z.string().nullable(),
   twitterUrl: z.string().nullable(),
+  announceChannelId: z.string().nullable(),
 });
 
 type ApproveBountyProps = {
@@ -62,6 +63,7 @@ export default function ApproveBounty({
       discordInvite: bounty.discord_invite,
       twitterIcon: bounty.twitter_icon,
       twitterUrl: bounty.twitter_url,
+      announceChannelId: bounty.announce_channel_id,
     },
   });
 
@@ -132,7 +134,7 @@ export default function ApproveBounty({
       <DialogTrigger>
         <Button>Approve</Button>
       </DialogTrigger>
-      <DialogContent className="bg-black flex flex-col items-start justify-start">
+      <DialogContent className="bg-black flex flex-col items-start justify-start max-h-[700px] overflow-auto">
         <DialogHeader>
           <DialogTitle>Create Bounty</DialogTitle>
         </DialogHeader>
@@ -364,13 +366,33 @@ export default function ApproveBounty({
               </FormDescription>
               <FormMessage />
             </FormItem>
-
             <FormField
               control={form.control}
               name="discordInvite"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Discord Invite</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={`https://discord.gg/...`}
+                      {...field}
+                      value={field.value || ""}
+                      className="text-black"
+                    />
+                  </FormControl>
+                  <FormDescription className="text-white opacity-50">
+                    Invite to the Discord
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="announceChannelId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discord Announcement Channel Id</FormLabel>
                   <FormControl>
                     <Input
                       placeholder={`https://discord.gg/...`}

@@ -115,7 +115,7 @@ export default function EditBounty({
       <DialogTrigger>
         <Button>Edit</Button>
       </DialogTrigger>
-      <DialogContent className="bg-black flex flex-col items-start justify-start">
+      <DialogContent className="bg-black flex flex-col items-start justify-start max-h-[700px] overflow-auto">
         <DialogHeader>
           <DialogTitle>Create Bounty</DialogTitle>
         </DialogHeader>
@@ -471,7 +471,7 @@ export default function EditBounty({
               <FormMessage />
             </FormItem>
             <Button type="submit" disabled={!buttonEnabled}>
-              Create
+              Edit
             </Button>
           </form>
         </Form>

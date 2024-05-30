@@ -124,15 +124,18 @@ export default function ManageBounties({
                   </TableCell>
                   <TableCell className="">{bounty.status}</TableCell>
                   <TableCell className="space-x-2 items-center justify-center">
-                    {bounty.twitter_icon && (
-                      <Image
-                        src={bounty.twitter_icon}
-                        width={20}
-                        height={20}
-                        alt="icon"
-                        className="rounded-full inline-block"
-                      />
-                    )}
+                    {bounty.twitter_icon &&
+                      bounty.twitter_icon.startsWith(
+                        "https://pbs.twimg.com/profile_images/"
+                      ) && (
+                        <Image
+                          src={bounty.twitter_icon}
+                          width={20}
+                          height={20}
+                          alt="icon"
+                          className="rounded-full inline-block"
+                        />
+                      )}
                     <span>{bounty.guild_name}</span>
                   </TableCell>
                   <TableCell className="">

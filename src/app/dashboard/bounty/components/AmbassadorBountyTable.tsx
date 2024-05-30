@@ -143,7 +143,10 @@ export default function AmbassadorBountyTable({
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col items-center justify-center space-y-5">
-                {bounty.twitter_icon ? (
+                {bounty.twitter_icon &&
+                bounty.twitter_icon.startsWith(
+                  "https://pbs.twimg.com/profile_images/"
+                ) ? (
                   <Image
                     src={bounty.twitter_icon}
                     alt="icon"
