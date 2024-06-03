@@ -134,7 +134,7 @@ export default function ApproveBounty({
       <DialogTrigger>
         <Button>Approve</Button>
       </DialogTrigger>
-      <DialogContent className="bg-black flex flex-col items-start justify-start max-h-[700px] overflow-auto">
+      <DialogContent className="bg-black flex flex-col items-start justify-start max-h-[600px] overflow-auto">
         <DialogHeader>
           <DialogTitle>Create Bounty</DialogTitle>
         </DialogHeader>
