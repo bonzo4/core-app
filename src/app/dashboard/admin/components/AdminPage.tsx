@@ -29,6 +29,7 @@ export default function DashboardPage() {
   } = useDashboardData({ supabase, loading, setLoading });
 
   const [userWallets, isUserWalletsLoading] = useAllUserWallets({
+    refetch,
     supabase,
   });
   const [payments, isUserPaymentsLoading] = useAdminUserPayments({
