@@ -6,6 +6,7 @@ import Image from "next/image";
 
 type SideBarProps = {
   ownedTeams: Team[];
+  walletKey?: string;
   userRole: Role | undefined;
   currentPage: string;
   currentTeamId?: string;
@@ -15,6 +16,7 @@ export default function Sidebar({
   ownedTeams,
   userRole,
   currentPage,
+  walletKey,
 }: SideBarProps) {
   return (
     <motion.nav className="lg:flex flex-col space-y-5 p-4 border-r-4 border-white border-opacity-10 h-full hidden min-w-36">
@@ -38,6 +40,17 @@ export default function Sidebar({
       >
         Dashboard
       </a>
+      {!walletKey && (
+        <a
+          href="/dashboard/connect"
+          className="text-white"
+          style={{
+            textDecoration: currentPage === "connect" ? "underline" : undefined,
+          }}
+        >
+          Connect Wallet
+        </a>
+      )}
       <a
         href="/dashboard/bounty"
         className="text-white"

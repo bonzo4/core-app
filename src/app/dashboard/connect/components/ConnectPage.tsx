@@ -2,15 +2,13 @@ import { createSupabaseClient } from "@/lib/supabase/client";
 import { motion } from "framer-motion";
 import { LoaderCircleIcon } from "lucide-react";
 import { useDashboardData } from "@/lib/hooks/dashboard/useDashboardData";
-import UserBalance from "./UserBalance";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useUserBalance } from "@/lib/hooks/dashboard/useUserBalance";
 import { useState } from "react";
-import UserStatsCard from "./UserStatsCard";
-import Link from "next/link";
-import { IoArrowBack } from "react-icons/io5";
+import InitUserTransactionButton from "@/app/components/InitUserTransactionButton";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
-export default function DashboardPage() {
+export default function ConnectPage() {
   const [refetch, setRefetch] = useState(false);
   const [loading, setLoading] = useState(true);
   const supabase = createSupabaseClient();
@@ -55,9 +53,6 @@ export default function DashboardPage() {
         <span>
           Please go back to the login page to complete the Onboarding process.
         </span>
-        <Link href="/">
-          <IoArrowBack />
-        </Link>
       </motion.div>
     ); // Redirect to login page if user is not logged in
   }
@@ -71,63 +66,32 @@ export default function DashboardPage() {
       supabase={supabase}
       userWallet={userWallet}
       userRole={userRole}
-      currentPage="dashboard"
+      currentPage="connect"
     >
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 100 }}
-        transition={{ delay: 1, duration: 1.5 }}
-        className="flex flex-col space-y-4 items-center justify-center grow h-full pb-[100px]"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 100, y: 0 }}
+        className="flex flex-col space-y-4 items-center justify-center grow h-full"
       >
-        {userWallet ? (
-          <UserStatsCard
-            username={userWallet.username}
-            iconUrl={userWallet.icon_url || userProfile.avatar_url}
-            onboardDate={user.created_at}
-            userRole={userRole}
-            teamsOwned={ownedTeams.length}
-            supabase={supabase}
+        {userWallet.authority ? (
+          <span>
+            You have already connected a wallet to C.O.R.E. please contact an
+            admin to change it.
+          </span>
+        ) : wallet.publicKey ? (
+          <InitUserTransactionButton
+            setRefetch={setRefetch}
             userId={user.id}
-            refetch={refetch}
+            supabase={supabase}
+            sendTransaction={wallet.sendTransaction}
+            wallet={wallet}
+            connection={connection}
+            userProfile={userProfile}
           />
         ) : (
-          <UserStatsCard
-            username={userProfile.full_name}
-            iconUrl={userProfile.avatar_url}
-            onboardDate={user.created_at}
-            userRole={userRole}
-            teamsOwned={ownedTeams.length}
-            supabase={supabase}
-            userId={user.id}
-            refetch={refetch}
-          />
+          <span>Please Connect a Wallet to continue</span>
         )}
-        {userWallet.authority && (
-          <UserBalance
-            loading={loading}
-            setBalance={setBalance}
-            balance={balance}
-            supabase={supabase}
-            user={user}
-            wallet={wallet}
-            connection={connection}
-          />
-        )}
-        {/* <div className="flex flex-row space-x-2 items-center justify-center">
-          <Invoices
-            supabase={supabase}
-            user={user}
-            isUserLoading={loading}
-            refetch={refetch}
-          />
-          <CreateInvoice
-            setRefetch={setRefetch}
-            supabase={supabase}
-            user={user}
-            wallet={wallet}
-            connection={connection}
-          />
-        </div> */}
+        <WalletMultiButton />
       </motion.div>
     </DashboardLayout>
   );

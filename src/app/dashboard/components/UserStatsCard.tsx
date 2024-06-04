@@ -18,7 +18,9 @@ import Image from "next/image";
 import { useState } from "react";
 
 type UserStatsCardProps = {
-  userWallet: UserWallet;
+  username: string;
+  iconUrl?: string;
+  onboardDate: string;
   userRole: Role | undefined;
   teamsOwned: number;
   supabase: SupabaseClient<Database>;
@@ -27,7 +29,9 @@ type UserStatsCardProps = {
 };
 
 export default function UserStatsCard({
-  userWallet,
+  username,
+  iconUrl,
+  onboardDate,
   userRole,
   teamsOwned,
   supabase,
@@ -69,19 +73,19 @@ export default function UserStatsCard({
       <CardHeader className="flex flex-row items-start justify-between space-y-2 space-x-2">
         <CardTitle className="flex flex-col items-start justify-start space-y-2 ">
           <div className="flex flex-row items-center justify-start space-x-2">
-            {userWallet.icon_url && (
+            {iconUrl && (
               <Image
-                src={userWallet.icon_url}
+                src={iconUrl}
                 width={30}
                 height={30}
                 alt="icon"
                 className="rounded-full"
               />
             )}
-            <span className="mt-1">{userWallet.username}</span>
+            <span className="mt-1">{username}</span>
           </div>
           <span className="text-sm font-normal opacity-80">
-            Joined: {new Date(userWallet.created_at).toDateString()}
+            Joined: {new Date(onboardDate).toDateString()}
           </span>
         </CardTitle>
 

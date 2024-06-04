@@ -55,13 +55,15 @@ export default function UsersTable({
         {userWallets.map((userWallet) => (
           <TableRow key={userWallet.user_id}>
             <TableCell className="flex flex-row space-x-2 items-center justify-start">
-              <Image
-                src={userWallet.icon_url}
-                alt={userWallet.username}
-                className="w-6 h-6 rounded-full"
-                width={24}
-                height={24}
-              />
+              {userWallet.icon_url && (
+                <Image
+                  src={userWallet.icon_url}
+                  alt={userWallet.username}
+                  className="w-6 h-6 rounded-full"
+                  width={24}
+                  height={24}
+                />
+              )}
               <span>{userWallet.username}</span>
             </TableCell>
             <TableCell>{userWallet.authority}</TableCell>

@@ -41,6 +41,7 @@ export default function DashboardPage() {
   if (
     !user ||
     !userWallet ||
+    !userWallet.authority ||
     !userWallet.is_confirmed ||
     (teamData.length === 0 && !userRole)
   ) {
@@ -57,6 +58,8 @@ export default function DashboardPage() {
     ); // Redirect to login page if user is not logged in
   }
 
+  const userProfile = user.user_metadata;
+
   if (!wallet.publicKey) {
     return (
       <motion.div
@@ -66,7 +69,7 @@ export default function DashboardPage() {
       >
         <UserCard
           username={userWallet.username}
-          iconUrl={userWallet.icon_url}
+          iconUrl={userWallet.icon_url || userProfile.avatar_url}
           walletKey={userWallet.authority}
           supabase={supabase}
         />
@@ -85,7 +88,7 @@ export default function DashboardPage() {
       >
         <UserCard
           username={userWallet.username}
-          iconUrl={userWallet.icon_url}
+          iconUrl={userWallet.icon_url || userProfile.avatar_url}
           walletKey={userWallet.authority}
           supabase={supabase}
         />
@@ -103,6 +106,7 @@ export default function DashboardPage() {
   if (userRole === "ADMIN" || userRole === "FOUNDER") {
     return (
       <DashboardLayout
+        user={user}
         ownedTeams={ownedTeams}
         supabase={supabase}
         userWallet={userWallet}

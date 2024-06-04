@@ -14,6 +14,7 @@ import { BsDiscord, BsTwitter } from "react-icons/bs";
 import { motion } from "framer-motion";
 import ClaimBountyButton from "./ClaimBountyButton";
 import { Loader, LoaderCircleIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type AmbassadorBountyTableProps = {
   ambassadorBounties: BountyWithClaimer[];
@@ -22,6 +23,8 @@ type AmbassadorBountyTableProps = {
   supabase: SupabaseClient<Database>;
   userId: string;
   bountyAmount: number;
+  page: number;
+  setPage: (args_0: number) => void;
 };
 
 export default function AmbassadorBountyTable({
@@ -31,6 +34,8 @@ export default function AmbassadorBountyTable({
   supabase,
   userId,
   bountyAmount,
+  page,
+  setPage,
 }: AmbassadorBountyTableProps) {
   if (loading) {
     return (
@@ -49,12 +54,7 @@ export default function AmbassadorBountyTable({
     <div className="flex flex-wrap gap-5 items pb-5">
       {ambassadorBounties.map((bounty, index) => {
         return (
-          <motion.div
-            key={bounty.id}
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 100, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-          >
+          <div key={bounty.id}>
             <Card
               className="flex flex-col  bg-black text-white w-[258px] min-h-[450px]"
               style={{
@@ -94,51 +94,49 @@ export default function AmbassadorBountyTable({
 
                   <span className="truncate">{bounty.guild_name}</span>
                   <div className="flex flex-wrap gap-2 items-center justify-center">
-                    {bounty.tags &&
-                      bounty.tags.map((tag) => (
-                        <div
-                          key={tag}
-                          className="px-4 rounded-full "
-                          style={{
-                            color:
-                              tag === "APTOS" || tag === "NEAR" || tag === "BNB"
-                                ? "black"
-                                : "white",
-                            background:
-                              tag === "SOL"
-                                ? "linear-gradient(90deg, #9945ff 0%, #14f195 100%)"
-                                : tag === "ETH"
-                                ? "#8991b3"
-                                : tag === "BTC"
-                                ? "#ff5500"
-                                : tag === "POLY"
-                                ? "#6c00f6"
-                                : tag === "APTOS"
-                                ? "#06f7f7"
-                                : tag === "SUI"
-                                ? "#4ca3ff"
-                                : tag === "BASE"
-                                ? "#0052ff"
-                                : tag === "XRP"
-                                ? "#323063"
-                                : tag === "CARD"
-                                ? "#0033ad"
-                                : tag === "AVAX"
-                                ? "#e84142"
-                                : tag === "COSM"
-                                ? "#2e3148"
-                                : tag === "NEAR"
-                                ? "#00ec97"
-                                : tag === "BNB"
-                                ? "#f3ba2f"
-                                : tag === "TEZOS"
-                                ? "#007efc"
-                                : "gray",
-                          }}
-                        >
-                          <span className="text-sm font-normal">{tag}</span>
-                        </div>
-                      ))}
+                    <div
+                      className="px-4 rounded-full "
+                      style={{
+                        color:
+                          bounty.tag === "APTOS" ||
+                          bounty.tag === "NEAR" ||
+                          bounty.tag === "BNB"
+                            ? "black"
+                            : "white",
+                        background:
+                          bounty.tag === "SOL"
+                            ? "linear-gradient(90deg, #9945ff 0%, #14f195 100%)"
+                            : bounty.tag === "ETH"
+                            ? "#8991b3"
+                            : bounty.tag === "BTC"
+                            ? "#ff5500"
+                            : bounty.tag === "POLY"
+                            ? "#6c00f6"
+                            : bounty.tag === "APTOS"
+                            ? "#06f7f7"
+                            : bounty.tag === "SUI"
+                            ? "#4ca3ff"
+                            : bounty.tag === "BASE"
+                            ? "#0052ff"
+                            : bounty.tag === "XRP"
+                            ? "#323063"
+                            : bounty.tag === "CARD"
+                            ? "#0033ad"
+                            : bounty.tag === "AVAX"
+                            ? "#e84142"
+                            : bounty.tag === "COSM"
+                            ? "#2e3148"
+                            : bounty.tag === "NEAR"
+                            ? "#00ec97"
+                            : bounty.tag === "BNB"
+                            ? "#f3ba2f"
+                            : bounty.tag === "TEZOS"
+                            ? "#007efc"
+                            : "gray",
+                      }}
+                    >
+                      <span className="text-sm font-normal">{bounty.tag}</span>
+                    </div>
                   </div>
                 </CardTitle>
               </CardHeader>
@@ -230,9 +228,16 @@ export default function AmbassadorBountyTable({
                 </div>
               </CardFooter>
             </Card>
-          </motion.div>
+          </div>
         );
       })}
+      <div className="flex flex-row space-x-2 w-full items-center justify-center">
+        {page > 1 && (
+          <Button onClick={() => setPage(page - 1)}>Previous</Button>
+        )}
+        <span>Page: {page}</span>
+        <Button onClick={() => setPage(page + 1)}>Next</Button>
+      </div>
     </div>
   );
 }

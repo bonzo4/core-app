@@ -53,7 +53,7 @@ export default function ApproveBounty({
   const [isBroken, setIsBroken] = useState(bounty.is_broken);
   const [isNew, setIsNew] = useState(bounty.is_new);
   const [isDaily, setIsDaily] = useState(bounty.is_daily);
-  const [tags, setTags] = useState<TagEnum[]>(bounty.tags || []);
+  const [tag, setTag] = useState<TagEnum>(bounty.tag);
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,14 +66,6 @@ export default function ApproveBounty({
       announceChannelId: bounty.announce_channel_id,
     },
   });
-
-  const handleTagSelect = (tag: TagEnum) => {
-    if (tags.includes(tag)) {
-      setTags(tags.filter((t) => t !== tag));
-    } else {
-      setTags([...tags, tag]);
-    }
-  };
 
   const handleBonus = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBonus(Number(event.target.value));
@@ -93,7 +85,7 @@ export default function ApproveBounty({
           discord_invite: formData.discordInvite,
           twitter_icon: formData.twitterIcon,
           twitter_url: formData.twitterUrl,
-          tags,
+          tag,
           status: "UNCLAIMED",
           is_new: isNew,
           is_daily: isDaily,
@@ -166,9 +158,9 @@ export default function ApproveBounty({
                 <div className="flex flex-row space-x-1 items-center justify-center">
                   <button
                     type="button"
-                    onClick={() => handleTagSelect("SOL")}
+                    onClick={() => setTag("SOL")}
                     style={{
-                      borderColor: tags.includes("SOL") ? "white" : "black",
+                      borderColor: tag === "SOL" ? "white" : "black",
                     }}
                     className="px-4 pt-[3px]  rounded-full bg-gradient-to-r from-sol-1 to-sol-2 border-[3px]"
                   >
@@ -178,9 +170,9 @@ export default function ApproveBounty({
                 <div className="flex flex-row space-x-1 items-center justify-center">
                   <button
                     type="button"
-                    onClick={() => handleTagSelect("ETH")}
+                    onClick={() => setTag("ETH")}
                     style={{
-                      borderColor: tags.includes("ETH") ? "white" : "black",
+                      borderColor: tag === "ETH" ? "white" : "black",
                     }}
                     className="px-4 pt-[3px]  rounded-full bg-eth border-[3px]"
                   >
@@ -190,9 +182,9 @@ export default function ApproveBounty({
                 <div className="flex flex-row space-x-1 items-center justify-center">
                   <button
                     type="button"
-                    onClick={() => handleTagSelect("BTC")}
+                    onClick={() => setTag("BTC")}
                     style={{
-                      borderColor: tags.includes("BTC") ? "white" : "black",
+                      borderColor: tag === "BTC" ? "white" : "black",
                     }}
                     className="px-4 pt-[3px]  rounded-full bg-btc border-[3px]"
                   >
@@ -202,22 +194,34 @@ export default function ApproveBounty({
                 <div className="flex flex-row space-x-1 items-center justify-center">
                   <button
                     type="button"
-                    onClick={() => handleTagSelect("POLY")}
+                    onClick={() => setTag("POLY")}
                     style={{
-                      borderColor: tags.includes("POLY") ? "white" : "black",
+                      borderColor: tag === "POLY" ? "white" : "black",
                     }}
                     className="px-4 pt-[3px] rounded-full bg-polygon border-[3px]"
                   >
                     <span className="text-sm">POLY</span>
                   </button>
                 </div>
+                <div className="flex flex-row space-x-1 items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={() => setTag("MULTI")}
+                    style={{
+                      borderColor: tag === "MULTI" ? "white" : "black",
+                    }}
+                    className="px-4 pt-[3px] rounded-full bg-black text-white border-[3px]"
+                  >
+                    <span className="text-sm">MULTI</span>
+                  </button>
+                </div>
                 {showTags && (
                   <div className="flex flex-row space-x-1 items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => handleTagSelect("APTOS")}
+                      onClick={() => setTag("APTOS")}
                       style={{
-                        borderColor: tags.includes("APTOS") ? "white" : "black",
+                        borderColor: tag === "APTOS" ? "white" : "black",
                       }}
                       className="px-4 pt-[3px] rounded-full bg-aptos border-[3px]"
                     >
@@ -229,9 +233,9 @@ export default function ApproveBounty({
                   <div className="flex flex-row space-x-1 items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => handleTagSelect("SUI")}
+                      onClick={() => setTag("SUI")}
                       style={{
-                        borderColor: tags.includes("SUI") ? "white" : "black",
+                        borderColor: tag === "SUI" ? "white" : "black",
                       }}
                       className="px-4 pt-[3px] rounded-full bg-sui border-[3px]"
                     >
@@ -243,9 +247,9 @@ export default function ApproveBounty({
                   <div className="flex flex-row space-x-1 items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => handleTagSelect("BASE")}
+                      onClick={() => setTag("BASE")}
                       style={{
-                        borderColor: tags.includes("BASE") ? "white" : "black",
+                        borderColor: tag === "BASE" ? "white" : "black",
                       }}
                       className="px-4 pt-[3px] rounded-full bg-base border-[3px]"
                     >
@@ -257,9 +261,9 @@ export default function ApproveBounty({
                   <div className="flex flex-row space-x-1 items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => handleTagSelect("XRP")}
+                      onClick={() => setTag("XRP")}
                       style={{
-                        borderColor: tags.includes("XRP") ? "white" : "black",
+                        borderColor: tag === "XRP" ? "white" : "black",
                       }}
                       className="px-4 pt-[3px] rounded-full bg-xrp border-[3px]"
                     >
@@ -271,9 +275,9 @@ export default function ApproveBounty({
                   <div className="flex flex-row space-x-1 items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => handleTagSelect("CARD")}
+                      onClick={() => setTag("CARD")}
                       style={{
-                        borderColor: tags.includes("CARD") ? "white" : "black",
+                        borderColor: tag === "CARD" ? "white" : "black",
                       }}
                       className="px-4 pt-[3px] rounded-full bg-cardano border-[3px]"
                     >
@@ -285,9 +289,9 @@ export default function ApproveBounty({
                   <div className="flex flex-row space-x-1 items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => handleTagSelect("AVAX")}
+                      onClick={() => setTag("AVAX")}
                       style={{
-                        borderColor: tags.includes("AVAX") ? "white" : "black",
+                        borderColor: tag === "AVAX" ? "white" : "black",
                       }}
                       className="px-4 pt-[3px] rounded-full bg-avax border-[3px]"
                     >
@@ -299,9 +303,9 @@ export default function ApproveBounty({
                   <div className="flex flex-row space-x-1 items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => handleTagSelect("COSM")}
+                      onClick={() => setTag("COSM")}
                       style={{
-                        borderColor: tags.includes("COSM") ? "white" : "black",
+                        borderColor: tag === "COSM" ? "white" : "black",
                       }}
                       className="px-4 pt-[3px] rounded-full bg-cosmos border-[3px]"
                     >
@@ -313,9 +317,9 @@ export default function ApproveBounty({
                   <div className="flex flex-row space-x-1 items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => handleTagSelect("NEAR")}
+                      onClick={() => setTag("NEAR")}
                       style={{
-                        borderColor: tags.includes("NEAR") ? "white" : "black",
+                        borderColor: tag === "NEAR" ? "white" : "black",
                       }}
                       className="px-4 pt-[3px] rounded-full bg-near border-[3px]"
                     >
@@ -327,9 +331,9 @@ export default function ApproveBounty({
                   <div className="flex flex-row space-x-1 items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => handleTagSelect("BNB")}
+                      onClick={() => setTag("BNB")}
                       style={{
-                        borderColor: tags.includes("BNB") ? "white" : "black",
+                        borderColor: tag === "BNB" ? "white" : "black",
                       }}
                       className="px-4 pt-[3px] rounded-full bg-bnb border-[3px]"
                     >
@@ -341,9 +345,9 @@ export default function ApproveBounty({
                   <div className="flex flex-row space-x-1 items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => handleTagSelect("TEZOS")}
+                      onClick={() => setTag("TEZOS")}
                       style={{
-                        borderColor: tags.includes("TEZOS") ? "white" : "black",
+                        borderColor: tag === "TEZOS" ? "white" : "black",
                       }}
                       className="px-4 pt-[3px] rounded-full bg-tezos border-[3px]"
                     >

@@ -6,7 +6,7 @@ import LogoutButton from "./LogoutButton";
 type UserCardProps = {
   supabase: SupabaseClient<Database>;
   username: string;
-  iconUrl: string;
+  iconUrl?: string;
   walletKey?: string;
   onboardDate?: string;
 };
@@ -26,13 +26,15 @@ export default function UserCard({
           <span>{new Date(onboardDate).toDateString()}</span>
         </div>
       )}
-      <Image
-        className="rounded-full"
-        src={iconUrl}
-        alt="User Avatar"
-        width={40}
-        height={40}
-      />
+      {iconUrl && (
+        <Image
+          className="rounded-full"
+          src={iconUrl}
+          alt="User Avatar"
+          width={40}
+          height={40}
+        />
+      )}
       <div className="flex flex-col items-center justify-center">
         <span>{username}</span>
         {walletKey && (

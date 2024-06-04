@@ -31,7 +31,6 @@ export default function AmbassadorUserBounties({
   const [ambassadorBounties, loading] = useAmbassadorBounties({
     supabase,
     userId,
-    tags: [],
     isPublic: false,
     refetch,
     isFixer: userRole === "ADMIN" || userRole === "NETWORK_LEAD",

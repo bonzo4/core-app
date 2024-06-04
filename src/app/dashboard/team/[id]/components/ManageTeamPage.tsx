@@ -80,6 +80,7 @@ export default function ManageTeamPage({ id }: { id: number }) {
   if (
     !user ||
     !userWallet ||
+    !userWallet.authority ||
     !userWallet.is_confirmed ||
     (teamData.length === 0 && !userRole)
   ) {
@@ -96,6 +97,8 @@ export default function ManageTeamPage({ id }: { id: number }) {
     ); // Redirect to login page if user is not logged in
   }
 
+  const userProfile = user.user_metadata;
+
   if (!wallet.publicKey) {
     return (
       <motion.div
@@ -105,7 +108,7 @@ export default function ManageTeamPage({ id }: { id: number }) {
       >
         <UserCard
           username={userWallet.username}
-          iconUrl={userWallet.icon_url}
+          iconUrl={userWallet.icon_url || userProfile.avatar_url}
           walletKey={userWallet.authority}
           supabase={supabase}
         />
@@ -124,7 +127,7 @@ export default function ManageTeamPage({ id }: { id: number }) {
       >
         <UserCard
           username={userWallet.username}
-          iconUrl={userWallet.icon_url}
+          iconUrl={userWallet.icon_url || userProfile.avatar_url}
           walletKey={userWallet.authority}
           supabase={supabase}
         />
@@ -142,6 +145,7 @@ export default function ManageTeamPage({ id }: { id: number }) {
   if (team?.owner_id === user.id || !userRole) {
     return (
       <DashboardLayout
+        user={user}
         ownedTeams={ownedTeams}
         supabase={supabase}
         userWallet={userWallet}

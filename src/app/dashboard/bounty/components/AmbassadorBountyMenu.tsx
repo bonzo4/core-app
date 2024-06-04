@@ -19,8 +19,8 @@ type AmbassadorBountyButtonProps = {
   userId: string;
   search: string | undefined;
   setSearch: (args_0: SetStateAction<string | undefined>) => void;
-  tags: TagEnum[];
-  setTags: (args_0: SetStateAction<TagEnum[]>) => void;
+  tag?: TagEnum;
+  setTag: (args_0: SetStateAction<TagEnum | undefined>) => void;
   status: string | undefined;
   setStatus: (args_0: SetStateAction<StatusEnum | undefined>) => void;
   bountyAmount: number | undefined;
@@ -42,8 +42,8 @@ export default function AmbassadorBountyMenu({
   setSearch,
   status,
   setStatus,
-  tags,
-  setTags,
+  tag,
+  setTag,
   bountyAmount,
   isDaily,
   setIsDaily,
@@ -82,11 +82,11 @@ export default function AmbassadorBountyMenu({
     }
   };
 
-  const handleTagChange = (tag: TagEnum) => {
-    if (tags.includes(tag)) {
-      setTags(tags.filter((t) => t !== tag));
+  const handleTagChange = (newTag: TagEnum) => {
+    if (newTag === tag) {
+      setTag(undefined);
     } else {
-      setTags([...tags, tag]);
+      setTag(newTag);
     }
   };
 
@@ -167,7 +167,7 @@ export default function AmbassadorBountyMenu({
             <button
               onClick={() => handleTagChange("SOL")}
               style={{
-                borderColor: tags.includes("SOL") ? "white" : "black",
+                borderColor: tag === "SOL" ? "white" : "black",
               }}
               className="px-4 pt-[3px]  rounded-full bg-gradient-to-r from-sol-1 to-sol-2 border-[3px]"
             >
@@ -178,7 +178,7 @@ export default function AmbassadorBountyMenu({
             <button
               onClick={() => handleTagChange("ETH")}
               style={{
-                borderColor: tags.includes("ETH") ? "white" : "black",
+                borderColor: tag === "ETH" ? "white" : "black",
               }}
               className="px-4 pt-[3px]  rounded-full bg-eth border-[3px]"
             >
@@ -189,7 +189,7 @@ export default function AmbassadorBountyMenu({
             <button
               onClick={() => handleTagChange("BTC")}
               style={{
-                borderColor: tags.includes("BTC") ? "white" : "black",
+                borderColor: tag === "BTC" ? "white" : "black",
               }}
               className="px-4 pt-[3px]  rounded-full bg-btc border-[3px]"
             >
@@ -200,7 +200,7 @@ export default function AmbassadorBountyMenu({
             <button
               onClick={() => handleTagChange("POLY")}
               style={{
-                borderColor: tags.includes("POLY") ? "white" : "black",
+                borderColor: tag === "POLY" ? "white" : "black",
               }}
               className="px-4 pt-[3px] rounded-full bg-polygon border-[3px]"
             >
@@ -212,7 +212,7 @@ export default function AmbassadorBountyMenu({
               <button
                 onClick={() => handleTagChange("APTOS")}
                 style={{
-                  borderColor: tags.includes("APTOS") ? "white" : "black",
+                  borderColor: tag === "APTOS" ? "white" : "black",
                 }}
                 className="px-4 pt-[3px] rounded-full bg-aptos border-[3px]"
               >
@@ -225,7 +225,7 @@ export default function AmbassadorBountyMenu({
               <button
                 onClick={() => handleTagChange("SUI")}
                 style={{
-                  borderColor: tags.includes("SUI") ? "white" : "black",
+                  borderColor: tag === "SUI" ? "white" : "black",
                 }}
                 className="px-4 pt-[3px] rounded-full bg-sui border-[3px]"
               >
@@ -238,7 +238,7 @@ export default function AmbassadorBountyMenu({
               <button
                 onClick={() => handleTagChange("BASE")}
                 style={{
-                  borderColor: tags.includes("BASE") ? "white" : "black",
+                  borderColor: tag === "BASE" ? "white" : "black",
                 }}
                 className="px-4 pt-[3px] rounded-full bg-base border-[3px]"
               >
@@ -251,7 +251,7 @@ export default function AmbassadorBountyMenu({
               <button
                 onClick={() => handleTagChange("XRP")}
                 style={{
-                  borderColor: tags.includes("XRP") ? "white" : "black",
+                  borderColor: tag === "XRP" ? "white" : "black",
                 }}
                 className="px-4 pt-[3px] rounded-full bg-xrp border-[3px]"
               >
@@ -264,7 +264,7 @@ export default function AmbassadorBountyMenu({
               <button
                 onClick={() => handleTagChange("CARD")}
                 style={{
-                  borderColor: tags.includes("CARD") ? "white" : "black",
+                  borderColor: tag === "CARD" ? "white" : "black",
                 }}
                 className="px-4 pt-[3px] rounded-full bg-cardano border-[3px]"
               >
@@ -277,7 +277,7 @@ export default function AmbassadorBountyMenu({
               <button
                 onClick={() => handleTagChange("AVAX")}
                 style={{
-                  borderColor: tags.includes("AVAX") ? "white" : "black",
+                  borderColor: tag === "AVAX" ? "white" : "black",
                 }}
                 className="px-4 pt-[3px] rounded-full bg-avax border-[3px]"
               >
@@ -290,7 +290,7 @@ export default function AmbassadorBountyMenu({
               <button
                 onClick={() => handleTagChange("COSM")}
                 style={{
-                  borderColor: tags.includes("COSM") ? "white" : "black",
+                  borderColor: tag === "COSM" ? "white" : "black",
                 }}
                 className="px-4 pt-[3px] rounded-full bg-cosmos border-[3px]"
               >
@@ -303,7 +303,7 @@ export default function AmbassadorBountyMenu({
               <button
                 onClick={() => handleTagChange("NEAR")}
                 style={{
-                  borderColor: tags.includes("NEAR") ? "white" : "black",
+                  borderColor: tag === "NEAR" ? "white" : "black",
                 }}
                 className="px-4 pt-[3px] rounded-full bg-near border-[3px]"
               >
@@ -316,7 +316,7 @@ export default function AmbassadorBountyMenu({
               <button
                 onClick={() => handleTagChange("BNB")}
                 style={{
-                  borderColor: tags.includes("BNB") ? "white" : "black",
+                  borderColor: tag === "BNB" ? "white" : "black",
                 }}
                 className="px-4 pt-[3px] rounded-full bg-bnb border-[3px]"
               >
@@ -329,7 +329,7 @@ export default function AmbassadorBountyMenu({
               <button
                 onClick={() => handleTagChange("TEZOS")}
                 style={{
-                  borderColor: tags.includes("TEZOS") ? "white" : "black",
+                  borderColor: tag === "TEZOS" ? "white" : "black",
                 }}
                 className="px-4 pt-[3px] rounded-full bg-tezos border-[3px]"
               >
@@ -379,7 +379,9 @@ export default function AmbassadorBountyMenu({
           userId={userId}
         />
         <div className="flex flex-row items-center justify-end w-full space-x-2">
-          <span className="mt-1">Active Bounties: {bountyAmount || 0} / 5</span>
+          <span className="mt-1">
+            Active Bounties: {bountyAmount || 0} / 20
+          </span>
           <AmbassadorUserBounties
             supabase={supabase}
             userId={userId}

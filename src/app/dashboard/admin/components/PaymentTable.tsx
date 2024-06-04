@@ -38,13 +38,15 @@ export default function PaymentTable({ payments }: PaymentTableProps) {
               {new Date(payment.created_at).toDateString()}
             </TableCell>
             <TableCell className="flex flex-row space-x-2 items-center justify-start">
-              <Image
-                src={payment.user_wallets.icon_url}
-                alt={payment.user_wallets.username}
-                className="w-6 h-6 rounded-full"
-                width={24}
-                height={24}
-              />
+              {payment.user_wallets.icon_url && (
+                <Image
+                  src={payment.user_wallets.icon_url}
+                  alt={payment.user_wallets.username}
+                  className="w-6 h-6 rounded-full"
+                  width={24}
+                  height={24}
+                />
+              )}
               <span>{payment.user_wallets.username}</span>
             </TableCell>
             <TableCell>{payment.memo}</TableCell>

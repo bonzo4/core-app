@@ -38,12 +38,7 @@ export default function BountyPage() {
     );
   }
 
-  if (
-    !user ||
-    !userWallet ||
-    !userWallet.is_confirmed ||
-    (teamData.length === 0 && !userRole)
-  ) {
+  if (!user) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 100 }}
@@ -57,51 +52,52 @@ export default function BountyPage() {
     ); // Redirect to login page if user is not logged in
   }
 
-  if (!wallet.publicKey) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 100, y: 0 }}
-        className="flex flex-col space-y-4 items-center justify-center"
-      >
-        <UserCard
-          username={userWallet.username}
-          iconUrl={userWallet.icon_url}
-          walletKey={userWallet.authority}
-          supabase={supabase}
-        />
-        <span>Please connect your C.O.R.E. Wallet</span>
-        <WalletMultiButton />
-      </motion.div>
-    );
-  }
+  // if (!wallet.publicKey) {
+  //   return (
+  //     <motion.div
+  //       initial={{ opacity: 0, y: 100 }}
+  //       animate={{ opacity: 100, y: 0 }}
+  //       className="flex flex-col space-y-4 items-center justify-center"
+  //     >
+  //       <UserCard
+  //         username={userWallet.username}
+  //         iconUrl={userWallet.icon_url}
+  //         walletKey={userWallet.authority}
+  //         supabase={supabase}
+  //       />
+  //       <span>Please connect your C.O.R.E. Wallet</span>
+  //       <WalletMultiButton />
+  //     </motion.div>
+  //   );
+  // }
 
-  if (userWallet.authority !== wallet.publicKey.toString()) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 100, y: 0 }}
-        className="flex flex-col space-y-4 items-center justify-center"
-      >
-        <UserCard
-          username={userWallet.username}
-          iconUrl={userWallet.icon_url}
-          walletKey={userWallet.authority}
-          supabase={supabase}
-        />
-        <span>Please connect the correct wallet to access C.O.R.E.</span>
-        <span>
-          {userWallet.authority.slice(0, 5)}
-          ...
-          {userWallet.authority.slice(-5)}
-        </span>
-        <WalletMultiButton />
-      </motion.div>
-    );
-  }
+  // if (userWallet.authority !== wallet.publicKey.toString()) {
+  //   return (
+  //     <motion.div
+  //       initial={{ opacity: 0, y: 100 }}
+  //       animate={{ opacity: 100, y: 0 }}
+  //       className="flex flex-col space-y-4 items-center justify-center"
+  //     >
+  //       <UserCard
+  //         username={userWallet.username}
+  //         iconUrl={userWallet.icon_url}
+  //         walletKey={userWallet.authority}
+  //         supabase={supabase}
+  //       />
+  //       <span>Please connect the correct wallet to access C.O.R.E.</span>
+  //       <span>
+  //         {userWallet.authority.slice(0, 5)}
+  //         ...
+  //         {userWallet.authority.slice(-5)}
+  //       </span>
+  //       <WalletMultiButton />
+  //     </motion.div>
+  //   );
+  // }
 
   return (
     <DashboardLayout
+      user={user}
       ownedTeams={ownedTeams}
       supabase={supabase}
       userWallet={userWallet}

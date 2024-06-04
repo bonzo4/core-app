@@ -1,6 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/lib/supabase/types";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import AmbassadorBountyMenu from "./AmbassadorBountyMenu";
 import { useAmbassadorBounties } from "@/lib/hooks/bounty/useAmbassadorBounties";
 import AmbassadorBountyTable from "./AmbassadorBountyTable";
@@ -27,18 +27,24 @@ export default function AmbassadorBounties({
   const [refetch, setRefetch] = useState<boolean>(false);
   const [status, setStatus] = useState<StatusEnum | undefined>();
   const [search, setSearch] = useState<string | undefined>();
-  const [tags, setTags] = useState<TagEnum[]>([]);
+  const [tag, setTag] = useState<TagEnum | undefined>();
+  const [page, setPage] = useState<number>(1);
+
+  useEffect(() => {
+    setPage(1);
+  }, [search, tag, status, isBroken, isNew, isDaily]);
 
   const [bounties, loading] = useAmbassadorBounties({
     supabase,
     refetch,
     search,
-    tags: tags.map((tag) => tag.toString()),
+    tag,
     status,
     isFixer: userRole === "ADMIN" || userRole === "NETWORK_LEAD",
     isNew,
     isDaily,
     isBroken,
+    page,
   });
 
   const [bountyAmount, bountyAmountLoading] = useBountyAmount({
@@ -57,8 +63,8 @@ export default function AmbassadorBounties({
         userId={userId}
         search={search}
         setSearch={setSearch}
-        tags={tags}
-        setTags={setTags}
+        tag={tag}
+        setTag={setTag}
         status={status}
         setStatus={setStatus}
         bountyAmount={bountyAmount}
@@ -76,6 +82,8 @@ export default function AmbassadorBounties({
         supabase={supabase}
         userId={userId}
         bountyAmount={bountyAmount}
+        page={page}
+        setPage={setPage}
       />
     </div>
   );

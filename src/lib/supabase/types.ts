@@ -72,7 +72,7 @@ export type Database = {
           requester_id: string | null;
           reward_amount: number | null;
           status: Database["public"]["Enums"]["bounty_status"];
-          tags: Database["public"]["Enums"]["guild_tag"][] | null;
+          tag: Database["public"]["Enums"]["guild_tag"];
           twitter_icon: string | null;
           twitter_url: string | null;
         };
@@ -92,7 +92,7 @@ export type Database = {
           requester_id?: string | null;
           reward_amount?: number | null;
           status?: Database["public"]["Enums"]["bounty_status"];
-          tags?: Database["public"]["Enums"]["guild_tag"][] | null;
+          tag?: Database["public"]["Enums"]["guild_tag"];
           twitter_icon?: string | null;
           twitter_url?: string | null;
         };
@@ -112,7 +112,7 @@ export type Database = {
           requester_id?: string | null;
           reward_amount?: number | null;
           status?: Database["public"]["Enums"]["bounty_status"];
-          tags?: Database["public"]["Enums"]["guild_tag"][] | null;
+          tag?: Database["public"]["Enums"]["guild_tag"];
           twitter_icon?: string | null;
           twitter_url?: string | null;
         };
@@ -697,25 +697,25 @@ export type Database = {
       };
       user_wallets: {
         Row: {
-          authority: string;
+          authority: string | null;
           created_at: string;
-          icon_url: string;
+          icon_url: string | null;
           is_confirmed: boolean;
           user_id: string;
           username: string;
         };
         Insert: {
-          authority: string;
+          authority?: string | null;
           created_at?: string;
-          icon_url: string;
+          icon_url?: string | null;
           is_confirmed?: boolean;
           user_id: string;
           username: string;
         };
         Update: {
-          authority?: string;
+          authority?: string | null;
           created_at?: string;
-          icon_url?: string;
+          icon_url?: string | null;
           is_confirmed?: boolean;
           user_id?: string;
           username?: string;
@@ -807,7 +807,8 @@ export type Database = {
         | "NEAR"
         | "OBJKT"
         | "BNB"
-        | "TEZOS";
+        | "TEZOS"
+        | "MULTI";
       payment_schedules: "WEEKLY" | "BI_WEEKLY" | "MONTHLY";
       team_roles: "ADMIN" | "OWNER" | "MANAGER" | "MEMBER";
       user_role_types: "ADMIN" | "FOUNDER" | "AMBASSADOR" | "NETWORK_LEAD";

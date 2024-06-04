@@ -59,7 +59,6 @@ export default function ManageBounties({
   >();
   const [ambassadorBounties, loading] = useAmbassadorBounties({
     supabase,
-    tags: [],
     isPublic: false,
     status,
     refetch,

@@ -27,7 +27,7 @@ export default function ClaimBountyButton({
 
   const handleClaimBounty = async () => {
     setLoading(true);
-    if (bountyAmount >= 5) {
+    if (bountyAmount >= 20) {
       toast.error("You can only claim 5 bounties at a time");
       return;
     }

@@ -34,7 +34,7 @@ export default function RoleDropdown({
       return;
     }
 
-    setRefetch(true);
+    setRefetch((prev) => !prev);
   };
 
   return (

@@ -1,6 +1,9 @@
 import { Database } from "@/lib/supabase/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
+import { useScrollPosition } from "./useScrollPosition";
+
+type TagEnum = Database["public"]["Enums"]["guild_tag"];
 
 export type AmbassadorBounty =
   Database["public"]["Tables"]["ambassador_bounties"]["Row"];
@@ -15,7 +18,7 @@ type UseAmbassadorBountiesOptions = {
   supabase: SupabaseClient<Database>;
   refetch?: boolean;
   search?: string;
-  tags: string[];
+  tag?: TagEnum;
   status?: string;
   userId?: string;
   isPublic?: boolean;
@@ -23,13 +26,14 @@ type UseAmbassadorBountiesOptions = {
   isNew?: boolean;
   isDaily?: boolean;
   isBroken?: boolean;
+  page?: number;
 };
 
 export function useAmbassadorBounties({
   supabase,
   refetch,
   search,
-  tags,
+  tag,
   status,
   userId,
   isPublic = true,
@@ -37,21 +41,20 @@ export function useAmbassadorBounties({
   isNew = false,
   isDaily = false,
   isBroken = false,
+  page = 1,
 }: UseAmbassadorBountiesOptions) {
   const [ambassadorBounties, setAmbassadorBounties] = useState<
     BountyWithClaimer[]
   >([]);
   const [loading, setLoading] = useState(true);
-  const [tagRef, setTagRef] = useState<string>(JSON.stringify(tags));
-
-  useEffect(() => {
-    setTagRef(JSON.stringify(tags));
-  }, [tags]);
 
   useEffect(() => {
     refetch;
     const getAmbassadorBounties = async () => {
-      const query = supabase.from("ambassador_bounties").select("*");
+      const query = supabase
+        .from("ambassador_bounties")
+        .select("*")
+        .range((page - 1) * 12, page * 12 - 1);
 
       if (isPublic) {
         query
@@ -75,8 +78,8 @@ export function useAmbassadorBounties({
         query.eq("is_broken", true);
       }
 
-      if (JSON.parse(tagRef).length > 0) {
-        query.overlaps("tags", JSON.parse(tagRef));
+      if (tag) {
+        query.eq("tag", tag);
       }
       if (search) {
         query.textSearch("guild_name", search);
@@ -104,8 +107,8 @@ export function useAmbassadorBounties({
         return;
       }
       if (ambassadorBountiesData) {
-        setAmbassadorBounties(
-          await Promise.all(
+        setAmbassadorBounties([
+          ...(await Promise.all(
             ambassadorBountiesData.map(async (bounty) => {
               if (bounty.completer_id) {
                 const { data: completerData, error } = await supabase
@@ -142,8 +145,8 @@ export function useAmbassadorBounties({
               }
               return bounty;
             })
-          )
-        );
+          )),
+        ]);
       }
       setLoading(false);
     };
@@ -156,11 +159,12 @@ export function useAmbassadorBounties({
     search,
     userId,
     isPublic,
-    tagRef,
     isFixer,
     isNew,
     isDaily,
     isBroken,
+    tag,
+    page,
   ]);
 
   return [ambassadorBounties, loading] as const;
