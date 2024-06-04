@@ -55,8 +55,7 @@ export function useDashboardData({
       isUserRolesLoading ||
       isUserWalletLoading ||
       isTeamDataLoading ||
-      isOwnedTeamsLoading ||
-      wallet.publicKey === null;
+      isOwnedTeamsLoading;
     setLoading(totalLoading);
   }, [
     isUserLoading,
