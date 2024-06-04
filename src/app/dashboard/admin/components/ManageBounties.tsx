@@ -64,6 +64,7 @@ export default function ManageBounties({
     status,
     refetch,
     isFixer: true,
+    page,
   });
 
   if (loading) {
