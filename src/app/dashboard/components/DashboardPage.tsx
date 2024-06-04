@@ -9,6 +9,7 @@ import { useState } from "react";
 import UserStatsCard from "./UserStatsCard";
 import Link from "next/link";
 import { IoArrowBack } from "react-icons/io5";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 export default function DashboardPage() {
   const [refetch, setRefetch] = useState(false);
@@ -113,6 +114,7 @@ export default function DashboardPage() {
             connection={connection}
           />
         )}
+        {!wallet.publicKey && <WalletMultiButton />}
         {/* <div className="flex flex-row space-x-2 items-center justify-center">
           <Invoices
             supabase={supabase}
