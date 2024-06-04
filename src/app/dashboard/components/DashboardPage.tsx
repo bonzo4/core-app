@@ -32,7 +32,7 @@ export default function DashboardPage() {
     isUserLoading: loading,
   });
 
-  if (loading || isBalanceLoading) {
+  if (loading) {
     return (
       <motion.div
         className="flex flex-col space-y-4 items-center justify-center"
@@ -102,7 +102,7 @@ export default function DashboardPage() {
             refetch={refetch}
           />
         )}
-        {userWallet.authority && (
+        {userWallet.authority && wallet.publicKey && (
           <UserBalance
             loading={loading}
             setBalance={setBalance}
