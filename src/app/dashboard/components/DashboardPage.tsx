@@ -103,18 +103,24 @@ export default function DashboardPage() {
             refetch={refetch}
           />
         )}
-        {userWallet.authority && wallet.publicKey && (
-          <UserBalance
-            loading={loading}
-            setBalance={setBalance}
-            balance={balance}
-            supabase={supabase}
-            user={user}
-            wallet={wallet}
-            connection={connection}
-          />
+        {userWallet.authority &&
+          wallet.publicKey &&
+          wallet.publicKey.toBase58() === userWallet.authority && (
+            <UserBalance
+              loading={loading}
+              setBalance={setBalance}
+              balance={balance}
+              supabase={supabase}
+              user={user}
+              wallet={wallet}
+              connection={connection}
+            />
+          )}
+        {userWallet.authority !== wallet.publicKey?.toBase58() && (
+          <span>This is not the right wallet to claim your balance.</span>
         )}
         {!wallet.publicKey && <WalletMultiButton />}
+
         {/* <div className="flex flex-row space-x-2 items-center justify-center">
           <Invoices
             supabase={supabase}
