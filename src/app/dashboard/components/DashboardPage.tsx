@@ -116,10 +116,14 @@ export default function DashboardPage() {
               connection={connection}
             />
           )}
-        {userWallet.authority !== wallet.publicKey?.toBase58() && (
-          <span>This is not the right wallet to claim your balance.</span>
-        )}
-        {!wallet.publicKey && <WalletMultiButton />}
+        {userWallet.authority &&
+          userWallet.authority !== wallet.publicKey?.toBase58() && (
+            <span>This is not the right wallet to claim your balance.</span>
+          )}
+        {!wallet.publicKey ||
+          (userWallet.authority !== wallet.publicKey?.toBase58() && (
+            <WalletMultiButton />
+          ))}
 
         {/* <div className="flex flex-row space-x-2 items-center justify-center">
           <Invoices
