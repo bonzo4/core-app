@@ -53,6 +53,7 @@ export default function ManageBounties({
   const [selectedBounties, setSelectedBounties] = useState<AmbassadorBounty[]>(
     []
   );
+  const [page, setPage] = useState(1);
 
   const [status, setStatus] = useState<
     Database["public"]["Enums"]["bounty_status"] | undefined
@@ -222,6 +223,21 @@ export default function ManageBounties({
                 </TableRow>
               ))}
             </TableBody>
+            <div className="flex flex-row w-full items-center justify-center space-x-2">
+              <Button
+                disabled={page === 1}
+                onClick={() => setPage((prev) => prev - 1)}
+              >
+                Prev
+              </Button>
+              <span>{page}</span>
+              <Button
+                disabled={ambassadorBounties.length < 10}
+                onClick={() => setPage((prev) => prev + 1)}
+              >
+                Next
+              </Button>
+            </div>
           </Table>
         </div>
       </DialogContent>
