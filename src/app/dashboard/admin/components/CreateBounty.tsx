@@ -33,6 +33,7 @@ const formSchema = z.object({
   discordInvite: z.string().startsWith("https://discord.gg/"),
   twitterIcon: z.string().nullable(),
   twitterUrl: z.string().nullable(),
+  announceChannelId: z.string().nullable(),
 });
 
 type CreateBountyProps = {
@@ -58,6 +59,7 @@ export default function CreateBounty({
       discordInvite: "",
       twitterIcon: null,
       twitterUrl: null,
+      announceChannelId: null,
     },
   });
 
@@ -75,6 +77,7 @@ export default function CreateBounty({
           discord_invite: formData.discordInvite,
           twitter_icon: formData.twitterIcon,
           twitter_url: formData.twitterUrl,
+          announce_channel_id: formData.announceChannelId,
           tag,
           status: "UNCLAIMED",
           is_new: isNew,
@@ -350,7 +353,27 @@ export default function CreateBounty({
               </FormDescription>
               <FormMessage />
             </FormItem>
-
+            <FormField
+              control={form.control}
+              name="announceChannelId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Announce Channel ID</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={`46345235...`}
+                      {...field}
+                      value={field.value || ""}
+                      className="text-black"
+                    />
+                  </FormControl>
+                  <FormDescription className="text-white opacity-50">
+                    ID of the announcement channel
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="discordInvite"
