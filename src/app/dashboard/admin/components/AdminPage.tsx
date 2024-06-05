@@ -137,7 +137,7 @@ export default function DashboardPage() {
             refetch={refetch}
             userId={user.id}
           />
-          <div className="w-full h-1/2 max-h-[480px] overflow-auto">
+          <div className="w-full h-1/2 max-h-[350px] overflow-auto">
             <UsersTable
               setRefetch={setRefetch}
               supabase={supabase}
@@ -147,7 +147,7 @@ export default function DashboardPage() {
               userWallets={userWallets}
             />
           </div>
-          <div className="w-full h-1/2 max-h-[480px] overflow-auto">
+          <div className="w-full h-1/2 max-h-[350px] overflow-auto">
             <PaymentTable payments={payments} />
           </div>
         </div>
