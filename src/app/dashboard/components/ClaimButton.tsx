@@ -18,7 +18,6 @@ type ClaimButtonProps = {
   userId: string;
   balance?: number;
   setRefetch: (args_0: SetStateAction<boolean>) => void;
-  setBalance: (balance: number) => void;
 };
 
 export default function ClaimButton({
@@ -28,7 +27,6 @@ export default function ClaimButton({
   userId,
   balance,
   setRefetch,
-  setBalance,
 }: ClaimButtonProps) {
   const [loading, setLoading] = useState(false);
 
@@ -110,7 +108,6 @@ export default function ClaimButton({
         toast.info("Transaction not yet confirmed");
       }
 
-      setBalance(0);
       toast.dismiss(toastId);
 
       setRefetch((prev) => !prev);

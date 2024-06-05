@@ -43,7 +43,6 @@ export default function UserBalance({
           wallet={wallet}
           userId={user.id}
           setRefetch={setRefetch}
-          setBalance={setBalance}
         />
       </div>
       <div className="flex flex-row space-x-2 justify-center items-center">
