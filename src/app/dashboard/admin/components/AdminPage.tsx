@@ -139,6 +139,7 @@ export default function DashboardPage() {
           />
           <div className="w-full h-1/2 max-h-[350px] overflow-auto">
             <UsersTable
+              refetch={refetch}
               setRefetch={setRefetch}
               supabase={supabase}
               wallet={wallet}

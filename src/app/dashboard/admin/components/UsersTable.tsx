@@ -22,6 +22,7 @@ import { motion } from "framer-motion";
 import { LoaderCircleIcon } from "lucide-react";
 import { SetStateAction } from "react";
 import RoleDropdown from "./RoleDropdown";
+import ManageUserBounties from "./ManageUserBounties";
 
 type UsersTableProps = {
   supabase: SupabaseClient<Database>;
@@ -30,6 +31,7 @@ type UsersTableProps = {
   user: User;
   userWallets: UserWalletAndRole[];
   setRefetch: (args_0: SetStateAction<boolean>) => void;
+  refetch: boolean;
 };
 
 export default function UsersTable({
@@ -39,6 +41,7 @@ export default function UsersTable({
   user,
   userWallets,
   setRefetch,
+  refetch,
 }: UsersTableProps) {
   return (
     <Table className="">
@@ -48,6 +51,7 @@ export default function UsersTable({
           <TableHead className="w-[200px]">User</TableHead>
           <TableHead>Wallet</TableHead>
           <TableHead className="text-right">Pay</TableHead>
+          <TableHead className="text-right">Bounties</TableHead>
           <TableHead className="text-right">Role</TableHead>
         </TableRow>
       </TableHeader>
@@ -75,6 +79,17 @@ export default function UsersTable({
                 userId={userWallet.user_id}
                 payerUserId={user.id}
                 connection={connection}
+              />
+            </TableCell>
+            <TableCell className="text-right">
+              <ManageUserBounties
+                supabase={supabase}
+                refetch={refetch}
+                wallet={wallet}
+                connection={connection}
+                userId={user.id}
+                bountyUserId={userWallet.user_id}
+                setRefetch={setRefetch}
               />
             </TableCell>
             <TableCell className="text-right">
