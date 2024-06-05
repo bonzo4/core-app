@@ -98,7 +98,7 @@ export default function CreateBountyRequest({
       <DialogTrigger>
         <Button>Create Bounty Request</Button>
       </DialogTrigger>
-      <DialogContent className="bg-black flex flex-col items-start justify-start max-w-[600px] overflow-auto">
+      <DialogContent className="bg-black flex flex-col items-start justify-start max-h-[600px] overflow-auto">
         <DialogHeader>
           <DialogTitle>Create Bounty Request</DialogTitle>
         </DialogHeader>

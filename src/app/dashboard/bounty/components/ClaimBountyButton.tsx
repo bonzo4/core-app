@@ -28,7 +28,7 @@ export default function ClaimBountyButton({
   const handleClaimBounty = async () => {
     setLoading(true);
     if (bountyAmount >= 20) {
-      toast.error("You can only claim 5 bounties at a time");
+      toast.error("You can only claim 20 bounties at a time");
       return;
     }
 
@@ -49,7 +49,8 @@ export default function ClaimBountyButton({
     setLoading(false);
   };
 
-  const buttonDisabled = status !== "UNCLAIMED" || loading || bountyAmount >= 5;
+  const buttonDisabled =
+    status !== "UNCLAIMED" || loading || bountyAmount >= 20;
 
   return (
     <Button onClick={handleClaimBounty} className="" disabled={buttonDisabled}>
