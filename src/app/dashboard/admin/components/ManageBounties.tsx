@@ -33,6 +33,7 @@ import PayBountyButton from "./PayBountyButton";
 import ApproveBounty from "./ApproveBounty";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import UnassignBounty from "./UnassignButton";
 
 type ManageBountiesProps = {
   supabase: SupabaseClient<Database>;
@@ -211,7 +212,13 @@ export default function ManageBounties({
                       />
                     )}
                     {bounty.status === "COMPLETED" && <Button>Deny</Button>}
-                    {bounty.status === "CLAIMED" && <Button>Unassign</Button>}
+                    {bounty.status === "CLAIMED" && (
+                      <UnassignBounty
+                        bountyId={bounty.id}
+                        supabase={supabase}
+                        setRefetch={setRefetch}
+                      />
+                    )}
                     {bounty.status === "REQUESTED" && (
                       <ApproveBounty
                         bounty={bounty}
