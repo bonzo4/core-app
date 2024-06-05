@@ -32,6 +32,7 @@ import { Connection } from "@solana/web3.js";
 import PayBountyButton from "./PayBountyButton";
 import ApproveBounty from "./ApproveBounty";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 
 type ManageBountiesProps = {
   supabase: SupabaseClient<Database>;
@@ -54,6 +55,7 @@ export default function ManageBounties({
     []
   );
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState<string | undefined>();
 
   const [status, setStatus] = useState<
     Database["public"]["Enums"]["bounty_status"] | undefined
@@ -65,6 +67,7 @@ export default function ManageBounties({
     refetch,
     isFixer: true,
     page,
+    search,
   });
 
   if (loading) {
@@ -87,6 +90,12 @@ export default function ManageBounties({
       <DialogContent className="bg-black h-3/4 flex flex-col items-start justify-start max-w-[100rem]">
         <DialogHeader className="flex flex-col space-y-2 w-full">
           <DialogTitle>Bounties</DialogTitle>
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="text-black"
+            placeholder="Search"
+          />
           <AdminBountyMenu
             status={status}
             setStatus={setStatus}
