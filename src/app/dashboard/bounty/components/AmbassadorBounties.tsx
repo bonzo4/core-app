@@ -25,7 +25,7 @@ export default function AmbassadorBounties({
   const [isNew, setIsNew] = useState<boolean>(false);
   const [isBroken, setIsBroken] = useState<boolean>(false);
   const [refetch, setRefetch] = useState<boolean>(false);
-  const [status, setStatus] = useState<StatusEnum | undefined>();
+  const [status, setStatus] = useState<StatusEnum | undefined>("UNCLAIMED");
   const [search, setSearch] = useState<string | undefined>();
   const [tag, setTag] = useState<TagEnum | undefined>();
   const [page, setPage] = useState<number>(1);
