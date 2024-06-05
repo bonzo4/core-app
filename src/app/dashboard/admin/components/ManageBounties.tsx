@@ -249,7 +249,7 @@ export default function ManageBounties({
               </Button>
               <span>{page}</span>
               <Button
-                disabled={ambassadorBounties.length < 10}
+                disabled={ambassadorBounties.length < 12}
                 onClick={() => setPage((prev) => prev + 1)}
               >
                 Next

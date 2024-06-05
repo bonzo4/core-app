@@ -24,7 +24,7 @@ type AmbassadorBountyTableProps = {
   userId: string;
   bountyAmount: number;
   page: number;
-  setPage: (args_0: number) => void;
+  setPage: (args_0: SetStateAction<number>) => void;
 };
 
 export default function AmbassadorBountyTable({
@@ -232,11 +232,19 @@ export default function AmbassadorBountyTable({
         );
       })}
       <div className="flex flex-row space-x-2 w-full items-center justify-center">
-        {page > 1 && (
-          <Button onClick={() => setPage(page - 1)}>Previous</Button>
-        )}
-        <span>Page: {page}</span>
-        <Button onClick={() => setPage(page + 1)}>Next</Button>
+        <Button
+          disabled={page === 1}
+          onClick={() => setPage((prev) => prev - 1)}
+        >
+          Prev
+        </Button>
+        <span>{page}</span>
+        <Button
+          disabled={ambassadorBounties.length < 12}
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );
