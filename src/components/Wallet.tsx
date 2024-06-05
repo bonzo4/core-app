@@ -41,7 +41,12 @@ export default function Wallet({ children }: WalletProps) {
   );
 
   return (
-    <ConnectionProvider endpoint={process.env.NEXT_PUBLIC_RPC_URL!}>
+    <ConnectionProvider
+      endpoint={process.env.NEXT_PUBLIC_RPC_URL!}
+      config={{
+        wsEndpoint: process.env.NEXT_PUBLIC_WS_URL!,
+      }}
+    >
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>

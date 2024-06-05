@@ -116,28 +116,39 @@ export type Database = {
           twitter_icon?: string | null;
           twitter_url?: string | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "ambassador_bounties_claimer_id_fkey";
+            columns: ["claimer_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       claims: {
         Row: {
           amount: number;
           created_at: string;
           id: number;
-          is_confirmed: boolean;
+          is_confirmed: boolean | null;
+          transaction: string | null;
           user_id: string;
         };
         Insert: {
           amount: number;
           created_at?: string;
           id?: number;
-          is_confirmed?: boolean;
+          is_confirmed?: boolean | null;
+          transaction?: string | null;
           user_id: string;
         };
         Update: {
           amount?: number;
           created_at?: string;
           id?: number;
-          is_confirmed?: boolean;
+          is_confirmed?: boolean | null;
+          transaction?: string | null;
           user_id?: string;
         };
         Relationships: [
@@ -202,32 +213,41 @@ export type Database = {
       payments: {
         Row: {
           amount: number;
+          blockhash: string | null;
           created_at: string;
           id: number;
-          is_confirmed: boolean;
+          is_confirmed: boolean | null;
+          last_valid_block_height: number | null;
           memo: string | null;
           payer_id: string | null;
           team_id: number | null;
+          transaction: string | null;
           user_id: string;
         };
         Insert: {
           amount: number;
+          blockhash?: string | null;
           created_at?: string;
           id?: number;
-          is_confirmed?: boolean;
+          is_confirmed?: boolean | null;
+          last_valid_block_height?: number | null;
           memo?: string | null;
           payer_id?: string | null;
           team_id?: number | null;
+          transaction?: string | null;
           user_id: string;
         };
         Update: {
           amount?: number;
+          blockhash?: string | null;
           created_at?: string;
           id?: number;
-          is_confirmed?: boolean;
+          is_confirmed?: boolean | null;
+          last_valid_block_height?: number | null;
           memo?: string | null;
           payer_id?: string | null;
           team_id?: number | null;
+          transaction?: string | null;
           user_id?: string;
         };
         Relationships: [
@@ -701,6 +721,7 @@ export type Database = {
           created_at: string;
           icon_url: string | null;
           is_confirmed: boolean;
+          transaction: string | null;
           user_id: string;
           username: string;
         };
@@ -709,6 +730,7 @@ export type Database = {
           created_at?: string;
           icon_url?: string | null;
           is_confirmed?: boolean;
+          transaction?: string | null;
           user_id: string;
           username: string;
         };
@@ -717,6 +739,7 @@ export type Database = {
           created_at?: string;
           icon_url?: string | null;
           is_confirmed?: boolean;
+          transaction?: string | null;
           user_id?: string;
           username?: string;
         };

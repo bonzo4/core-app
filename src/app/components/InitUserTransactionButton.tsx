@@ -2,6 +2,7 @@ import {
   Connection,
   PublicKey,
   Transaction,
+  TransactionConfirmationStrategy,
   TransactionInstruction,
   VersionedTransaction,
   sendAndConfirmTransaction,
@@ -69,28 +70,39 @@ export default function InitUserTransactionButton({
       }
 
       const transaction = new Transaction().add(instruction.initUserTx);
-      transaction.recentBlockhash = instruction.blockhash;
+
+      const latestBlockHash = await connection.getLatestBlockhash({
+        commitment: "finalized",
+      });
+      transaction.recentBlockhash = latestBlockHash.blockhash;
       transaction.feePayer = wallet.publicKey;
 
       const tx = await wallet.sendTransaction(transaction, connection, {
         preflightCommitment: "finalized",
       });
 
-      await connection.confirmTransaction(tx, "finalized");
+      await supabase
+        .from("user_wallets")
+        .update({ transaction: tx, authority: wallet.publicKey.toBase58() })
+        .eq("user_id", userId);
 
-      const { error } = await supabase.from("user_wallets").insert({
-        user_id: userId,
-        authority: wallet.publicKey.toBase58(),
-        username: userProfile.full_name,
-        icon_url: userProfile.avatar_url,
-        is_confirmed: true,
-      });
-      if (error) {
-        throw new Error("Error changing user wallet");
+      await new Promise((resolve) => setTimeout(resolve, 1000 * 20));
+      const status = await connection.getSignatureStatus(tx);
+
+      if (
+        status.value?.confirmationStatus === "confirmed" ||
+        status.value?.confirmationStatus === "finalized"
+      ) {
+        await supabase
+          .from("user_wallets")
+          .update({ is_confirmed: true })
+          .eq("user_id", userId);
+        toast.success("Transaction confirmed!");
+      } else {
+        toast.info("Transaction not yet confirmed");
       }
 
       toast.dismiss(toastId);
-      toast.success("Transaction confirmed!");
       setRefetch((prev) => !prev); // Trigger a refetch of the user data (if necessary)
       setLoading(false); // Ensure loading is reset after the operation is complete
     } catch (error: any) {

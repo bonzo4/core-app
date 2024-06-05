@@ -48,8 +48,5 @@ export async function payUserInstruction({
     })
     .instruction();
 
-  const blockhash = (await connection.getLatestBlockhash("finalized"))
-    .blockhash;
-
-  return { payUserTx, blockhash };
+  return { payUserTx };
 }

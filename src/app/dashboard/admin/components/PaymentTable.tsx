@@ -1,3 +1,4 @@
+import ConfirmButton from "@/components/ConfirmButton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
@@ -9,13 +10,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PaymentsWithUser } from "@/lib/hooks/admin/useAdminUserPayment";
+import { Database } from "@/lib/supabase/types";
+import { Connection } from "@solana/web3.js";
+import { SupabaseClient } from "@supabase/supabase-js";
 import Image from "next/image";
+import { SetStateAction } from "react";
 
 type PaymentTableProps = {
+  supabase: SupabaseClient<Database>;
   payments: PaymentsWithUser[];
+  setRefetch: (args_0: SetStateAction<boolean>) => void;
+  connection: Connection;
 };
 
-export default function PaymentTable({ payments }: PaymentTableProps) {
+export default function PaymentTable({
+  payments,
+  supabase,
+  setRefetch,
+  connection,
+}: PaymentTableProps) {
   return (
     <Table className="">
       <TableCaption>All Past Payments</TableCaption>
@@ -32,7 +45,18 @@ export default function PaymentTable({ payments }: PaymentTableProps) {
         {payments.map((payment) => (
           <TableRow key={payment.id}>
             <TableCell className="">
-              {payment.is_confirmed ? "Yes" : "No"}
+              {payment.is_confirmed === true && "✔️"}
+              {payment.is_confirmed === false && "❌"}
+              {payment.is_confirmed === null && payment.transaction && (
+                <ConfirmButton
+                  createdAt={payment.created_at}
+                  supabase={supabase}
+                  tableName="payments"
+                  setRefetch={setRefetch}
+                  connection={connection}
+                  transaction={payment.transaction}
+                />
+              )}
             </TableCell>
             <TableCell className="">
               {new Date(payment.created_at).toDateString()}

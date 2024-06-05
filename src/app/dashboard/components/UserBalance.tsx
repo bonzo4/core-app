@@ -51,12 +51,16 @@ export default function UserBalance({
           supabase={supabase}
           user={user}
           isUserLoading={loading}
+          connection={connection}
+          setRefetch={setRefetch}
         />
         <ClaimHistory
           supabase={supabase}
           user={user}
           isUserLoading={loading}
           refetch={refetch}
+          connection={connection}
+          setRefetch={setRefetch}
         />
       </div>
     </div>

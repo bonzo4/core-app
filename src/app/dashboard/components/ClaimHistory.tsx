@@ -1,3 +1,4 @@
+import ConfirmButton from "@/components/ConfirmButton";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,15 +18,17 @@ import {
 } from "@/components/ui/table";
 import { useUserClaims } from "@/lib/hooks/useUserClaims";
 import { Database } from "@/lib/supabase/types";
+import { Connection } from "@solana/web3.js";
 import { SupabaseClient, User } from "@supabase/supabase-js";
-import { motion } from "framer-motion";
-import { LoaderCircleIcon } from "lucide-react";
+import { SetStateAction } from "react";
 
 type ClaimHistoryProps = {
   supabase: SupabaseClient<Database>;
   user: User;
   isUserLoading: boolean;
   refetch: boolean;
+  connection: Connection;
+  setRefetch: (args_0: SetStateAction<boolean>) => void;
 };
 
 export default function ClaimHistory({
@@ -33,6 +36,8 @@ export default function ClaimHistory({
   user,
   isUserLoading,
   refetch,
+  connection,
+  setRefetch,
 }: ClaimHistoryProps) {
   const [claims, loading] = useUserClaims({
     supabase,
@@ -68,7 +73,18 @@ export default function ClaimHistory({
               {claims.map((claim) => (
                 <TableRow key={claim.id}>
                   <TableCell className="">
-                    {claim.is_confirmed ? "Yes" : "No"}
+                    {claim.is_confirmed === true && "✔️"}
+                    {claim.is_confirmed === false && "❌"}
+                    {claim.is_confirmed === null && claim.transaction && (
+                      <ConfirmButton
+                        createdAt={claim.created_at}
+                        supabase={supabase}
+                        tableName="claims"
+                        setRefetch={setRefetch}
+                        connection={connection}
+                        transaction={claim.transaction}
+                      />
+                    )}
                   </TableCell>
                   <TableCell className="">
                     {new Date(claim.created_at).toDateString()}

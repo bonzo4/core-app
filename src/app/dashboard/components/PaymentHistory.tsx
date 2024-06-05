@@ -20,17 +20,24 @@ import { Database } from "@/lib/supabase/types";
 import { SupabaseClient, User } from "@supabase/supabase-js";
 import { motion } from "framer-motion";
 import { LoaderCircleIcon } from "lucide-react";
+import ConfirmButton from "@/components/ConfirmButton";
+import { Connection } from "@solana/web3.js";
+import { SetStateAction } from "react";
 
 type PaymentHistoryProps = {
   supabase: SupabaseClient<Database>;
   user: User;
   isUserLoading: boolean;
+  connection: Connection;
+  setRefetch: (args_0: SetStateAction<boolean>) => void;
 };
 
 export default function PaymentHistory({
   supabase,
   user,
   isUserLoading,
+  connection,
+  setRefetch,
 }: PaymentHistoryProps) {
   const [payments, loading] = useUserPayments({
     supabase,
@@ -67,7 +74,18 @@ export default function PaymentHistory({
               {payments.map((payment) => (
                 <TableRow key={payment.id}>
                   <TableCell className="">
-                    {payment.is_confirmed ? "Yes" : "No"}
+                    {payment.is_confirmed === true && "✔️"}
+                    {payment.is_confirmed === false && "❌"}
+                    {payment.is_confirmed === null && payment.transaction && (
+                      <ConfirmButton
+                        createdAt={payment.created_at}
+                        supabase={supabase}
+                        tableName="payments"
+                        setRefetch={setRefetch}
+                        connection={connection}
+                        transaction={payment.transaction}
+                      />
+                    )}
                   </TableCell>
                   <TableCell className="">
                     {new Date(payment.created_at).toDateString()}

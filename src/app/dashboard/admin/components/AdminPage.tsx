@@ -149,7 +149,12 @@ export default function DashboardPage() {
             />
           </div>
           <div className="w-full h-1/2 max-h-[350px] overflow-auto">
-            <PaymentTable payments={payments} />
+            <PaymentTable
+              payments={payments}
+              supabase={supabase}
+              connection={connection}
+              setRefetch={setRefetch}
+            />
           </div>
         </div>
       </DashboardLayout>

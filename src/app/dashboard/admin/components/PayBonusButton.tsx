@@ -51,12 +51,9 @@ export default function PayBonusButton({
       return;
     }
 
-    const toastId = toast.loading(
-      "Waiting for transaction to be confirmed...",
-      {
-        autoClose: false,
-      }
-    );
+    let toastId = toast.loading("Waiting for transaction to be confirmed...", {
+      autoClose: false,
+    });
 
     const memo = bonus.bonuses.map((b) => b.memo).join(", ");
 
@@ -88,18 +85,19 @@ export default function PayBonusButton({
         throw new Error("Error creating transaction");
       }
       const transaction = new Transaction().add(instruction.payUserTx);
-      transaction.recentBlockhash = instruction.blockhash;
+      const latestBlockHash = await connection.getLatestBlockhash({
+        commitment: "finalized",
+      });
+      transaction.recentBlockhash = latestBlockHash.blockhash;
       transaction.feePayer = wallet.publicKey;
 
       const tx = await wallet.sendTransaction(transaction, connection, {
         preflightCommitment: "finalized",
       });
 
-      await connection.confirmTransaction(tx, "finalized");
-
       await supabase
         .from("payments")
-        .update({ is_confirmed: true })
+        .update({ transaction: tx })
         .eq("id", data.id);
 
       await Promise.all(
@@ -112,8 +110,33 @@ export default function PayBonusButton({
         )
       );
 
+      setRefetch((prev) => !prev);
       toast.dismiss(toastId);
-      toast.success("User Paid!");
+      toastId = toast.loading("Transaction sent, awaiting confirmation...", {
+        autoClose: false,
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 1000 * 20));
+
+      const status = await connection.getSignatureStatus(tx);
+      if (!status.value) {
+        throw new Error("Transaction failed to send");
+      }
+
+      if (
+        status.value?.confirmationStatus === "confirmed" ||
+        status.value?.confirmationStatus === "finalized"
+      ) {
+        await supabase
+          .from("payments")
+          .update({ is_confirmed: true })
+          .eq("id", data.id);
+        toast.success("User Paid!");
+      } else {
+        toast.info("Transaction not yet confirmed");
+      }
+
+      toast.dismiss(toastId);
       setRefetch((prev) => !prev);
       setLoading(false); // Ensure loading is reset after the operation is complete
     } catch (error: any) {

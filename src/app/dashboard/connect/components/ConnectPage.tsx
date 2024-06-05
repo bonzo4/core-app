@@ -7,6 +7,7 @@ import { useUserBalance } from "@/lib/hooks/dashboard/useUserBalance";
 import { useState } from "react";
 import InitUserTransactionButton from "@/app/components/InitUserTransactionButton";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import ConfirmButton from "@/components/ConfirmButton";
 
 export default function ConnectPage() {
   const [refetch, setRefetch] = useState(false);
@@ -73,11 +74,20 @@ export default function ConnectPage() {
         animate={{ opacity: 100, y: 0 }}
         className="flex flex-col space-y-4 items-center justify-center grow h-full"
       >
-        {userWallet.authority ? (
+        {userWallet.authority && userWallet.is_confirmed ? (
           <span>
             You have already connected a wallet to C.O.R.E. please contact an
             admin to change it.
           </span>
+        ) : userWallet.transaction && userWallet.is_confirmed === null ? (
+          <ConfirmButton
+            setRefetch={setRefetch}
+            supabase={supabase}
+            tableName="user_wallets"
+            connection={connection}
+            transaction={userWallet.transaction}
+            createdAt={userWallet.created_at}
+          />
         ) : wallet.publicKey ? (
           <InitUserTransactionButton
             setRefetch={setRefetch}

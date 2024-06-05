@@ -28,8 +28,6 @@ export async function initUserInstruction({
       usdcMint: new PublicKey(process.env.NEXT_PUBLIC_USDC_MINT!),
     })
     .instruction();
-  const blockhash = (await connection.getLatestBlockhash("finalized"))
-    .blockhash;
 
-  return { initUserTx, blockhash };
+  return { initUserTx };
 }

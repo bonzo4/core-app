@@ -40,8 +40,5 @@ export async function claimInstruction({
     })
     .instruction();
 
-  const blockhash = (await connection.getLatestBlockhash("finalized"))
-    .blockhash;
-
-  return { claimTx, blockhash };
+  return { claimTx };
 }
