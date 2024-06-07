@@ -26,7 +26,7 @@ export default function DenyBounty({
     if (error) {
       toast.error("Error denying bounty");
     } else {
-      toast.success("Bounty Deny");
+      toast.success("Bounty Denied");
       setRefetch((prev) => !prev);
     }
   };
