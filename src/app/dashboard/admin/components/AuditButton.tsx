@@ -36,5 +36,5 @@ export default function AuditBounty({
     }
   };
 
-  return <Button onClick={handleAudit}>Deny</Button>;
+  return <Button onClick={handleAudit}>Audit</Button>;
 }
