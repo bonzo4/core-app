@@ -27,6 +27,7 @@ type UseAmbassadorBountiesOptions = {
   isDaily?: boolean;
   isBroken?: boolean;
   page?: number;
+  limit?: number;
 };
 
 export function useAmbassadorBounties({
@@ -42,6 +43,7 @@ export function useAmbassadorBounties({
   isDaily = false,
   isBroken = false,
   page = 1,
+  limit = 12,
 }: UseAmbassadorBountiesOptions) {
   const [ambassadorBounties, setAmbassadorBounties] = useState<
     BountyWithClaimer[]
@@ -54,7 +56,7 @@ export function useAmbassadorBounties({
       const query = supabase
         .from("ambassador_bounties")
         .select("*")
-        .range((page - 1) * 12, page * 12 - 1);
+        .range((page - 1) * limit, page * limit - 1);
 
       if (isPublic) {
         query
@@ -165,6 +167,7 @@ export function useAmbassadorBounties({
     isBroken,
     tag,
     page,
+    limit,
   ]);
 
   return [ambassadorBounties, loading] as const;

@@ -35,6 +35,7 @@ export default function AmbassadorUserBounties({
     refetch,
     isFixer: userRole === "ADMIN" || userRole === "NETWORK_LEAD",
     status,
+    limit: 20,
   });
 
   const handleStatusChange = (newStatus: StatusEnum) => {
