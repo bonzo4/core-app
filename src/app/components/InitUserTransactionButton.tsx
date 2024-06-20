@@ -59,6 +59,11 @@ export default function InitUserTransactionButton({
       );
       await wallet.signMessage(encodedMessage);
 
+      await supabase
+        .from("user_wallets")
+        .update({ authority: wallet.publicKey.toBase58() })
+        .eq("user_id", userId);
+
       const instruction = await initUserInstruction({
         wallet,
         connection,
@@ -83,7 +88,7 @@ export default function InitUserTransactionButton({
 
       await supabase
         .from("user_wallets")
-        .update({ transaction: tx, authority: wallet.publicKey.toBase58() })
+        .update({ transaction: tx })
         .eq("user_id", userId);
 
       await new Promise((resolve) => setTimeout(resolve, 1000 * 20));
