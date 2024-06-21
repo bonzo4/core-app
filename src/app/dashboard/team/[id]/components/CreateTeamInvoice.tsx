@@ -105,6 +105,7 @@ export default function CreateTeamInvoice({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: [instruction.invoiceInstruction],
       });
 
       const transaction = new Transaction()

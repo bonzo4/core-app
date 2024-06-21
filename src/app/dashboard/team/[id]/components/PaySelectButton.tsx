@@ -89,6 +89,7 @@ export default function PaySelectMembersButton({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: validInstructions.map((i) => i.payMemberTx),
       });
 
       const transaction = new Transaction().add(addPriorityFee);

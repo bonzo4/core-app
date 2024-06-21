@@ -69,6 +69,7 @@ export default function PayTeamButton({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: [instruction.payTeamTx],
       });
 
       const transaction = new Transaction()

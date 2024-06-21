@@ -6,7 +6,11 @@ import { initUserInstruction } from "@/lib/solana/instructions/initUser";
 import { payUserInstruction } from "@/lib/solana/instructions/payUser";
 import { Database } from "@/lib/supabase/types";
 import { WalletContextState } from "@solana/wallet-adapter-react";
-import { Connection, Transaction } from "@solana/web3.js";
+import {
+  Connection,
+  Transaction,
+  TransactionInstruction,
+} from "@solana/web3.js";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
@@ -106,6 +110,9 @@ export default function PaySelectedButton({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: instructions
+          .filter((i) => i)
+          .map((i) => i!.payUserTx),
       });
 
       const transaction = new Transaction().add(addPriorityFee);

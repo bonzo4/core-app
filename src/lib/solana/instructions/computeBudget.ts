@@ -1,11 +1,23 @@
-import { ComputeBudgetProgram, Connection } from "@solana/web3.js";
+import {
+  ComputeBudgetProgram,
+  Connection,
+  TransactionInstruction,
+} from "@solana/web3.js";
 
-type ComputeBudgetInstructionOptions = { connection: Connection };
+type ComputeBudgetInstructionOptions = {
+  connection: Connection;
+  transactionInstructions: TransactionInstruction[];
+};
 
 export const computeBudgetInstruction = async ({
   connection,
+  transactionInstructions,
 }: ComputeBudgetInstructionOptions) => {
-  const priorityFees = await connection.getRecentPrioritizationFees();
+  const priorityFees = await connection.getRecentPrioritizationFees({
+    lockedWritableAccounts: transactionInstructions
+      .map((ti) => ti.keys.filter((a) => a.isWritable).map((a) => a.pubkey))
+      .flat(),
+  });
   // get average priority fee
   const avgPriorityFee =
     priorityFees.reduce((acc, fee) => acc + fee.prioritizationFee, 0) /

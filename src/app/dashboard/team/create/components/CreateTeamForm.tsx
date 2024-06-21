@@ -124,6 +124,7 @@ export default function CreateTeamForm({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: [instruction.initTeamTx],
       });
 
       const transaction = new Transaction()

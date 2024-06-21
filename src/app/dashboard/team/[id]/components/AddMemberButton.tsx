@@ -72,6 +72,7 @@ export default function AddMemberButton({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: [instruction.addMemberTx],
       });
 
       const transaction = new Transaction()

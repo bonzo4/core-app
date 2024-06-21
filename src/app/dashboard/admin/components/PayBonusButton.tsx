@@ -88,6 +88,7 @@ export default function PayBonusButton({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: [instruction.payUserTx],
       });
 
       const transaction = new Transaction()

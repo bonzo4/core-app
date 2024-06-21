@@ -101,6 +101,7 @@ export default function PayBountyButton({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: [instruction.payUserTx],
       });
 
       const transaction = new Transaction()

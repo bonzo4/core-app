@@ -77,6 +77,7 @@ export default function InitUserTransactionButton({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: [instruction.initUserTx],
       });
 
       const transaction = new Transaction()

@@ -108,6 +108,7 @@ export default function CreateInvoice({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: [instruction.invoiceInstruction],
       });
 
       const transaction = new Transaction()

@@ -72,6 +72,7 @@ export default function ClaimButton({
 
       const { addPriorityFee } = await computeBudgetInstruction({
         connection,
+        transactionInstructions: [instruction.claimTx],
       });
 
       const transaction = new Transaction()
