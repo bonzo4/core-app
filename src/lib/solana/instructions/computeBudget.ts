@@ -27,7 +27,7 @@ export const computeBudgetInstruction = async ({
   //   });
 
   const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
-    microLamports: avgPriorityFee,
+    microLamports: parseInt(avgPriorityFee.toFixed(0)),
   });
 
   return {
