@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { UserInvoice } from "@/lib/hooks/useUserInvoices";
+import { computeBudgetInstruction } from "@/lib/solana/instructions/computeBudget";
 import { payUserInvoiceInstruction } from "@/lib/solana/instructions/payUserInvoice";
 import { Database } from "@/lib/supabase/types";
 import { WalletContextState } from "@solana/wallet-adapter-react";
@@ -50,7 +51,13 @@ export default function PayInvoiceButton({
         throw new Error("Error creating payment instruction");
       }
 
-      const transaction = new Transaction().add(instruction.invoiceInstruction);
+      const { addPriorityFee } = await computeBudgetInstruction({
+        connection,
+      });
+
+      const transaction = new Transaction()
+        .add(addPriorityFee)
+        .add(instruction.invoiceInstruction);
       transaction.recentBlockhash = instruction.blockhash;
       transaction.feePayer = wallet.publicKey;
 

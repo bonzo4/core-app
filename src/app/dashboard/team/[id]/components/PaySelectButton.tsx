@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TeamMemberWithProfile } from "@/lib/hooks/teams/useTeamMembers";
+import { computeBudgetInstruction } from "@/lib/solana/instructions/computeBudget";
 import { payMemberInstruction } from "@/lib/solana/instructions/payMember";
 import { payTeamInstruction } from "@/lib/solana/instructions/payTeam";
 import { Database } from "@/lib/supabase/types";
@@ -86,7 +87,11 @@ export default function PaySelectMembersButton({
           !!i
       );
 
-      const transaction = new Transaction();
+      const { addPriorityFee } = await computeBudgetInstruction({
+        connection,
+      });
+
+      const transaction = new Transaction().add(addPriorityFee);
 
       validInstructions.forEach((i) => transaction.add(i.payMemberTx));
 

@@ -16,6 +16,7 @@ import { SetStateAction, useState } from "react";
 import { initUserInstruction } from "@/lib/solana/instructions/initUser";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
+import { computeBudgetInstruction } from "@/lib/solana/instructions/computeBudget";
 
 type InitUserTransactionButtonProps = {
   setRefetch: (args_0: SetStateAction<boolean>) => void;
@@ -74,7 +75,13 @@ export default function InitUserTransactionButton({
         throw new Error("Error creating transaction");
       }
 
-      const transaction = new Transaction().add(instruction.initUserTx);
+      const { addPriorityFee } = await computeBudgetInstruction({
+        connection,
+      });
+
+      const transaction = new Transaction()
+        .add(addPriorityFee)
+        .add(instruction.initUserTx);
 
       const latestBlockHash = await connection.getLatestBlockhash({
         commitment: "finalized",

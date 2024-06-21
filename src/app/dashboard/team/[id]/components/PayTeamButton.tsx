@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { computeBudgetInstruction } from "@/lib/solana/instructions/computeBudget";
 import { payTeamInstruction } from "@/lib/solana/instructions/payTeam";
 import { Database } from "@/lib/supabase/types";
 import { WalletContextState } from "@solana/wallet-adapter-react";
@@ -65,7 +66,14 @@ export default function PayTeamButton({
       if (!instruction) {
         throw new Error("Error creating payment instruction");
       }
-      const transaction = new Transaction().add(instruction.payTeamTx);
+
+      const { addPriorityFee } = await computeBudgetInstruction({
+        connection,
+      });
+
+      const transaction = new Transaction()
+        .add(addPriorityFee)
+        .add(instruction.payTeamTx);
       transaction.recentBlockhash = instruction.blockhash;
       transaction.feePayer = wallet.publicKey;
 

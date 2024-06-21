@@ -27,6 +27,7 @@ import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection, Transaction } from "@solana/web3.js";
 import { toast } from "react-toastify";
 import { createUserInvoiceInstruction } from "@/lib/solana/instructions/createUserInvoice";
+import { computeBudgetInstruction } from "@/lib/solana/instructions/computeBudget";
 
 const formSchema = z.object({
   memo: z.string().min(1),
@@ -105,7 +106,13 @@ export default function CreateInvoice({
         throw new Error("Error creating transaction");
       }
 
-      const transaction = new Transaction().add(instruction.invoiceInstruction);
+      const { addPriorityFee } = await computeBudgetInstruction({
+        connection,
+      });
+
+      const transaction = new Transaction()
+        .add(addPriorityFee)
+        .add(instruction.invoiceInstruction);
       transaction.recentBlockhash = instruction.blockhash;
       transaction.feePayer = wallet.publicKey;
 

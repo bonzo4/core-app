@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TeamMember } from "@/lib/hooks/teams/useTeamMembers";
 import { addMemberInstructions } from "@/lib/solana/instructions/addMember";
+import { computeBudgetInstruction } from "@/lib/solana/instructions/computeBudget";
 import { payMemberInstruction } from "@/lib/solana/instructions/payMember";
 import { Database } from "@/lib/supabase/types";
 import { WalletContextState } from "@solana/wallet-adapter-react";
@@ -68,7 +69,14 @@ export default function AddMemberButton({
       if (!instruction) {
         throw new Error("Error creating instruction");
       }
-      const transaction = new Transaction().add(instruction.addMemberTx);
+
+      const { addPriorityFee } = await computeBudgetInstruction({
+        connection,
+      });
+
+      const transaction = new Transaction()
+        .add(addPriorityFee)
+        .add(instruction.addMemberTx);
       transaction.recentBlockhash = instruction.blockhash;
       transaction.feePayer = wallet.publicKey;
 

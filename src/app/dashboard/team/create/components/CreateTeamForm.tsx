@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { computeBudgetInstruction } from "@/lib/solana/instructions/computeBudget";
 import { initTeamInstruction } from "@/lib/solana/instructions/initTeam";
 import { Database } from "@/lib/supabase/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -120,7 +121,14 @@ export default function CreateTeamForm({
       if (!instruction) {
         throw new Error("Error creating team");
       }
-      const transaction = new Transaction().add(instruction.initTeamTx);
+
+      const { addPriorityFee } = await computeBudgetInstruction({
+        connection,
+      });
+
+      const transaction = new Transaction()
+        .add(addPriorityFee)
+        .add(instruction.initTeamTx);
       transaction.recentBlockhash = instruction.blockhash;
       transaction.feePayer = wallet.publicKey;
 

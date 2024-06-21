@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { computeBudgetInstruction } from "@/lib/solana/instructions/computeBudget";
 import { initUserInstruction } from "@/lib/solana/instructions/initUser";
 import { payUserInstruction } from "@/lib/solana/instructions/payUser";
 import { Database } from "@/lib/supabase/types";
@@ -68,7 +69,14 @@ export default function PayUserButton({
       if (!instruction) {
         throw new Error("Error creating transaction");
       }
-      const transaction = new Transaction().add(instruction.payUserTx);
+
+      const { addPriorityFee } = await computeBudgetInstruction({
+        connection,
+      });
+
+      const transaction = new Transaction()
+        .add(addPriorityFee)
+        .add(instruction.payUserTx);
       const latestBlockHash = await connection.getLatestBlockhash({
         commitment: "finalized",
       });

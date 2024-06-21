@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { claimInstruction } from "@/lib/solana/instructions/claim";
+import { computeBudgetInstruction } from "@/lib/solana/instructions/computeBudget";
 import { Database } from "@/lib/supabase/types";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import {
@@ -68,7 +69,14 @@ export default function ClaimButton({
       if (!instruction) {
         throw new Error("Error creating transaction");
       }
-      const transaction = new Transaction().add(instruction.claimTx);
+
+      const { addPriorityFee } = await computeBudgetInstruction({
+        connection,
+      });
+
+      const transaction = new Transaction()
+        .add(addPriorityFee)
+        .add(instruction.claimTx);
       const latestBlockHash = await connection.getLatestBlockhash({
         commitment: "finalized",
       });
