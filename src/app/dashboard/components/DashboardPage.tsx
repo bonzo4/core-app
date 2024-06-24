@@ -125,6 +125,23 @@ export default function DashboardPage() {
           <WalletMultiButton />
         )}
 
+        <div className="flex flex-col space-y-2 items-center justify-center lg:hidden">
+          {!userWallet.is_confirmed && (
+            <a
+              href="/dashboard/connect"
+              className="text-white underline hover:no-underline"
+            >
+              Connect Wallet
+            </a>
+          )}
+          <a
+            href="/dashboard/bounty"
+            className="text-white underline hover:no-underline"
+          >
+            Bounties
+          </a>
+        </div>
+
         {/* <div className="flex flex-row space-x-2 items-center justify-center">
           <Invoices
             supabase={supabase}

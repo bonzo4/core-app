@@ -21,7 +21,7 @@ export default function UserCard({
   return (
     <div className="flex flex-row space-x-3 items-center justify-center">
       {onboardDate && (
-        <div className="flex flex-col items-center justify-center ">
+        <div className="hidden flex-col items-center justify-center lg:flex">
           <span>Onboarded:</span>
           <span>{new Date(onboardDate).toDateString()}</span>
         </div>
