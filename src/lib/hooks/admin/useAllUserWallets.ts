@@ -26,7 +26,8 @@ export function useAllUserWallets({
     const getUserWallet = async () => {
       const { data: walletData, error } = await supabase
         .from("user_wallets")
-        .select("*");
+        .select("*")
+        .order("username", { ascending: true });
       if (walletData) {
         setUserWallets(
           await Promise.all(
