@@ -30,7 +30,7 @@ type TagEnum = Database["public"]["Enums"]["guild_tag"];
 const formSchema = z.object({
   guildName: z.string().min(1),
   rewardAmount: z.coerce.number().min(0).nullable(),
-  discordInvite: z.string().startsWith("https://discord.gg/"),
+  discordInvite: z.string().startsWith("https://discord.gg/").nullable(),
   twitterIcon: z.string().nullable(),
   twitterUrl: z.string().nullable(),
   announceChannelId: z.string().nullable(),
@@ -56,7 +56,7 @@ export default function CreateBounty({
     defaultValues: {
       guildName: "",
       rewardAmount: null,
-      discordInvite: "",
+      discordInvite: null,
       twitterIcon: null,
       twitterUrl: null,
       announceChannelId: null,

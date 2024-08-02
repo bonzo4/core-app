@@ -55,6 +55,7 @@ export default function ManageUserBounties({
   userId,
   bountyUserId,
 }: ManageUserBountiesProps) {
+  const [show, setShow] = useState(false);
   const [selectedBounties, setSelectedBounties] = useState<AmbassadorBounty[]>(
     []
   );
@@ -73,6 +74,7 @@ export default function ManageUserBounties({
     page,
     search,
     userId: bountyUserId,
+    show,
   });
 
   if (loading) {
@@ -95,6 +97,14 @@ export default function ManageUserBounties({
       <DialogContent className="bg-black h-3/4 flex flex-col items-start justify-start max-w-[100rem]">
         <DialogHeader className="flex flex-col space-y-2 w-full">
           <DialogTitle>Bounties</DialogTitle>
+          <Button
+            onClick={() => {
+              console.log(bountyUserId);
+              setShow(true);
+            }}
+          >
+            Load
+          </Button>
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}

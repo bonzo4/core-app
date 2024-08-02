@@ -28,6 +28,7 @@ type UseAmbassadorBountiesOptions = {
   isBroken?: boolean;
   page?: number;
   limit?: number;
+  show?: boolean;
 };
 
 export function useAmbassadorBounties({
@@ -44,6 +45,7 @@ export function useAmbassadorBounties({
   isBroken = false,
   page = 1,
   limit = 12,
+  show = true,
 }: UseAmbassadorBountiesOptions) {
   const [ambassadorBounties, setAmbassadorBounties] = useState<
     BountyWithClaimer[]
@@ -52,6 +54,7 @@ export function useAmbassadorBounties({
 
   useEffect(() => {
     refetch;
+    if (!show) return;
     const getAmbassadorBounties = async () => {
       const query = supabase
         .from("ambassador_bounties")
@@ -168,6 +171,7 @@ export function useAmbassadorBounties({
     tag,
     page,
     limit,
+    show,
   ]);
 
   return [ambassadorBounties, loading] as const;

@@ -63,7 +63,7 @@ export type Database = {
           completed_date: string | null;
           completer_id: string | null;
           created_at: string;
-          discord_invite: string;
+          discord_invite: string | null;
           guild_name: string;
           id: number;
           is_broken: boolean;
@@ -83,7 +83,7 @@ export type Database = {
           completed_date?: string | null;
           completer_id?: string | null;
           created_at?: string;
-          discord_invite: string;
+          discord_invite?: string | null;
           guild_name: string;
           id?: number;
           is_broken?: boolean;
@@ -103,7 +103,7 @@ export type Database = {
           completed_date?: string | null;
           completer_id?: string | null;
           created_at?: string;
-          discord_invite?: string;
+          discord_invite?: string | null;
           guild_name?: string;
           id?: number;
           is_broken?: boolean;
