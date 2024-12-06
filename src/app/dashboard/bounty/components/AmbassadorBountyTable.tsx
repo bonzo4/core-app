@@ -184,7 +184,7 @@ export default function AmbassadorBountyTable({
                   <div className="flex flex-col space-y-2 items-center justify-center">
                     <span>Claimed by:</span>{" "}
                     <div className="flex flex-row space-x-2 items-center justify-center">
-                      {bounty.claimer.icon_url && (
+                      {/* {bounty.claimer.icon_url && (
                         <Image
                           src={bounty.claimer.icon_url}
                           width={24}
@@ -192,7 +192,7 @@ export default function AmbassadorBountyTable({
                           alt="icon"
                           className="rounded-full"
                         />
-                      )}
+                      )} */}
                       <span>{bounty.claimer.username}</span>
                     </div>
                   </div>

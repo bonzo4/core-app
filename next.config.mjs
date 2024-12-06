@@ -19,7 +19,13 @@ const nextConfig = {
                 hostname: "pbs.twimg.com",
                 port: "",
                 pathname: "/profile_images/**",
-            }
+            },
+            {
+            protocol: 'https',
+            hostname: 'cdn.discordapp.com',
+            port: '',
+            pathname: '/embed/**'
+            },
         ],
     },
 };
