@@ -12,6 +12,7 @@ import PayInvoiceButton from "./PayTeamInvoiceButton";
 import { useTeamInvoice } from "@/app/dashboard/team/[id]/components/useTeamInvoice";
 import { useTeamProfile } from "@/lib/hooks/useTeamProfile";
 import Image from "next/image";
+import FallbackImage from "@/components/FallbackImage";
 
 type TeamInvoicePageProps = {
   invoiceId: number;
@@ -67,7 +68,8 @@ export default function TeamInvoicePage({ invoiceId }: TeamInvoicePageProps) {
               <div className="flex flex-row space-x-1 items-center">
                 {" "}
                 {teamProfile.image_url && (
-                  <Image
+                  <FallbackImage
+                    fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                     src={teamProfile.image_url}
                     width={24}
                     height={24}

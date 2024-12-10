@@ -25,6 +25,7 @@ import AddMemberButton from "./AddMemberButton";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
 import { SetStateAction, useState } from "react";
+import FallbackImage from "@/components/FallbackImage";
 
 type AddMemberProps = {
   supabase: SupabaseClient<Database>;
@@ -67,7 +68,8 @@ export default function AddMember({
               <TableRow key={profile.user_id}>
                 <TableCell className="flex flex-row space-x-2 items-center justify-start">
                   {profile.icon_url && (
-                    <Image
+                    <FallbackImage
+                      fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                       src={profile.icon_url}
                       alt="User Icon"
                       className="w-6 h-6 rounded-full"

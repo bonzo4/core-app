@@ -23,6 +23,7 @@ import { LoaderCircleIcon } from "lucide-react";
 import { SetStateAction } from "react";
 import RoleDropdown from "./RoleDropdown";
 import ManageUserBounties from "./ManageUserBounties";
+import FallbackImage from "@/components/FallbackImage";
 
 type UsersTableProps = {
   supabase: SupabaseClient<Database>;
@@ -60,7 +61,8 @@ export default function UsersTable({
           <TableRow key={userWallet.user_id}>
             <TableCell className="flex flex-row space-x-2 items-center justify-start">
               {userWallet.icon_url && (
-                <Image
+                <FallbackImage
+                  fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                   src={userWallet.icon_url}
                   alt={userWallet.username}
                   className="w-6 h-6 rounded-full"

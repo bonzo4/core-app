@@ -1,3 +1,4 @@
+import FallbackImage from "@/components/FallbackImage";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -74,7 +75,8 @@ export default function UserStatsCard({
         <CardTitle className="flex flex-col items-start justify-start space-y-2 ">
           <div className="flex flex-row items-center justify-start space-x-2">
             {iconUrl && (
-              <Image
+              <FallbackImage
+                fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                 src={iconUrl}
                 width={30}
                 height={30}

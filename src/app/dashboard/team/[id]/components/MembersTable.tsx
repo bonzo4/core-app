@@ -22,6 +22,7 @@ import PayMemberButton from "@/app/dashboard/team/[id]/components/PayMemberButto
 import { SetStateAction } from "react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import FallbackImage from "@/components/FallbackImage";
 
 type MembersTableProps = {
   supabase: SupabaseClient<Database>;
@@ -80,7 +81,8 @@ export default function MembersTable({
             </TableCell>
             <TableCell className="flex flex-row space-x-2 items-center justify-start">
               {member.profile.icon_url && (
-                <Image
+                <FallbackImage
+                  fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                   src={member.profile.icon_url}
                   alt="User Icon"
                   className="w-6 h-6 rounded-full"

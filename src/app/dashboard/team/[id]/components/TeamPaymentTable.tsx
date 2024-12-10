@@ -1,3 +1,4 @@
+import FallbackImage from "@/components/FallbackImage";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
@@ -39,7 +40,8 @@ export default function TeamPaymentTable({ payments }: TeamPaymentTableProps) {
             </TableCell>
             <TableCell className="flex flex-row space-x-2 items-center justify-start">
               {payment.user.icon_url && (
-                <Image
+                <FallbackImage
+                  fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                   src={payment.user.icon_url}
                   alt="icon"
                   className="w-6 h-6 rounded-full"

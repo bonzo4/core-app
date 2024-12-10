@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 import ClaimBountyButton from "./ClaimBountyButton";
 import { Loader, LoaderCircleIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import FallbackImage from "@/components/FallbackImage";
 
 type AmbassadorBountyTableProps = {
   ambassadorBounties: BountyWithClaimer[];
@@ -145,7 +146,8 @@ export default function AmbassadorBountyTable({
                 bounty.twitter_icon.startsWith(
                   "https://pbs.twimg.com/profile_images/"
                 ) ? (
-                  <Image
+                  <FallbackImage
+                    fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                     src={bounty.twitter_icon}
                     alt="icon"
                     width={100}
@@ -153,7 +155,8 @@ export default function AmbassadorBountyTable({
                     className="rounded-full"
                   />
                 ) : (
-                  <Image
+                  <FallbackImage
+                    fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                     src="https://pbs.twimg.com/profile_images/1670651001697607685/rcZsTuuE_400x400.jpg"
                     alt="icon"
                     width={100}
@@ -184,15 +187,16 @@ export default function AmbassadorBountyTable({
                   <div className="flex flex-col space-y-2 items-center justify-center">
                     <span>Claimed by:</span>{" "}
                     <div className="flex flex-row space-x-2 items-center justify-center">
-                      {/* {bounty.claimer.icon_url && (
-                        <Image
+                      {bounty.claimer.icon_url && (
+                        <FallbackImage
+                          fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                           src={bounty.claimer.icon_url}
                           width={24}
                           height={24}
                           alt="icon"
                           className="rounded-full"
                         />
-                      )} */}
+                      )}
                       <span>{bounty.claimer.username}</span>
                     </div>
                   </div>
@@ -202,7 +206,8 @@ export default function AmbassadorBountyTable({
                     <span>Completed by:</span>{" "}
                     <div className="flex flex-row space-x-2 items-center justify-center">
                       {bounty.completer.icon_url && (
-                        <Image
+                        <FallbackImage
+                          fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                           src={bounty.completer.icon_url}
                           width={24}
                           height={24}

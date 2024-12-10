@@ -10,6 +10,11 @@ const nextConfig = {
             },
             {
             protocol: 'https',
+            hostname: 'api.syndicatenetwork.io',
+            port: '',
+            },
+            {
+            protocol: 'https',
             hostname: 'tlukhzbklwemmeibiqbq.supabase.co',
             port: '',
             pathname: '/storage/v1/object/public/team_images/**',
