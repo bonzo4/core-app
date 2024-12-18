@@ -1,3 +1,25 @@
+```
+src/app/*               # Source code
+src/app/components/*    # Components
+src/app/lib/hooks/*     # Custom hooks
+src/app/lib/solana/*    # Solana utilities
+```
+
+## Features
+
+- Create a team
+- Pay your employees with USDC
+- Set up server bounties for ambassadors
+- Invoice your clients
+- Supabase authentication and database
+- Hosted on Vercel
+- Solana wallet integration (Kinda broken, needs usdc account intialization)
+- All data fetching on the client side via hooks
+
+````
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -12,7 +34,7 @@ yarn dev
 pnpm dev
 # or
 bun dev
-```
+````
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
