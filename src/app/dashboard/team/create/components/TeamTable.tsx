@@ -15,6 +15,7 @@ import Link from "next/link";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
 import Image from "next/image";
+import FallbackImage from "@/components/FallbackImage";
 
 type TeamTableProps = {
   supabase: SupabaseClient<Database>;
@@ -67,7 +68,8 @@ export default function TeamTable({
             </TableCell>
             <TableCell className="flex flex-row space-x-2 items-center">
               {team.image_url && (
-                <Image
+                <FallbackImage
+                  fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                   src={team.image_url}
                   width={24}
                   height={24}

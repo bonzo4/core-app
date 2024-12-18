@@ -35,6 +35,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import UnassignBounty from "./UnassignButton";
 import DenyBounty from "./DenyButton";
+import FallbackImage from "@/components/FallbackImage";
 
 type ManageUserBountiesProps = {
   supabase: SupabaseClient<Database>;
@@ -153,7 +154,8 @@ export default function ManageUserBounties({
                       bounty.twitter_icon.startsWith(
                         "https://pbs.twimg.com/profile_images/"
                       ) && (
-                        <Image
+                        <FallbackImage
+                          fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                           src={bounty.twitter_icon}
                           width={20}
                           height={20}
@@ -169,7 +171,8 @@ export default function ManageUserBounties({
                   </TableCell>
                   <TableCell className="space-x-2 items-center justify-center">
                     {bounty.requester?.icon_url && (
-                      <Image
+                      <FallbackImage
+                        fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                         src={bounty.requester?.icon_url}
                         width={20}
                         height={20}
@@ -183,7 +186,8 @@ export default function ManageUserBounties({
                   </TableCell>
                   <TableCell className="space-x-2 items-center justify-center">
                     {bounty.claimer?.icon_url && (
-                      <Image
+                      <FallbackImage
+                        fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                         src={bounty.claimer?.icon_url}
                         width={20}
                         height={20}
@@ -202,7 +206,8 @@ export default function ManageUserBounties({
                   </TableCell>
                   <TableCell className="space-x-2 items-center justify-center">
                     {bounty.completer?.icon_url && (
-                      <Image
+                      <FallbackImage
+                        fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                         src={bounty.completer?.icon_url}
                         width={20}
                         height={20}

@@ -3,6 +3,7 @@ import { Role } from "@/lib/hooks/useUserRoles";
 import { Team } from "@/lib/hooks/useUserTeams";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import FallbackImage from "./FallbackImage";
 
 type SideBarProps = {
   ownedTeams: Team[];
@@ -84,7 +85,8 @@ export default function Sidebar({
           }}
         >
           {team.image_url && (
-            <Image
+            <FallbackImage
+              fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
               src={team.image_url}
               width={24}
               height={24}

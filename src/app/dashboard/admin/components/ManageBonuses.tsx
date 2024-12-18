@@ -24,6 +24,7 @@ import { Connection } from "@solana/web3.js";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ProfileWithBonuses, useBonuses } from "@/lib/hooks/admin/useBonuses";
 import PayBonusButton from "./PayBonusButton";
+import FallbackImage from "@/components/FallbackImage";
 
 type ManageBonusesProps = {
   supabase: SupabaseClient<Database>;
@@ -108,7 +109,8 @@ export default function ManageBonuses({
                   </TableCell>
                   <TableCell className="space-x-2 items-center justify-center">
                     {bonus.profile.icon_url && (
-                      <Image
+                      <FallbackImage
+                        fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
                         src={bonus.profile.icon_url}
                         width={20}
                         height={20}

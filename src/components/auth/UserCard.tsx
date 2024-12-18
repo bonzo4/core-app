@@ -2,6 +2,7 @@ import { Database } from "@/lib/supabase/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import Image from "next/image";
 import LogoutButton from "./LogoutButton";
+import FallbackImage from "../FallbackImage";
 
 type UserCardProps = {
   supabase: SupabaseClient<Database>;
@@ -27,7 +28,8 @@ export default function UserCard({
         </div>
       )}
       {iconUrl && (
-        <Image
+        <FallbackImage
+          fallbackSrc="https://api.syndicatenetwork.io/storage/v1/object/public/News%20Images/square%20rainbow%20logo.png"
           className="rounded-full"
           src={iconUrl}
           alt="User Avatar"
