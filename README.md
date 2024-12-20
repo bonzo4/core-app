@@ -1,8 +1,8 @@
 ```
 src/app/*               # Source code
-src/app/components/*    # Components
-src/app/lib/hooks/*     # Custom hooks
-src/app/lib/solana/*    # Solana utilities
+src/components/*    # Components
+src/lib/hooks/*     # Custom hooks
+src/lib/solana/*    # Solana utilities
 ```
 
 ## Features
